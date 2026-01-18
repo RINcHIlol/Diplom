@@ -1,0 +1,51 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:diplom.ViewModels"
+             xmlns:viewModels="clr-namespace:diplom.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="diplom.Views.AuthView"
+             x:DataType="viewModels:AuthViewModel">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="#B0B0B0">
+            <Button Content="← Назад"
+                    Background="#D3D3D3"
+                    BorderBrush="Black"
+                    Foreground="Black"
+                    Margin="10,0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Command="{Binding GoBackCommand}"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Spacing="10">
+                <TextBlock Text="Вход" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Foreground="Black"/>
+                <TextBox Watermark="Логин" Height="30"/>
+                <TextBox Watermark="Пароль" Height="30"/>
+                <Button Content="Вход"
+                        Background="#D3D3D3"
+                        BorderBrush="Black"
+                        Foreground="Black"
+                        Height="35"
+                        HorizontalAlignment="Center"/>
+                <TextBlock Text="Восстановить пароль"
+                           HorizontalAlignment="Center"
+                           Foreground="Black"
+                           FontSize="14"
+                           TextDecorations="Underline"
+                           Cursor="Hand"/>
+                <TextBlock Text="Регистрация"
+                           HorizontalAlignment="Center"
+                           Foreground="Black"
+                           FontSize="14"
+                           TextDecorations="Underline"
+                           Cursor="Hand"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

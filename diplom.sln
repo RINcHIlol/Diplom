@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "diplom", "diplom\diplom.csproj", "{544452E6-EF48-4C65-A93B-B5AC37AC4E5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{ED62F6D2-A698-46A6-AC45-DFF9938A18E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{544452E6-EF48-4C65-A93B-B5AC37AC4E5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{544452E6-EF48-4C65-A93B-B5AC37AC4E5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{544452E6-EF48-4C65-A93B-B5AC37AC4E5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{544452E6-EF48-4C65-A93B-B5AC37AC4E5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED62F6D2-A698-46A6-AC45-DFF9938A18E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED62F6D2-A698-46A6-AC45-DFF9938A18E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED62F6D2-A698-46A6-AC45-DFF9938A18E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED62F6D2-A698-46A6-AC45-DFF9938A18E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

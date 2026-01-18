@@ -1,0 +1,273 @@
+<!-- <UserControl xmlns="https://github.com/avaloniaui" -->
+<!--              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" -->
+<!--              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" -->
+<!--              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" -->
+<!--              xmlns:vm="clr-namespace:diplom.ViewModels" -->
+<!--              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" -->
+<!--              x:Class="diplom.Views.MainView" -->
+<!--              x:DataType="vm:MainViewModel"> -->
+<!--     <Border Background="#FFE4C4"> -->
+<!--     <Grid> -->
+<!--         <Grid.RowDefinitions> -->
+<!--             <RowDefinition Height="50"/>   -->
+<!--             <RowDefinition Height="50"/>   -->
+<!--             <RowDefinition Height="*"/>  -->
+<!--         </Grid.RowDefinitions> -->
+<!-- -->
+<!--         <Grid Grid.Row="0" Background="#B0B0B0"> -->
+<!--             <Grid.ColumnDefinitions> -->
+<!--                 <ColumnDefinition Width="*"/> -->
+<!--                 <ColumnDefinition Width="Auto"/> -->
+<!--             </Grid.ColumnDefinitions> -->
+<!-- -->
+<!--             <TextBlock Text="Название"  -->
+<!--                        VerticalAlignment="Center"  -->
+<!--                        Margin="10,0" -->
+<!--                        FontSize="20"  -->
+<!--                        Foreground="Black"/> -->
+<!--              -->
+<!--             <Button Content="Login"  -->
+<!--                     Grid.Column="1"  -->
+<!--                     Margin="0,0,10,0"  -->
+<!--                     Background="#D3D3D3" -->
+<!--                     BorderBrush="Black" -->
+<!--                     Foreground="Black" -->
+<!--                     BorderThickness="1" -->
+<!--                     HorizontalContentAlignment="Center" -->
+<!--                     VerticalContentAlignment="Center" -->
+<!--                     Command="{Binding GoAuthCommand}"/> -->
+<!--         </Grid> -->
+<!-- -->
+<!--         <Grid Grid.Row="1" Background="#D3D3D3"> -->
+<!--             <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center"> -->
+<!--                 <TextBox Width="150" Height="25" Watermark="Поиск курса"/> -->
+<!--                 <ComboBox Width="150" Height="25"> -->
+<!--                     <ComboBoxItem Content="Фильтр"/> -->
+<!--                     <ComboBoxItem Content="Программирование"/> -->
+<!--                     <ComboBoxItem Content="Дизайн"/> -->
+<!--                     <ComboBoxItem Content="Маркетинг"/> -->
+<!--                 </ComboBox> -->
+<!--             </StackPanel> -->
+<!--         </Grid> -->
+<!-- -->
+<!--         <ScrollViewer Grid.Row="2" Margin="20,10"> -->
+<!--             <StackPanel> -->
+<!--                 <Grid Margin="0,0,0,10"> -->
+<!--                     <Grid.ColumnDefinitions> -->
+<!--                         <ColumnDefinition Width="*" /> -->
+<!--                         <ColumnDefinition Width="*" /> -->
+<!--                     </Grid.ColumnDefinitions> -->
+<!-- -->
+<!--                     <Border Grid.Column="0" Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="0,0,10,0" Padding="10" Height="200"> -->
+<!--                         <Grid> -->
+<!--                             <Grid.RowDefinitions> -->
+<!--                                 <RowDefinition Height="*"/> -->
+<!--                                 <RowDefinition Height="40"/> -->
+<!--                             </Grid.RowDefinitions> -->
+<!-- -->
+<!--                             <StackPanel Grid.Row="0"> -->
+<!--                                 <TextBlock Text="Курс по Демо экзамену" FontWeight="Bold" FontSize="16" Foreground="Black"/> -->
+<!--                                 <TextBlock Text="Курс для обучения написания демо экзамена." TextWrapping="Wrap" Foreground="Black" Margin="0,5,0,5"/> -->
+<!--                             </StackPanel> -->
+<!-- -->
+<!--                             <DockPanel Grid.Row="1" LastChildFill="False"> -->
+<!--                                 <TextBlock Text="Пройдено 0/80" VerticalAlignment="Center" Foreground="Black"/> -->
+<!--                                 <Button Content="Пройти курс" -->
+<!--                                         DockPanel.Dock="Right" -->
+<!--                                         Background="#D3D3D3" -->
+<!--                                         BorderBrush="Black" -->
+<!--                                         Foreground="Black" -->
+<!--                                         BorderThickness="1" -->
+<!--                                         HorizontalContentAlignment="Center" -->
+<!--                                         VerticalContentAlignment="Center" -->
+<!--                                         Command="{Binding GoCourseCommand}" /> -->
+<!--                             </DockPanel> -->
+<!--                         </Grid> -->
+<!--                     </Border> -->
+<!-- -->
+<!--                     <Border Grid.Column="1" Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10,0,0,0" Padding="10" Height="200"> -->
+<!--                         <Grid> -->
+<!--                             <Grid.RowDefinitions> -->
+<!--                                 <RowDefinition Height="*"/> -->
+<!--                                 <RowDefinition Height="40"/> -->
+<!--                             </Grid.RowDefinitions> -->
+<!-- -->
+<!--                             <StackPanel Grid.Row="0"> -->
+<!--                                 <TextBlock Text="Курс по C#" FontWeight="Bold" FontSize="16" Foreground="Black"/> -->
+<!--                                 <TextBlock Text="Курс по базовым знаниям C#." TextWrapping="Wrap" Foreground="Black" Margin="0,5,0,5"/> -->
+<!--                             </StackPanel> -->
+<!-- -->
+<!--                             <DockPanel Grid.Row="1" LastChildFill="False"> -->
+<!--                                 <TextBlock Text="Пройдено 0/50" VerticalAlignment="Center" Foreground="Black"/> -->
+<!--                                 <Button Content="Пройти курс"  -->
+<!--                                         HorizontalAlignment="Right" -->
+<!--                                         DockPanel.Dock="Right" -->
+<!--                                         Background="#D3D3D3" -->
+<!--                                         BorderBrush="Black" -->
+<!--                                         Foreground="Black" -->
+<!--                                         BorderThickness="1" -->
+<!--                                         VerticalContentAlignment="Center"/> -->
+<!--                             </DockPanel> -->
+<!--                         </Grid> -->
+<!--                     </Border> -->
+<!--                 </Grid> -->
+<!-- -->
+<!--                 <Grid Margin="0,0,0,10"> -->
+<!--                     <Grid.ColumnDefinitions> -->
+<!--                         <ColumnDefinition Width="*" /> -->
+<!--                         <ColumnDefinition Width="*" /> -->
+<!--                     </Grid.ColumnDefinitions> -->
+<!-- -->
+<!--                     <Border Grid.Column="0" Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="0,0,10,0" Padding="10" Height="200"> -->
+<!--                         <Grid> -->
+<!--                             <Grid.RowDefinitions> -->
+<!--                                 <RowDefinition Height="*"/> -->
+<!--                                 <RowDefinition Height="40"/> -->
+<!--                             </Grid.RowDefinitions> -->
+<!-- -->
+<!--                             <StackPanel Grid.Row="0"> -->
+<!--                                 <TextBlock Text="Курс по английскому языку" FontWeight="Bold" FontSize="16" Foreground="Black"/> -->
+<!--                                 <TextBlock Text="Курс по обучению базовым знаниям английского языка." TextWrapping="Wrap" Foreground="Black" Margin="0,5,0,5"/> -->
+<!--                             </StackPanel> -->
+<!-- -->
+<!--                             <DockPanel Grid.Row="1" LastChildFill="False"> -->
+<!--                                 <TextBlock Text="Пройдено 0/60" VerticalAlignment="Center" Foreground="Black"/> -->
+<!--                                 <Button Content="Пройти курс"  -->
+<!--                                         HorizontalAlignment="Right" -->
+<!--                                         DockPanel.Dock="Right" -->
+<!--                                         Background="#D3D3D3" -->
+<!--                                         BorderBrush="Black" -->
+<!--                                         Foreground="Black" -->
+<!--                                         BorderThickness="1" -->
+<!--                                         VerticalContentAlignment="Center"/> -->
+<!--                             </DockPanel> -->
+<!--                         </Grid> -->
+<!--                     </Border> -->
+<!-- -->
+<!--                     <Border Grid.Column="1" Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10,0,0,0" Padding="10" Height="200"> -->
+<!--                         <Grid> -->
+<!--                             <Grid.RowDefinitions> -->
+<!--                                 <RowDefinition Height="*"/> -->
+<!--                                 <RowDefinition Height="40"/> -->
+<!--                             </Grid.RowDefinitions> -->
+<!-- -->
+<!--                             <StackPanel Grid.Row="0"> -->
+<!--                                 <TextBlock Text="Курс по дизайну" FontWeight="Bold" FontSize="16" Foreground="Black"/> -->
+<!--                                 <TextBlock Text="Курс по основам графического дизайна." TextWrapping="Wrap" Foreground="Black" Margin="0,5,0,5"/> -->
+<!--                             </StackPanel> -->
+<!-- -->
+<!--                             <DockPanel Grid.Row="1" LastChildFill="False"> -->
+<!--                                 <TextBlock Text="Пройдено 0/40" VerticalAlignment="Center" Foreground="Black"/> -->
+<!--                                 <Button Content="Пройти курс"  -->
+<!--                                         HorizontalAlignment="Right" -->
+<!--                                         DockPanel.Dock="Right" -->
+<!--                                         Background="#D3D3D3" -->
+<!--                                         BorderBrush="Black" -->
+<!--                                         Foreground="Black" -->
+<!--                                         BorderThickness="1" -->
+<!--                                         VerticalContentAlignment="Center"/> -->
+<!--                             </DockPanel> -->
+<!--                         </Grid> -->
+<!--                     </Border> -->
+<!--                 </Grid> -->
+<!-- -->
+<!--             </StackPanel> -->
+<!--         </ScrollViewer> -->
+<!--     </Grid> -->
+<!--     </Border> -->
+<!-- </UserControl> -->
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:diplom.ViewModels"
+             xmlns:modelsApi="clr-namespace:diplom.ModelsApi"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="diplom.Views.MainView"
+             x:DataType="vm:MainViewModel">
+    <Border Background="#FFE4C4">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>  
+                <RowDefinition Height="50"/>  
+                <RowDefinition Height="*"/> 
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Background="#B0B0B0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Название" 
+                           VerticalAlignment="Center" 
+                           Margin="10,0"
+                           FontSize="20" 
+                           Foreground="Black"/>
+                <Button Content="Login" 
+                        Grid.Column="1" 
+                        Margin="0,0,10,0" 
+                        Background="#D3D3D3"
+                        BorderBrush="Black"
+                        Foreground="Black"
+                        BorderThickness="1"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Command="{Binding GoAuthCommand}"/>
+            </Grid>
+            <Grid Grid.Row="1" Background="#D3D3D3">
+                <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBox Width="150" Height="25" Watermark="Поиск курса"/>
+                    <ComboBox Width="150" Height="25">
+                        <ComboBoxItem Content="Фильтр"/>
+                        <ComboBoxItem Content="Программирование"/>
+                        <ComboBoxItem Content="Дизайн"/>
+                        <ComboBoxItem Content="Маркетинг"/>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+            <ScrollViewer Grid.Row="2" Margin="20,10">
+                <ItemsControl ItemsSource="{Binding Courses}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" ItemWidth="380" ItemHeight="200" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="modelsApi:Course">
+                            <Border Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="40" />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0">
+                                        <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16" Foreground="Black"/>
+                                        <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Foreground="Black" Margin="0,5,0,5"/>
+                                    </StackPanel>
+                                    <DockPanel Grid.Row="1" LastChildFill="False">
+                                        <TextBlock Text="Пройдено 0/100" VerticalAlignment="Center" Foreground="Black"/>
+                                        <!-- <Button Content="Пройти курс" -->
+                                        <!--         DockPanel.Dock="Right" -->
+                                        <!--         Background="#D3D3D3" -->
+                                        <!--         BorderBrush="Black" -->
+                                        <!--         BorderThickness="1" -->
+                                        <!--         HorizontalContentAlignment="Center" -->
+                                        <!--         VerticalContentAlignment="Center" -->
+                                        <!--         Command="{Binding DataContext.GoCourseCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" -->
+                                        <!--         CommandParameter="{Binding}" /> -->
+                                        <Button Content="Пройти курс"
+                                                DockPanel.Dock="Right"
+                                                Background="#D3D3D3"
+                                                BorderBrush="Black"
+                                                BorderThickness="1"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"/>
+                                    </DockPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</UserControl>
