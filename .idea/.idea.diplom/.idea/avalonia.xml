@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="diplom/App.axaml" value="diplom/diplom.csproj" />
+        <entry key="diplom/Views/AuthView.axaml" value="diplom/diplom.csproj" />
+        <entry key="diplom/Views/AuthWindow.axaml" value="diplom/diplom.csproj" />
+        <entry key="diplom/Views/CourseView.axaml" value="diplom/diplom.csproj" />
+        <entry key="diplom/Views/CourseWindow.axaml" value="diplom/diplom.csproj" />
+        <entry key="diplom/Views/MainView.axaml" value="diplom/diplom.csproj" />
+        <entry key="diplom/Views/MainWindow.axaml" value="diplom/diplom.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

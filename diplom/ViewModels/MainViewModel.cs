@@ -31,12 +31,7 @@ public class MainViewModel : ViewModelBase
         {
             _main.CurrentView = new AuthViewModel(_main);
         });
-
-        // GoCourseCommand = new RelayCommand(() =>
-        //     {
-        //         _main.CurrentView = new CourseViewModel(_main);
-        //     }
-        // );
+        
         GoCourseCommand = new RelayCommand<Course>(course =>
         {
             if (course != null)

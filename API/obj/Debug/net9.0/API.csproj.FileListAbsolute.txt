@@ -103,3 +103,4 @@
 /Users/rinchi/RiderProjects/diplom/API/obj/Debug/net9.0/API.pdb
 /Users/rinchi/RiderProjects/diplom/API/obj/Debug/net9.0/API.genruntimeconfig.cache
 /Users/rinchi/RiderProjects/diplom/API/obj/Debug/net9.0/ref/API.dll
+/Users/rinchi/RiderProjects/diplom/API/obj/Debug/net9.0/API.sourcelink.json

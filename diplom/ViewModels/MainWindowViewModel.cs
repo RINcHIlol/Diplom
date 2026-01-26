@@ -2,8 +2,8 @@
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private object? _currentView;
-    public object? CurrentView
+    private ViewModelBase? _currentView;
+    public ViewModelBase? CurrentView
     {
         get => _currentView;
         set => SetProperty(ref _currentView, value);
