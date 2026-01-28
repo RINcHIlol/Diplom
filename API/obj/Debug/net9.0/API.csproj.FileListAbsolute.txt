@@ -104,3 +104,11 @@
 /Users/rinchi/RiderProjects/diplom/API/obj/Debug/net9.0/API.genruntimeconfig.cache
 /Users/rinchi/RiderProjects/diplom/API/obj/Debug/net9.0/ref/API.dll
 /Users/rinchi/RiderProjects/diplom/API/obj/Debug/net9.0/API.sourcelink.json
+/Users/rinchi/RiderProjects/diplom/API/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/rinchi/RiderProjects/diplom/API/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/rinchi/RiderProjects/diplom/API/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/rinchi/RiderProjects/diplom/API/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll
+/Users/rinchi/RiderProjects/diplom/API/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.dll
+/Users/rinchi/RiderProjects/diplom/API/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/rinchi/RiderProjects/diplom/API/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
+/Users/rinchi/RiderProjects/diplom/API/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll

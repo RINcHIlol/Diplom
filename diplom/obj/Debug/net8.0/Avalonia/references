@@ -32,6 +32,7 @@
 /Users/rinchi/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/ref/net8.0/Microsoft.AspNetCore.Authentication.Cookies.dll
 /Users/rinchi/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/ref/net8.0/Microsoft.AspNetCore.Authentication.Core.dll
 /Users/rinchi/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/ref/net8.0/Microsoft.AspNetCore.Authentication.dll
+/Users/rinchi/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/8.0.10/lib/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/rinchi/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/ref/net8.0/Microsoft.AspNetCore.Authentication.OAuth.dll
 /Users/rinchi/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/ref/net8.0/Microsoft.AspNetCore.Authorization.dll
 /Users/rinchi/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/ref/net8.0/Microsoft.AspNetCore.Authorization.Policy.dll
@@ -163,6 +164,12 @@
 /Users/rinchi/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/ref/net8.0/Microsoft.Extensions.Options.dll
 /Users/rinchi/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/ref/net8.0/Microsoft.Extensions.Primitives.dll
 /Users/rinchi/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/ref/net8.0/Microsoft.Extensions.WebEncoders.dll
+/Users/rinchi/.nuget/packages/microsoft.identitymodel.abstractions/7.1.2/lib/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/rinchi/.nuget/packages/microsoft.identitymodel.jsonwebtokens/7.1.2/lib/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/rinchi/.nuget/packages/microsoft.identitymodel.logging/7.1.2/lib/net8.0/Microsoft.IdentityModel.Logging.dll
+/Users/rinchi/.nuget/packages/microsoft.identitymodel.protocols/7.1.2/lib/net8.0/Microsoft.IdentityModel.Protocols.dll
+/Users/rinchi/.nuget/packages/microsoft.identitymodel.protocols.openidconnect/7.1.2/lib/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/rinchi/.nuget/packages/microsoft.identitymodel.tokens/7.1.2/lib/net8.0/Microsoft.IdentityModel.Tokens.dll
 /Users/rinchi/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/ref/net8.0/Microsoft.JSInterop.dll
 /Users/rinchi/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/ref/net8.0/Microsoft.Net.Http.Headers.dll
 /Users/rinchi/.nuget/packages/microsoft.openapi/1.4.3/lib/netstandard2.0/Microsoft.OpenApi.dll
@@ -220,6 +227,7 @@
 /Users/rinchi/.nuget/packages/microsoft.netcore.app.ref/8.0.11/ref/net8.0/System.Globalization.Calendars.dll
 /Users/rinchi/.nuget/packages/microsoft.netcore.app.ref/8.0.11/ref/net8.0/System.Globalization.dll
 /Users/rinchi/.nuget/packages/microsoft.netcore.app.ref/8.0.11/ref/net8.0/System.Globalization.Extensions.dll
+/Users/rinchi/.nuget/packages/system.identitymodel.tokens.jwt/7.1.2/lib/net8.0/System.IdentityModel.Tokens.Jwt.dll
 /Users/rinchi/.nuget/packages/microsoft.netcore.app.ref/8.0.11/ref/net8.0/System.IO.Compression.Brotli.dll
 /Users/rinchi/.nuget/packages/microsoft.netcore.app.ref/8.0.11/ref/net8.0/System.IO.Compression.dll
 /Users/rinchi/.nuget/packages/microsoft.netcore.app.ref/8.0.11/ref/net8.0/System.IO.Compression.FileSystem.dll

@@ -27,6 +27,7 @@
 /Users/rinchi/.nuget/packages/harfbuzzsharp/7.3.0.2/lib/net6.0/HarfBuzzSharp.dll
 /Users/rinchi/.nuget/packages/humanizer.core/2.14.1/lib/net6.0/Humanizer.dll
 /Users/rinchi/.nuget/packages/microcom.runtime/0.11.0/lib/net5.0/MicroCom.Runtime.dll
+/Users/rinchi/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/8.0.10/lib/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/rinchi/.nuget/packages/microsoft.aspnetcore.openapi/8.0.10/lib/net8.0/Microsoft.AspNetCore.OpenApi.dll
 /Users/rinchi/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll
 /Users/rinchi/.nuget/packages/microsoft.codeanalysis.common/4.5.0/lib/netcoreapp3.1/Microsoft.CodeAnalysis.dll
@@ -44,6 +45,12 @@
 /Users/rinchi/.nuget/packages/microsoft.extensions.logging/8.0.1/lib/net8.0/Microsoft.Extensions.Logging.dll
 /Users/rinchi/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.2/lib/net8.0/Microsoft.Extensions.Logging.Abstractions.dll
 /Users/rinchi/.nuget/packages/microsoft.extensions.options/8.0.2/lib/net8.0/Microsoft.Extensions.Options.dll
+/Users/rinchi/.nuget/packages/microsoft.identitymodel.abstractions/7.1.2/lib/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/rinchi/.nuget/packages/microsoft.identitymodel.jsonwebtokens/7.1.2/lib/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/rinchi/.nuget/packages/microsoft.identitymodel.logging/7.1.2/lib/net8.0/Microsoft.IdentityModel.Logging.dll
+/Users/rinchi/.nuget/packages/microsoft.identitymodel.protocols/7.1.2/lib/net8.0/Microsoft.IdentityModel.Protocols.dll
+/Users/rinchi/.nuget/packages/microsoft.identitymodel.protocols.openidconnect/7.1.2/lib/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/rinchi/.nuget/packages/microsoft.identitymodel.tokens/7.1.2/lib/net8.0/Microsoft.IdentityModel.Tokens.dll
 /Users/rinchi/.nuget/packages/microsoft.openapi/1.4.3/lib/netstandard2.0/Microsoft.OpenApi.dll
 /Users/rinchi/.nuget/packages/mono.texttemplating/2.2.1/lib/netstandard2.0/Mono.TextTemplating.dll
 /Users/rinchi/.nuget/packages/npgsql/8.0.5/lib/net8.0/Npgsql.dll
@@ -61,6 +68,7 @@
 /Users/rinchi/.nuget/packages/system.composition.hosting/6.0.0/lib/net6.0/System.Composition.Hosting.dll
 /Users/rinchi/.nuget/packages/system.composition.runtime/6.0.0/lib/net6.0/System.Composition.Runtime.dll
 /Users/rinchi/.nuget/packages/system.composition.typedparts/6.0.0/lib/net6.0/System.Composition.TypedParts.dll
+/Users/rinchi/.nuget/packages/system.identitymodel.tokens.jwt/7.1.2/lib/net8.0/System.IdentityModel.Tokens.Jwt.dll
 /Users/rinchi/.nuget/packages/system.reactive/6.1.0/lib/net6.0/System.Reactive.dll
 /Users/rinchi/.nuget/packages/tmds.dbus.protocol/0.20.0/lib/net8.0/Tmds.DBus.Protocol.dll
 /Users/rinchi/.nuget/packages/microsoft.codeanalysis.common/4.5.0/lib/netcoreapp3.1/cs/Microsoft.CodeAnalysis.resources.dll

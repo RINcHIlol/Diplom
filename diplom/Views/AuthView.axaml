@@ -25,14 +25,16 @@
         <Grid Grid.Row="1">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Spacing="10">
                 <TextBlock Text="Вход" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Foreground="Black"/>
-                <TextBox Watermark="Логин" Height="30"/>
-                <TextBox Watermark="Пароль" Height="30"/>
-                <Button Content="Вход"
+                <TextBox Watermark="Логин" Height="30" Text="{Binding Login, Mode=TwoWay}" />
+                <TextBox Watermark="Пароль" Height="30" Text="{Binding Password, Mode=TwoWay}" PasswordChar="*"/>
+                <TextBlock Text="Неверные данные для входа" Foreground="Red" IsVisible="False" x:Name="ErrorTextBlock"/>
+                <Button Content="Войти"
                         Background="#D3D3D3"
                         BorderBrush="Black"
                         Foreground="Black"
                         Height="35"
-                        HorizontalAlignment="Center"/>
+                        HorizontalAlignment="Center"
+                        Command="{Binding LoginCommand}"/>
                 <TextBlock Text="Восстановить пароль"
                            HorizontalAlignment="Center"
                            Foreground="Black"
