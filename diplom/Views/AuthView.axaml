@@ -27,7 +27,8 @@
                 <TextBlock Text="Вход" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Foreground="Black"/>
                 <TextBox Watermark="Логин" Height="30" Text="{Binding Login, Mode=TwoWay}" />
                 <TextBox Watermark="Пароль" Height="30" Text="{Binding Password, Mode=TwoWay}" PasswordChar="*"/>
-                <TextBlock Text="Неверные данные для входа" Foreground="Red" IsVisible="False" x:Name="ErrorTextBlock"/>
+                <TextBlock Text="{Binding ErrorStr}" Foreground="Red" IsVisible="{Binding IsError}" x:Name="ErrorTextBlock"/>
+                <TextBlock Text="{Binding Message}" Foreground="LightGreen"/>
                 <Button Content="Войти"
                         Background="#D3D3D3"
                         BorderBrush="Black"
@@ -41,12 +42,21 @@
                            FontSize="14"
                            TextDecorations="Underline"
                            Cursor="Hand"/>
-                <TextBlock Text="Регистрация"
-                           HorizontalAlignment="Center"
-                           Foreground="Black"
-                           FontSize="14"
-                           TextDecorations="Underline"
-                           Cursor="Hand"/>
+                <!-- <TextBlock Text="Регистрация" -->
+                <!--            HorizontalAlignment="Center" -->
+                <!--            Foreground="Black" -->
+                <!--            FontSize="14" -->
+                <!--            TextDecorations="Underline" -->
+                <!--            Cursor="Hand"/> -->
+                <Button Content="Регистрация"
+                        HorizontalAlignment="Center"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Foreground="Black"
+                        FontSize="14"
+                        Cursor="Hand"
+                        Command="{Binding RegisterCommand}"
+                        Padding="0"/>
             </StackPanel>
         </Grid>
     </Grid>

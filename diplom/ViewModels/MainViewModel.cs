@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -19,13 +20,26 @@ public class MainViewModel : ViewModelBase
     
     public ICommand GoAuthCommand { get; }
     public ICommand GoCourseCommand { get; }
+    public ICommand GoProfileCommand { get; }
+    
     public ObservableCollection<Course> Courses { get; } = new();
+    private string _searchBox = "";
+    public string SearchBox{
+        get => _searchBox;
+        set
+        {
+            if (SetProperty(ref _searchBox, value))
+            {
+                _ = LoadCoursesAsync();
+            }
+        }
+    }
     
     private readonly SessionService _session;
     private readonly CourseApiService _courseService;
-    
     private readonly AuthService _authService;
-
+    private readonly ProfileService _profileService;
+        
     public bool IsAuthorized => _session.IsAuthorized;
     public User? CurrentUser => _session.CurrentUser;
     
@@ -35,25 +49,38 @@ public class MainViewModel : ViewModelBase
             : "Guest";
     public string AuthButtonText => IsAuthorized ? "Выйти" : "Войти";
     
-    public MainViewModel(MainWindowViewModel main, SessionService session, AuthService authService)
+    public MainViewModel(MainWindowViewModel main, SessionService session, AuthService authService, ProfileService profileService, CourseApiService courseService)
     {
         _session = session;
         _authService = authService;
+        _profileService = profileService;
         _main = main;
-        _courseService = new CourseApiService("http://localhost:5132/");
+        _courseService = courseService;
         
         GoAuthCommand = new RelayCommand(() =>
         {
             if (_session.IsAuthorized)
-                _main.Logout();
+            {
+                main.Logout();
+                OnPropertyChanged(nameof(IsAuthorized));
+                OnPropertyChanged(nameof(CurrentUser));
+                OnPropertyChanged(nameof(UserDisplayName));
+                OnPropertyChanged(nameof(AuthButtonText));
+            }
             else
-                _main.CurrentView = new AuthViewModel(_main, _session, _authService);
+                // _main.CurrentView = new AuthViewModel(_main, _session, _authService);
+                _main.ShowAuth();
         });
         
         GoCourseCommand = new RelayCommand<Course>(course =>
         {
             if (course != null)
                 _main.CurrentView = new CourseViewModel(_main, course, session, _authService);
+        });
+
+        GoProfileCommand = new RelayCommand(() =>
+        {
+            _main.ShowProfile();
         });
         
         _ = LoadCoursesAsync();
@@ -63,7 +90,17 @@ public class MainViewModel : ViewModelBase
     {
         var courses = await _courseService.GetCoursesAsync();
         Courses.Clear();
+
+        if (!string.IsNullOrEmpty(SearchBox))
+            courses = courses.Where(it => IsContains(SearchBox, it.Title)).ToList();
         foreach (var course in courses)
             Courses.Add(course);
+    }
+
+    public bool IsContains(string search, string name)
+    {
+        var _search = search.ToLower();
+        var _name = name.ToLower();
+        return _name.Contains(_search);
     }
 }

@@ -2,6 +2,7 @@ using System.Security.Claims;
 using System.Text;
 using API.Models;
 using API.Services;
+using API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -24,7 +25,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         var user = await _userService.GetUserByLoginAsync(request.Username);
-        if (user == null || user.Password_hash != request.Password)
+        if (user == null || user.PasswordHash != request.Password)
             return Unauthorized();
 
         var token = GenerateJwt(user);
@@ -62,10 +63,4 @@ public class AuthController : ControllerBase
         var user = await _userService.GetUserAsync(userId);
         return Ok(user);
     }
-}
-
-public class LoginRequest
-{
-    public string Username { get; set; } = "";
-    public string Password { get; set; } = "";
 }

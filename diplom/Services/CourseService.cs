@@ -9,21 +9,18 @@ namespace diplom.Services;
 
 public class CourseApiService
 {
-    private readonly HttpClient _httpClient;
+    private readonly HttpClient _http;
 
-    public CourseApiService(string baseUrl)
+    public CourseApiService(IHttpClientFactory factory)
     {
-        _httpClient = new HttpClient
-        {
-            BaseAddress = new Uri(baseUrl)
-        };
+        _http = factory.CreateClient("Api");
     }
 
     public async Task<List<Course>> GetCoursesAsync()
     {
         try
         {
-            var courses = await _httpClient.GetFromJsonAsync<List<Course>>("api/courses");
+            var courses = await _http.GetFromJsonAsync<List<Course>>("api/courses");
             return courses ?? new List<Course>();
         }
         catch (Exception ex)

@@ -17,7 +17,8 @@ public class CourseViewModel : ViewModelBase
         _authService = authService;
         GoBackCommand = new RelayCommand(() =>
         {
-            _main.CurrentView = new MainViewModel(_main, session, _authService);
+            // _main.CurrentView = new MainViewModel(_main, session, _authService);
+            _main.ShowMain();
         });
     }
 }

@@ -17,9 +17,11 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Background="#B0B0B0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Название" 
                            VerticalAlignment="Center" 
@@ -28,12 +30,24 @@
                            Foreground="Black"/>
                 
                 <TextBlock Text="{Binding UserDisplayName}"
-                           Grid.Column="1" 
+                           Grid.Column="2" 
                            FontWeight="Bold"
                            VerticalAlignment="Center"/>
                 
+                <Button Content="Profile" 
+                        Grid.Column="3" 
+                        Margin="0,0,10,0" 
+                        Background="#D3D3D3"
+                        BorderBrush="Black"
+                        Foreground="Black"
+                        BorderThickness="1"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        IsVisible="{Binding IsAuthorized}"
+                        Command="{Binding GoProfileCommand}"/>
+                
                 <Button Content="{Binding AuthButtonText}" 
-                        Grid.Column="2" 
+                        Grid.Column="4" 
                         Margin="0,0,10,0" 
                         Background="#D3D3D3"
                         BorderBrush="Black"
@@ -45,7 +59,7 @@
             </Grid>
             <Grid Grid.Row="1" Background="#D3D3D3">
                 <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBox Width="150" Height="25" Watermark="Поиск курса"/>
+                    <TextBox Width="150" Height="25" Watermark="Поиск курса" Text="{Binding SearchBox}"/>
                     <ComboBox Width="150" Height="25">
                         <ComboBoxItem Content="Фильтр"/>
                         <ComboBoxItem Content="Программирование"/>

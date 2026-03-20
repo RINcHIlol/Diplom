@@ -10,6 +10,8 @@
         <entry key="diplom/Views/CourseWindow.axaml" value="diplom/diplom.csproj" />
         <entry key="diplom/Views/MainView.axaml" value="diplom/diplom.csproj" />
         <entry key="diplom/Views/MainWindow.axaml" value="diplom/diplom.csproj" />
+        <entry key="diplom/Views/ProfileView.axaml" value="diplom/diplom.csproj" />
+        <entry key="diplom/Views/RegView.axaml" value="diplom/diplom.csproj" />
       </map>
     </option>
   </component>

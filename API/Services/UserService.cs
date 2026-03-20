@@ -1,14 +1,10 @@
 using API.Models;
 using API.Repositories;
+using API.Repositories.Interfaces;
+using API.Services.Interfaces;
+using Task = System.Threading.Tasks.Task;
 
 namespace API.Services;
-
-public interface IUserService
-{
-    Task<List<User>> GetAllUsersAsync();
-    Task<User> GetUserAsync(int id);
-    Task<User> GetUserByLoginAsync(string login);
-}
 
 public class UserService : IUserService
 {
@@ -18,4 +14,6 @@ public class UserService : IUserService
     public Task<List<User>> GetAllUsersAsync() => _repository.GetAllAsync();
     public Task<User> GetUserAsync(int id) => _repository.GetByIdAsync(id);
     public Task<User> GetUserByLoginAsync(string login) => _repository.GetByLoginAsync(login);
+    public Task<User> GetUserByEmailAsync(string email) => _repository.GetByEmailAsync(email);
+    public Task AddUserAsync(User user) => _repository.AddAsync(user);
 }

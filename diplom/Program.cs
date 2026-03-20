@@ -1,5 +1,9 @@
 ﻿using Avalonia;
 using System;
+using diplom.Services;
+using diplom.Services.Handlers;
+using diplom.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace diplom;
 
@@ -18,4 +22,29 @@ sealed class Program
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace();
+    
+    public static ServiceProvider ConfigureServices()
+    {
+        var services = new ServiceCollection();
+
+        services.AddSingleton<SessionService>();
+        services.AddSingleton<MessageService>();
+
+        services.AddTransient<AuthHandler>();
+
+        services.AddHttpClient("Api", client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:5132/");
+            })
+            .AddHttpMessageHandler<AuthHandler>();
+
+        services.AddTransient<AuthService>();
+        services.AddTransient<CourseApiService>();
+        services.AddTransient<ProfileService>();
+        services.AddTransient<RegService>();
+
+        services.AddTransient<MainWindowViewModel>();
+
+        return services.BuildServiceProvider();
+    }
 }
