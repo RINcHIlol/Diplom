@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace API.DTOs.Profile;
+namespace diplom.DTOs.Profile;
 
 public class ProfileResponse
 {
@@ -9,6 +9,11 @@ public class ProfileResponse
     public string Email { get; set; }
     public int Xp { get; set; }
     public string Role { get; set; }
-
+    
+    public int CurrentLvl { get; set; }
+    public string CurrentLvlTitle { get; set; }
+    public double Progress { get; set; }
+    public int NextLvlXp { get; set; }
+    
     public List<CourseProgressDto> Courses { get; set; }
 }

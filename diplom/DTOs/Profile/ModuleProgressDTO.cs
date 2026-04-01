@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace API.DTOs.Profile;
+namespace diplom.DTOs.Profile;
 
 public class ModuleProgressDto
 {

@@ -1,4 +1,4 @@
-namespace API.DTOs.Profile;
+namespace diplom.DTOs.Profile;
 
 public class LessonProgressDto
 {

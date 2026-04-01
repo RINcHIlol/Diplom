@@ -7,6 +7,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using diplom.DTOs.Profile;
 using diplom.ModelsApi;
 using diplom.Services;
 using diplom.ViewModels;
@@ -22,7 +23,7 @@ public class MainViewModel : ViewModelBase
     public ICommand GoCourseCommand { get; }
     public ICommand GoProfileCommand { get; }
     
-    public ObservableCollection<Course> Courses { get; } = new();
+    public ObservableCollection<CourseProgressDto> Courses { get; } = new();
     private string _searchBox = "";
     public string SearchBox{
         get => _searchBox;
@@ -37,8 +38,6 @@ public class MainViewModel : ViewModelBase
     
     private readonly SessionService _session;
     private readonly CourseApiService _courseService;
-    private readonly AuthService _authService;
-    private readonly ProfileService _profileService;
         
     public bool IsAuthorized => _session.IsAuthorized;
     public User? CurrentUser => _session.CurrentUser;
@@ -52,8 +51,6 @@ public class MainViewModel : ViewModelBase
     public MainViewModel(MainWindowViewModel main, SessionService session, AuthService authService, ProfileService profileService, CourseApiService courseService)
     {
         _session = session;
-        _authService = authService;
-        _profileService = profileService;
         _main = main;
         _courseService = courseService;
         
@@ -72,10 +69,10 @@ public class MainViewModel : ViewModelBase
                 _main.ShowAuth();
         });
         
-        GoCourseCommand = new RelayCommand<Course>(course =>
+        GoCourseCommand = new RelayCommand<CourseProgressDto>(course =>
         {
             if (course != null)
-                _main.CurrentView = new CourseViewModel(_main, course, session, _authService);
+                _main.CurrentView = new CourseViewModel(_main, course, session);
         });
 
         GoProfileCommand = new RelayCommand(() =>

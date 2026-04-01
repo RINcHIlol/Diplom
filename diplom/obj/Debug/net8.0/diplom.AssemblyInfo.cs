@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("diplom")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b02ba8af3640938c63a1609929d72db81a0f3831")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0746415778acb561e75375f9a801a437299d7004")]
 [assembly: System.Reflection.AssemblyProductAttribute("diplom")]
 [assembly: System.Reflection.AssemblyTitleAttribute("diplom")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
