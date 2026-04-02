@@ -37,6 +37,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IModulesService, ModulesService>();
+builder.Services.AddScoped<IModulesRepository, ModulesRepository>();
 
 builder.Services.AddControllers();
 

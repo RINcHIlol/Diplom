@@ -7,5 +7,9 @@ public class ModuleProgressDto
     public string Title { get; set; }
     public int OrderIndex { get; set; }
     
+    public int TotalLessons { get; set; }
+    public int CompletedLessons { get; set; }
+    public double ProgressPercent { get; set; }
+    
     public List<LessonProgressDto> Lessons { get; set; }
 }

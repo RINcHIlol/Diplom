@@ -61,7 +61,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public void ShowMain()
     {
-        CurrentView = new MainViewModel(this, _session, _authService, _profileService, _courseApiService);
+        CurrentView = new MainViewModel(this, _session, _courseApiService, _modulesService);
     }
 
     public void ShowAuth()

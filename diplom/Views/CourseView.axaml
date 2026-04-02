@@ -3,6 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:diplom.ViewModels"
+             xmlns:dto="clr-namespace:diplom.DTOs.Profile"
+             x:Name="CourseWin"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="diplom.Views.CourseView"
              x:DataType="vm:CourseViewModel">
@@ -11,8 +13,9 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="#B0B0B0">
-            <Button Content="← Назад"
+        <Grid Grid.Row="0" Background="#B0B0B0" ColumnDefinitions="*, *">
+            <Button Grid.Column="0" 
+                Content="← Назад"
                     Background="#D3D3D3"
                     BorderBrush="Black"
                     Foreground="Black"
@@ -20,25 +23,64 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left"
                     Command="{Binding GoBackCommand}"/>
+            <TextBlock Grid.Column="1" Text="{Binding CourseName}"/>
         </Grid>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Spacing="15">
-            <!-- <TextBlock Text="CourseName" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Foreground="Black"/> -->
-            <!-- <TextBlock Text="Description" TextWrapping="Wrap" Foreground="Black"/> -->
-            <!-- <TextBlock Text="Progress" HorizontalAlignment="Center" Foreground="Black" FontSize="14"/> -->
-            <TextBlock Text="{Binding CourseName}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Foreground="Black"/>
-            <TextBlock Text="{Binding CourseDescription}" TextWrapping="Wrap" Foreground="Black" HorizontalAlignment="Center"/>
-            <TextBlock TextWrapping="Wrap" Foreground="Black" HorizontalAlignment="Center">
-                <Run Text="{Binding CourseProgress}"/>
-                <Run Text=" %"/>
-            </TextBlock>
-
-            
-            <Button Content="Начать проходить"
-                    Background="#D3D3D3"
-                    BorderBrush="Black"
-                    Foreground="Black"
-                    HorizontalAlignment="Center"
-                    Height="35"/>
-        </StackPanel>
+        <!-- <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Spacing="15"> -->
+        <!--     <TextBlock Text="{Binding CourseName}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Foreground="Black"/> -->
+        <!--     <TextBlock Text="{Binding CourseDescription}" TextWrapping="Wrap" Foreground="Black" HorizontalAlignment="Center"/> -->
+        <!--     <TextBlock TextWrapping="Wrap" Foreground="Black" HorizontalAlignment="Center"> -->
+        <!--         <Run Text="{Binding CourseProgress}"/> -->
+        <!--         <Run Text=" %"/> -->
+        <!--     </TextBlock> -->
+        <!-- -->
+        <!--      -->
+        <!--     <Button Content="Начать проходить" -->
+        <!--             Background="#D3D3D3" -->
+        <!--             BorderBrush="Black" -->
+        <!--             Foreground="Black" -->
+        <!--             HorizontalAlignment="Center" -->
+        <!--             Height="35"/> -->
+        <!-- </StackPanel> -->
+        <ScrollViewer Grid.Row="1" Margin="20,10">
+                <ItemsControl ItemsSource="{Binding Modules}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" ItemWidth="380" ItemHeight="200" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="dto:ModuleProgressDto">
+                            <Border Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="40" />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0">
+                                        <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16" Foreground="Black"/>
+                                        <!-- <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Foreground="Black" Margin="0,5,0,5"/> -->
+                                    </StackPanel>
+                                    <DockPanel Grid.Row="1" LastChildFill="False">
+                                        <TextBlock VerticalAlignment="Center" Foreground="Black">
+                                            <Run Text="Пройдено "/>
+                                            <Run Text="{Binding CompletedLessons}"/>
+                                            <Run Text="/"/>
+                                            <Run Text="{Binding TotalLessons}"/>
+                                        </TextBlock>
+                                        <Button Content="Перейтки к модулю"
+                                                DockPanel.Dock="Right"
+                                                Background="#D3D3D3"
+                                                BorderBrush="Black"
+                                                BorderThickness="1"
+                                                x:CompileBindings="False"
+                                                Command="{Binding DataContext.GoModuleCommand, ElementName=CourseWin}"
+                                                CommandParameter="{Binding}" />
+                                    </DockPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
     </Grid>
 </UserControl>

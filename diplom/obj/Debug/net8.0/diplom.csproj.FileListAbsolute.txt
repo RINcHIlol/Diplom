@@ -162,3 +162,5 @@
 /Users/rinchi/RiderProjects/diplom/diplom/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/rinchi/RiderProjects/diplom/diplom/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
 /Users/rinchi/RiderProjects/diplom/diplom/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/rinchi/RiderProjects/diplom/diplom/obj/Debug/net8.0/diplom.csproj.Fody.CopyLocal.cache
+/Users/rinchi/RiderProjects/diplom/diplom/obj/Debug/net8.0/diplom.csproj.Fody.RuntimeCopyLocal.cache
