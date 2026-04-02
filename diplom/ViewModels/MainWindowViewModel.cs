@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using diplom.Services;
 using System.Threading.Tasks;
+using diplom.DTOs.Profile;
 using Task = System.Threading.Tasks.Task;
 using User = diplom.ModelsApi.User;
 
@@ -17,23 +18,28 @@ public class MainWindowViewModel : ViewModelBase
 
     private readonly SessionService _session;
     private readonly AuthService _authService;
+    private readonly NavigationService _navigationService;
+    
     private readonly ProfileService _profileService; 
     private readonly RegService _regService;
     private readonly CourseApiService _courseApiService;
     private readonly MessageService _messageService;
     private readonly ModulesService _modulesService;
-
-    public MainWindowViewModel(SessionService session, AuthService authService, ProfileService profileService, RegService regService, MessageService messageService, CourseApiService courseApiService, ModulesService modulesService)
+    private readonly LessonsService _lessonsService;
+    
+    public MainWindowViewModel(SessionService session, AuthService authService, ProfileService profileService, RegService regService, MessageService messageService, CourseApiService courseApiService, ModulesService modulesService, NavigationService navigationService, LessonsService lessonsService)
     {
         _session = session;
         _authService = authService;
+        _navigationService = navigationService;
+        
         _profileService = profileService;
         _regService = regService;
         _messageService = messageService;
         _courseApiService = courseApiService;
         _modulesService = modulesService;
+        _lessonsService = lessonsService;
 
-        // CurrentView = new MainViewModel(this, _session, _authService, _profileService);
         ShowMain();
         _ = TryRestoreSessionAsync();
     }
@@ -45,7 +51,6 @@ public class MainWindowViewModel : ViewModelBase
         if (_session.Token == null)
             return;
 
-        // var user = await _authService.GetMeAsync(_session.Token);
         var user = await _authService.GetMeAsync();
 
         if (user != null)
@@ -61,7 +66,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public void ShowMain()
     {
-        CurrentView = new MainViewModel(this, _session, _courseApiService, _modulesService);
+        CurrentView = new MainViewModel(this, _session, _courseApiService, _navigationService);
     }
 
     public void ShowAuth()
@@ -76,7 +81,16 @@ public class MainWindowViewModel : ViewModelBase
 
     public void ShowReg()
     {
-        // CurrentView = new RegViewModel(this, _session);
         CurrentView = new RegViewModel(this, _regService, _messageService);
+    }
+
+    public void ShowCourse()
+    {
+        CurrentView = new CourseViewModel(this, _session, _modulesService, _navigationService);
+    }
+
+    public void ShowModule()
+    {
+        CurrentView = new ModulesViewModel(this, _session, _navigationService, _lessonsService);
     }
 }

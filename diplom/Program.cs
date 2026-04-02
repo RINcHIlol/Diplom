@@ -29,6 +29,7 @@ sealed class Program
 
         services.AddSingleton<SessionService>();
         services.AddSingleton<MessageService>();
+        services.AddSingleton<NavigationService>();
 
         services.AddTransient<AuthHandler>();
 
@@ -43,6 +44,7 @@ sealed class Program
         services.AddTransient<ProfileService>();
         services.AddTransient<RegService>();
         services.AddTransient<ModulesService>();
+        services.AddTransient<LessonsService>();
 
         services.AddTransient<MainWindowViewModel>();
 

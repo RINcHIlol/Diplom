@@ -25,22 +25,6 @@
                     Command="{Binding GoBackCommand}"/>
             <TextBlock Grid.Column="1" Text="{Binding CourseName}"/>
         </Grid>
-        <!-- <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Spacing="15"> -->
-        <!--     <TextBlock Text="{Binding CourseName}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Foreground="Black"/> -->
-        <!--     <TextBlock Text="{Binding CourseDescription}" TextWrapping="Wrap" Foreground="Black" HorizontalAlignment="Center"/> -->
-        <!--     <TextBlock TextWrapping="Wrap" Foreground="Black" HorizontalAlignment="Center"> -->
-        <!--         <Run Text="{Binding CourseProgress}"/> -->
-        <!--         <Run Text=" %"/> -->
-        <!--     </TextBlock> -->
-        <!-- -->
-        <!--      -->
-        <!--     <Button Content="Начать проходить" -->
-        <!--             Background="#D3D3D3" -->
-        <!--             BorderBrush="Black" -->
-        <!--             Foreground="Black" -->
-        <!--             HorizontalAlignment="Center" -->
-        <!--             Height="35"/> -->
-        <!-- </StackPanel> -->
         <ScrollViewer Grid.Row="1" Margin="20,10">
                 <ItemsControl ItemsSource="{Binding Modules}">
                     <ItemsControl.ItemsPanel>
@@ -58,7 +42,6 @@
                                     </Grid.RowDefinitions>
                                     <StackPanel Grid.Row="0">
                                         <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16" Foreground="Black"/>
-                                        <!-- <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Foreground="Black" Margin="0,5,0,5"/> -->
                                     </StackPanel>
                                     <DockPanel Grid.Row="1" LastChildFill="False">
                                         <TextBlock VerticalAlignment="Center" Foreground="Black">

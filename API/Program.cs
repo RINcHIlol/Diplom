@@ -39,6 +39,9 @@ builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 builder.Services.AddScoped<IModulesService, ModulesService>();
 builder.Services.AddScoped<IModulesRepository, ModulesRepository>();
+builder.Services.AddScoped<ILessonsService, LessonsService>();
+builder.Services.AddScoped<ILessonsRepository, LessonsRepository>();
+
 
 builder.Services.AddControllers();
 

@@ -3,6 +3,76 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="diplom.Views.ModulesView">
-    Welcome to Avalonia!
+             xmlns:vm="clr-namespace:diplom.ViewModels"
+             xmlns:dto="clr-namespace:diplom.DTOs.Profile"
+             x:Class="diplom.Views.ModulesView"
+             x:Name="ModuleWin"
+             x:DataType="vm:ModulesViewModel">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="#B0B0B0" ColumnDefinitions="*, *">
+            <Button Grid.Column="0" 
+                Content="← Назад"
+                    Background="#D3D3D3"
+                    BorderBrush="Black"
+                    Foreground="Black"
+                    Margin="10,0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Command="{Binding GoBackCommand}"/>
+            <TextBlock Grid.Column="1" Text="{Binding ModuleName}"/>
+        </Grid>
+        <ScrollViewer Grid.Row="1" Margin="20,10">
+                <ItemsControl ItemsSource="{Binding Lessons}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" ItemWidth="380" ItemHeight="200" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="dto:LessonProgressDto">
+                            <Border Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="40" />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0">
+                                        <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16" Foreground="Black"/>
+                                    </StackPanel>
+                                    <DockPanel Grid.Row="1" LastChildFill="False">
+    
+                                        <TextBlock VerticalAlignment="Center"
+                                                   Foreground="Green"
+                                                   FontSize="16"
+                                                   IsVisible="{Binding IsCompleted}">
+                                            ✔ Пройдено
+                                        </TextBlock>
+
+                                        <TextBlock VerticalAlignment="Center"
+                                                   Foreground="Gray"
+                                                   FontSize="16"
+                                                   IsVisible="{Binding !IsCompleted}">
+                                            ✖ Не пройдено
+                                        </TextBlock>
+
+                                        <Button Content="Открыть"
+                                                DockPanel.Dock="Right"
+                                                Background="#D3D3D3"
+                                                BorderBrush="Black"
+                                                BorderThickness="1"
+                                                x:CompileBindings="False"
+                                                Command="{Binding DataContext.GoLessonCommand, ElementName=ModuleWin}"
+                                                CommandParameter="{Binding}" />
+                                    </DockPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+    </Grid>
 </UserControl>

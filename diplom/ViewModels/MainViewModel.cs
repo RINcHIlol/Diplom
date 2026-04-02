@@ -38,7 +38,7 @@ public class MainViewModel : ViewModelBase
     
     private readonly SessionService _session;
     private readonly CourseApiService _courseService;
-    private readonly ModulesService _moduleService;
+    private readonly NavigationService _navigationService;
         
     public bool IsAuthorized => _session.IsAuthorized;
     public User? CurrentUser => _session.CurrentUser;
@@ -49,12 +49,12 @@ public class MainViewModel : ViewModelBase
             : "Guest";
     public string AuthButtonText => IsAuthorized ? "Выйти" : "Войти";
     
-    public MainViewModel(MainWindowViewModel main, SessionService session, CourseApiService courseService, ModulesService modulesService)
+    public MainViewModel(MainWindowViewModel main, SessionService session, CourseApiService courseService, NavigationService navigationService)
     {
         _session = session;
         _main = main;
         _courseService = courseService;
-        _moduleService = modulesService;
+        _navigationService = navigationService;
         
         GoAuthCommand = new RelayCommand(async () =>
         {
@@ -69,14 +69,16 @@ public class MainViewModel : ViewModelBase
                 await LoadCoursesAsync();
             }
             else
-                // _main.CurrentView = new AuthViewModel(_main, _session, _authService);
                 _main.ShowAuth();
         });
         
         GoCourseCommand = new RelayCommand<CourseProgressDto>(course =>
         {
             if (course != null)
-                _main.CurrentView = new CourseViewModel(_main, course, session, _moduleService);
+            {
+                _navigationService.CurrentCourse = course;
+                _main.ShowCourse();
+            }
         });
 
         GoProfileCommand = new RelayCommand(() =>
