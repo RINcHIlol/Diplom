@@ -89,12 +89,17 @@
                                         <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Foreground="Black" Margin="0,5,0,5"/>
                                     </StackPanel>
                                     <DockPanel Grid.Row="1" LastChildFill="False">
+                                        <!-- <TextBlock VerticalAlignment="Center" Foreground="Black"> -->
+                                        <!--     <Run Text="Пройдено "/> -->
+                                        <!--     <Run Text="{Binding ProgressPercent}"/> -->
+                                        <!--     <Run Text=" %"/> -->
+                                        <!-- </TextBlock> -->
                                         <TextBlock VerticalAlignment="Center" Foreground="Black">
                                             <Run Text="Пройдено "/>
-                                            <Run Text="{Binding ProgressPercent}"/>
-                                            <Run Text=" %"/>
+                                            <Run Text="{Binding CompletedLessons}"/>
+                                            <Run Text="/"/>
+                                            <Run Text="{Binding TotalLessons}"/>
                                         </TextBlock>
-                                        <!-- <TextBlock Text="{Binding ProgressPercent}" VerticalAlignment="Center" Foreground="Black"/> -->
                                         <Button Content="Пройти курс"
                                                 DockPanel.Dock="Right"
                                                 Background="#D3D3D3"

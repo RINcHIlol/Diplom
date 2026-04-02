@@ -1,4 +1,5 @@
-﻿using diplom.Services;
+﻿using System.Reflection;
+using diplom.Services;
 using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 using User = diplom.ModelsApi.User;
@@ -20,8 +21,9 @@ public class MainWindowViewModel : ViewModelBase
     private readonly RegService _regService;
     private readonly CourseApiService _courseApiService;
     private readonly MessageService _messageService;
+    private readonly ModulesService _modulesService;
 
-    public MainWindowViewModel(SessionService session, AuthService authService, ProfileService profileService, RegService regService, MessageService messageService, CourseApiService courseApiService)
+    public MainWindowViewModel(SessionService session, AuthService authService, ProfileService profileService, RegService regService, MessageService messageService, CourseApiService courseApiService, ModulesService modulesService)
     {
         _session = session;
         _authService = authService;
@@ -29,6 +31,7 @@ public class MainWindowViewModel : ViewModelBase
         _regService = regService;
         _messageService = messageService;
         _courseApiService = courseApiService;
+        _modulesService = modulesService;
 
         // CurrentView = new MainViewModel(this, _session, _authService, _profileService);
         ShowMain();

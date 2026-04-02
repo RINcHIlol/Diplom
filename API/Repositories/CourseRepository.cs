@@ -29,6 +29,8 @@ public class CourseRepository : ICourseRepository
                 Description = c.Description,
                 CreatedAt = c.CreatedAt,
                 Image = c.Image,
+                TotalLessons = c.Modules.SelectMany(m => m.Lessons).Count(),
+                CompletedLessons = 0,
                 ProgressPercent = 0
             }).ToList();
 
@@ -42,7 +44,9 @@ public class CourseRepository : ICourseRepository
         return courses.Select(c =>
         {
             var totalLessons = c.Modules.SelectMany(m => m.Lessons).Count();
-            var completedLessons = userProgresses.Count(p => p.Lesson.Module.Course.Id == c.Id);
+
+            var completedLessons = userProgresses
+                .Count(p => p.Lesson.Module.Course.Id == c.Id && p.IsCompleted);
 
             return new CourseProgressDto
             {
@@ -51,6 +55,9 @@ public class CourseRepository : ICourseRepository
                 Description = c.Description,
                 CreatedAt = c.CreatedAt,
                 Image = c.Image,
+                
+                TotalLessons = totalLessons,
+                CompletedLessons = completedLessons,
                 ProgressPercent = totalLessons == 0 ? 0 : (double)completedLessons / totalLessons * 100
             };
         }).ToList();

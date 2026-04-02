@@ -25,6 +25,20 @@ public class CourseViewModel : ViewModelBase
         set => SetProperty(ref _courseDescription, value);
     }
     
+    private double? _totalLessons;
+    public double? TotalLessons
+    {
+        get => _totalLessons;
+        set => SetProperty(ref _totalLessons, value);
+    }
+    
+    private double? _completedLessons;
+    public double? CompletedLessons
+    {
+        get => _completedLessons;
+        set => SetProperty(ref _completedLessons, value);
+    }
+    
     private double? _courseProgress;
     public double? CourseProgress
     {
@@ -41,6 +55,8 @@ public class CourseViewModel : ViewModelBase
 
         CourseName = course.Title;
         CourseDescription = course.Description;
+        CompletedLessons = course.CompletedLessons;
+        TotalLessons = course.TotalLessons;
         CourseProgress = course.ProgressPercent;
         
         GoBackCommand = new RelayCommand(() =>

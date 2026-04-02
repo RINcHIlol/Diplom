@@ -39,6 +39,10 @@
                  <DataTemplate DataType="{x:Type vm:ProfileViewModel}">
                      <views:ProfileView />
                  </DataTemplate>
+                 
+                 <DataTemplate DataType="{x:Type vm:ModulesViewModel}">
+                     <views:ModulesView />
+                 </DataTemplate>
 
              </Application.DataTemplates>
 </Application>

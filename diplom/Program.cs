@@ -42,6 +42,7 @@ sealed class Program
         services.AddTransient<CourseApiService>();
         services.AddTransient<ProfileService>();
         services.AddTransient<RegService>();
+        services.AddTransient<ModulesService>();
 
         services.AddTransient<MainWindowViewModel>();
 
