@@ -43,6 +43,10 @@
                  <DataTemplate DataType="{x:Type vm:ModulesViewModel}">
                      <views:ModulesView />
                  </DataTemplate>
+                                 
+                 <DataTemplate DataType="{x:Type vm:LessonViewModel}">
+                     <views:LessonView />
+                 </DataTemplate>
 
              </Application.DataTemplates>
 </Application>

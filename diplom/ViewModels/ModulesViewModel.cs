@@ -42,8 +42,11 @@ public class ModulesViewModel : ViewModelBase
         _navigationService = navigationService;
 
         var module = _navigationService.CurrentModule;
-        _ = LoadLessonsAsync(module.ModuleId);
-        ModuleName = module.Title;
+        if (module != null)
+        {
+            ModuleName = module.Title;
+            _ = LoadLessonsAsync(module.ModuleId);
+        }
         
         GoBackCommand = new RelayCommand(() =>
         {
@@ -54,9 +57,8 @@ public class ModulesViewModel : ViewModelBase
         {
             if (lesson != null)
             {
-                // _navigationService.CurrentModule = module;
-                // _main.ShowModule();
-                Console.WriteLine("popaLesson");
+                _navigationService.CurrentLesson = lesson;
+                _main.ShowLesson();
             }
         });
     }
@@ -64,6 +66,6 @@ public class ModulesViewModel : ViewModelBase
     private async Task LoadLessonsAsync(int moduleId)
     {
         Lessons = await _lesson.GetLessonsAsync(moduleId); 
-        Lessons.OrderBy(x => x.OrderIndex).ToList(); 
+        Lessons = Lessons.OrderBy(x => x.OrderIndex).ToList(); 
     }
 }

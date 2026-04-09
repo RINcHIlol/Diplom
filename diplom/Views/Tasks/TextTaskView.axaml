@@ -1,0 +1,16 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:diplom.ViewModels.Tasks"
+             x:Class="diplom.Views.Tasks.TextTaskView"
+             Foreground="Black"
+             x:DataType="vm:TextTaskViewModel">
+
+    <StackPanel Margin="10" Spacing="10">
+
+        <TextBlock Text="{Binding Question}" FontSize="16" FontWeight="Bold" Foreground="Black"/>
+        
+        <!-- <Button Content="Продолжить" -->
+        <!--         Command="{Binding SubmitCommand}"/> -->
+
+    </StackPanel>
+</UserControl>

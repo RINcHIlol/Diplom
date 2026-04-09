@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:diplom.ViewModels.Tasks"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="diplom.Views.Tasks.MultipleChoiceTaskView"
+             Foreground="Black"
+             x:DataType="vm:MultipleChoiceTaskViewModel">
+    <StackPanel Margin="10" Spacing="10">
+
+        <TextBlock Text="{Binding Question}" FontSize="16" FontWeight="Bold" Foreground="Black"/>
+
+        <ItemsControl ItemsSource="{Binding Answers}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:SelectableAnswer">
+                    <CheckBox Content="{Binding Text}"
+                              IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                              Foreground="Black"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <!-- <Button Content="Ответить" -->
+        <!--         Command="{Binding SubmitCommand}"/> -->
+
+    </StackPanel>
+</UserControl>

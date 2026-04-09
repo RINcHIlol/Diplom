@@ -41,6 +41,8 @@ builder.Services.AddScoped<IModulesService, ModulesService>();
 builder.Services.AddScoped<IModulesRepository, ModulesRepository>();
 builder.Services.AddScoped<ILessonsService, LessonsService>();
 builder.Services.AddScoped<ILessonsRepository, LessonsRepository>();
+builder.Services.AddScoped<ITasksService, TasksService>();
+builder.Services.AddScoped<ITasksRepository, TasksRepository>();
 
 
 builder.Services.AddControllers();

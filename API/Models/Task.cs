@@ -11,7 +11,6 @@ public class Task
     public TaskType TaskType { get; set; }
 
     public string Question { get; set; }
-    public string CorrectAnswer { get; set; }
     public int OrderIndex { get; set; }
     public string Content { get; set; }
 

@@ -6,4 +6,5 @@ public class NavigationService
 {
     public CourseProgressDto? CurrentCourse { get; set; }
     public ModuleProgressDto? CurrentModule { get; set; }
+    public LessonProgressDto? CurrentLesson { get; set; }
 }

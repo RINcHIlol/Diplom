@@ -26,8 +26,9 @@ public class MainWindowViewModel : ViewModelBase
     private readonly MessageService _messageService;
     private readonly ModulesService _modulesService;
     private readonly LessonsService _lessonsService;
+    private readonly TaskService _taskService;
     
-    public MainWindowViewModel(SessionService session, AuthService authService, ProfileService profileService, RegService regService, MessageService messageService, CourseApiService courseApiService, ModulesService modulesService, NavigationService navigationService, LessonsService lessonsService)
+    public MainWindowViewModel(SessionService session, AuthService authService, ProfileService profileService, RegService regService, MessageService messageService, CourseApiService courseApiService, ModulesService modulesService, NavigationService navigationService, LessonsService lessonsService, TaskService taskService)
     {
         _session = session;
         _authService = authService;
@@ -39,6 +40,7 @@ public class MainWindowViewModel : ViewModelBase
         _courseApiService = courseApiService;
         _modulesService = modulesService;
         _lessonsService = lessonsService;
+        _taskService = taskService;
 
         ShowMain();
         _ = TryRestoreSessionAsync();
@@ -92,5 +94,10 @@ public class MainWindowViewModel : ViewModelBase
     public void ShowModule()
     {
         CurrentView = new ModulesViewModel(this, _session, _navigationService, _lessonsService);
+    }
+
+    public void ShowLesson()
+    {
+        CurrentView = new LessonViewModel(this, _session, _navigationService, _taskService);
     }
 }
