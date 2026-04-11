@@ -12,7 +12,7 @@ public class Task
 
     public string Question { get; set; }
     public int OrderIndex { get; set; }
-    public string Content { get; set; }
-
+    public string? Content { get; set; }
+    public string? ExpectedOutput {get; set;}
     public List<TaskAnswer> Answers { get; set; }
 }

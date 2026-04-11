@@ -6,7 +6,14 @@ namespace diplom.ViewModels.Tasks;
 public class MultipleChoiceTaskViewModel : TaskViewModel
 {
     public List<SelectableAnswer> Answers { get; set; } = new();
-
+    public override List<int> GetAnswerIds()
+    {
+        return Answers
+            .Where(a => a.IsSelected)
+            .Select(a => a.Id)
+            .ToList();
+    }
+    
     public override void Submit()
     {
         var selected = Answers

@@ -20,6 +20,10 @@
         <DataTemplate DataType="tasks:MultipleChoiceTaskViewModel">
             <views:MultipleChoiceTaskView Foreground="Black"/>
         </DataTemplate>
+        
+        <DataTemplate DataType="tasks:TextQuestionTaskViewModel">
+            <views:TextQuestionTaskView Foreground="Black"/>
+        </DataTemplate>
     </UserControl.DataTemplates>
     
     <UserControl.Resources>

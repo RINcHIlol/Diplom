@@ -2,26 +2,29 @@ using API.Data;
 using API.DTOs.Profile;
 using API.Models;
 using API.Repositories.Interfaces;
+using diplom.Services;
 using Microsoft.EntityFrameworkCore;
-
-using Task = API.Models.Task;
+using Task = System.Threading.Tasks.Task;
+using TaskEntity = API.Models.Task;
 
 namespace API.Repositories;
-
 
 public class TasksRepository : ITasksRepository
 {
     private readonly AppDbContext _context;
+    private readonly CodeRunnerService _runner;
 
-    public TasksRepository(AppDbContext context)
+    public TasksRepository(AppDbContext context, CodeRunnerService runner)
     {
         _context = context;
+        _runner = runner;
     }
 
     public async Task<List<TaskDto>> GetByLessonIdAsync(int lessonId)
     {
         var tasks = await _context.Tasks
-            .Where(t => t.LessonId == lessonId).Include( t=> t.Answers)
+            .Where(t => t.LessonId == lessonId)
+            .Include(t => t.Answers)
             .OrderBy(t => t.OrderIndex)
             .ToListAsync();
 
@@ -32,30 +35,37 @@ public class TasksRepository : ITasksRepository
             Question = t.Question,
             Content = t.Content,
             OrderIndex = t.OrderIndex,
-
             Answers = t.Answers
                 .OrderBy(a => a.OrderIndex)
                 .Select(a => new TaskAnswerDto
                 {
                     Id = a.Id,
                     AnswerText = a.AnswerText,
-                    OrderIndex = a.OrderIndex,
-                    MatchKey = a.MatchKey
+                    OrderIndex = a.OrderIndex
                 }).ToList()
         }).ToList();
     }
 
     public async Task<bool> GetLessonCompletedAsync(int lessonId, int userId)
     {
-        var userProgress = await _context.UserProgresses.FirstOrDefaultAsync(x => x.LessonId == lessonId && x.UserId == userId);
-        if (userProgress == null)
-        {
-            throw new Exception("Task not found");
-        }
+        var userProgress = await _context.UserProgresses
+            .FirstOrDefaultAsync(x => x.LessonId == lessonId && x.UserId == userId);
 
-        return userProgress.IsCompleted;
+        return userProgress?.IsCompleted ?? false;
     }
-    
+
+    public async Task<List<TaskProgressDto>> GetTaskProgress(int userId, int lessonId)
+    {
+        return await _context.UserTaskProgress
+            .Where(x => x.UserId == userId && x.Task.LessonId == lessonId)
+            .Select(x => new TaskProgressDto
+            {
+                TaskId = x.TaskId,
+                IsCorrect = x.IsCorrect
+            })
+            .ToListAsync();
+    }
+
     public async Task<bool> Submit(SubmitDto dto, int userId)
     {
         var task = await _context.Tasks
@@ -65,29 +75,88 @@ public class TasksRepository : ITasksRepository
         if (task == null)
             throw new Exception("Task not found");
 
+        var progress = await _context.UserTaskProgress
+            .FirstOrDefaultAsync(x => x.UserId == userId && x.TaskId == dto.TaskId);
+
+        if (progress != null && progress.IsCorrect == true)
+            return true;
+
         bool isCorrect = task.TaskTypeId switch
         {
-            1 => await HandleTextTask(task, userId),
+            1 => true,
             2 => HandleSingleChoice(task, dto),
             3 => HandleMultipleChoice(task, dto),
-            _ => throw new Exception("Unknown task type")
+            4 => HandleMatching(task, dto),
+            5 => HandleOrdering(task, dto),
+            6 => await HandleCoding(task, dto),
+            7 => HandleTextInput(task, dto),
+            _ => false
         };
 
-        if (isCorrect)
+        if (progress == null)
         {
-            await MarkLessonCompleted(task.LessonId, userId);
+            _context.UserTaskProgress.Add(new UserTaskProgress
+            {
+                UserId = userId,
+                TaskId = dto.TaskId,
+                IsCorrect = isCorrect,
+                AnsweredAt = DateTime.UtcNow
+            });
         }
+        else
+        {
+            if (progress.IsCorrect == true)
+                return isCorrect;
+
+            progress.IsCorrect = isCorrect;
+            progress.AnsweredAt = DateTime.UtcNow;
+        }
+
+        await _context.SaveChangesAsync();
+
+        await UpdateLessonProgress(userId, task.LessonId);
 
         return isCorrect;
     }
-    
-    private async Task<bool> HandleTextTask(Task task, int userId)
+
+    private async Task UpdateLessonProgress(int userId, int lessonId)
     {
-        // всегда true, можно добавить проверку текста если нужно
-        return true;
+        var totalTasks = await _context.Tasks
+            .CountAsync(t => t.LessonId == lessonId);
+
+        var doneTasks = await _context.UserTaskProgress
+            .CountAsync(x =>
+                x.UserId == userId &&
+                x.IsCorrect &&
+                x.Task.LessonId == lessonId);
+
+        if (totalTasks == 0 || doneTasks != totalTasks)
+            return;
+
+        var lesson = await _context.UserProgresses
+            .FirstOrDefaultAsync(x =>
+                x.UserId == userId &&
+                x.LessonId == lessonId);
+
+        if (lesson == null)
+        {
+            _context.UserProgresses.Add(new UserProgress
+            {
+                UserId = userId,
+                LessonId = lessonId,
+                IsCompleted = true,
+                CompletedAt = DateTime.UtcNow
+            });
+        }
+        else
+        {
+            lesson.IsCompleted = true;
+        }
+
+        await _context.SaveChangesAsync();
     }
 
-    private bool HandleSingleChoice(Task task, SubmitDto dto)
+    private bool HandleSingleChoice(TaskEntity task, SubmitDto dto)
     {
         var correct = task.Answers.FirstOrDefault(a => a.IsCorrect);
 
@@ -97,7 +166,7 @@ public class TasksRepository : ITasksRepository
         return correct.Id == dto.AnswerIds.First();
     }
 
-    private bool HandleMultipleChoice(Task task, SubmitDto dto)
+    private bool HandleMultipleChoice(TaskEntity task, SubmitDto dto)
     {
         var correctIds = task.Answers
             .Where(a => a.IsCorrect)
@@ -112,22 +181,62 @@ public class TasksRepository : ITasksRepository
         return correctIds.SequenceEqual(userIds);
     }
 
-    private async System.Threading.Tasks.Task MarkLessonCompleted(int lessonId, int userId)
+    private bool HandleMatching(TaskEntity task, SubmitDto dto)
     {
-        var exists = await _context.UserProgresses
-            .AnyAsync(p => p.UserId == userId && p.LessonId == lessonId);
+        var correct = _context.MatchingPairs
+            .Where(p => p.TaskId == task.Id)
+            .Select(p => new MatchDto
+            {
+                LeftId = p.LeftAnswerId,
+                RightId = p.RightAnswerId
+            })
+            .ToList();
 
-        if (exists)
-            return;
+        var user = dto.Matches ?? new();
 
-        _context.UserProgresses.Add(new UserProgress
-        {
-            UserId = userId,
-            LessonId = lessonId,
-            IsCompleted = true,
-            CompletedAt = DateTime.UtcNow
-        });
+        return correct.Count == user.Count &&
+               correct.All(c => user.Any(u =>
+                   u.LeftId == c.LeftId && u.RightId == c.RightId));
+    }
 
-        await _context.SaveChangesAsync();
+    private bool HandleOrdering(TaskEntity task, SubmitDto dto)
+    {
+        var correct = task.Answers
+            .OrderBy(a => a.OrderIndex)
+            .Select(a => a.Id)
+            .ToList();
+
+        return correct.SequenceEqual(dto.AnswerIds);
+    }
+    
+    private bool HandleTextInput(TaskEntity task, SubmitDto dto)
+    {
+        var correctAnswer = task.Answers
+            .FirstOrDefault(a => a.IsCorrect);
+
+        var user = dto.TextAnswer;
+
+        if (correctAnswer == null || string.IsNullOrWhiteSpace(user))
+            return false;
+
+        return Normalize(correctAnswer.AnswerText) == Normalize(user);
+    }
+
+    private async Task<bool> HandleCoding(TaskEntity task, SubmitDto dto)
+    {
+        var output = await _runner.RunAsync(dto.TextAnswer);
+
+        return Normalize(output) == Normalize(task.ExpectedOutput);
+    }
+
+    private string Normalize(string? input)
+    {
+        if (string.IsNullOrWhiteSpace(input))
+            return "";
+
+        return input
+            .Replace("\r\n", "\n")
+            .Replace("\r", "\n")
+            .Trim();
     }
 }

@@ -9,7 +9,12 @@ public class SingleChoiceTaskViewModel : TaskViewModel
     public List<SelectableAnswer> Answers { get; set; } = new();
 
     public SelectableAnswer? SelectedAnswer { get; set; }
-
+    public override List<int> GetAnswerIds()
+    {
+        var selected = Answers.FirstOrDefault(a => a.IsSelected);
+        return selected != null ? new List<int> { selected.Id } : new List<int>();
+    }
+    
     public override void Submit()
     {
         var selected = Answers.FirstOrDefault(a => a.IsSelected);

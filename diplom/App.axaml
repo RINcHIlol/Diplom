@@ -4,6 +4,8 @@
              xmlns:local="using:diplom"
              xmlns:vm="clr-namespace:diplom.ViewModels"
              xmlns:views="clr-namespace:diplom.Views"
+             xmlns:tasks="clr-namespace:diplom.Views.Tasks"
+             xmlns:vm1="clr-namespace:diplom.ViewModels.Tasks"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
@@ -46,6 +48,18 @@
                                  
                  <DataTemplate DataType="{x:Type vm:LessonViewModel}">
                      <views:LessonView />
+                 </DataTemplate>
+                 
+                 <DataTemplate DataType="{x:Type vm1:MatchingTaskViewModel}">
+                     <tasks:MathcingTaskView />
+                 </DataTemplate>
+
+                 <DataTemplate DataType="{x:Type vm1:OrderingTaskViewModel}">
+                     <tasks:OrderingTaskView />
+                 </DataTemplate>
+
+                 <DataTemplate DataType="{x:Type vm1:CodingTaskViewModel}">
+                     <tasks:CodingTaskView />
                  </DataTemplate>
 
              </Application.DataTemplates>

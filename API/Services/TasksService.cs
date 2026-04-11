@@ -19,6 +19,11 @@ public class TasksService : ITasksService
         return await _repository.GetLessonCompletedAsync(lessonId, userId);
     }
 
+    public async Task<List<TaskProgressDto>> GetTaskProgressAsync(int userId, int lessonId)
+    {
+        return await _repository.GetTaskProgress(lessonId, userId);
+    }
+
     public async Task<bool> Submit(SubmitDto dto, int userId)
     {
         return await _repository.Submit(dto, userId);

@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:diplom.ViewModels.Tasks"
+             x:Class="diplom.Views.Tasks.MathcingTaskView"
+             Foreground="Black"
+             x:DataType="vm:MatchingTaskViewModel">
+
+    <StackPanel Margin="10" Spacing="10">
+
+        <TextBlock Text="{Binding Question}"
+                   FontSize="16"
+                   FontWeight="Bold"/>
+
+        <ItemsControl ItemsSource="{Binding Pairs}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:MatchingPair">
+
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+
+                        <!-- ЛЕВАЯ ЧАСТЬ -->
+                        <TextBlock Text="{Binding Left.Text}" Width="150"/>
+
+                        <!-- ПРАВАЯ -->
+                        <ComboBox ItemsSource="{Binding RightItems}"
+                                  SelectedItem="{Binding SelectedRight, Mode=TwoWay}"
+                                  DisplayMemberBinding="{Binding Text}"
+                                  Width="150"/>
+
+                    </StackPanel>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+    </StackPanel>
+</UserControl>

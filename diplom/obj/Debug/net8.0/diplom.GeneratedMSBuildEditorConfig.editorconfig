@@ -48,10 +48,22 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [/Users/rinchi/RiderProjects/diplom/diplom/Views/RegView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/Tasks/CodingTaskView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/Tasks/MathcingTaskView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [/Users/rinchi/RiderProjects/diplom/diplom/Views/Tasks/MultipleChoiceTaskView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/Tasks/OrderingTaskView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [/Users/rinchi/RiderProjects/diplom/diplom/Views/Tasks/SingleChoiceTaskView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/Tasks/TextQuestionTaskView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [/Users/rinchi/RiderProjects/diplom/diplom/Views/Tasks/TextTaskView.axaml]

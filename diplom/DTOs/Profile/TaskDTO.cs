@@ -11,6 +11,6 @@ public class TaskDto
     public string? Content { get; set; }
     
     public int OrderIndex { get; set; }
-
+    public string? ExpectedOutput {get; set;}
     public List<TaskAnswerDto>? Answers { get; set; }
 }

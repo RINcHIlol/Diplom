@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using diplom.DTOs.Profile;
 using diplom.Services;
 using diplom.ViewModels.Tasks;
+using TaskFactory = diplom.Services.TaskFactory;
 
 namespace diplom.ViewModels;
 
@@ -64,51 +66,85 @@ public class LessonViewModel : ViewModelBase
 
         LoadTasksAsync();
     }
-
+    
     private async void LoadTasksAsync()
     {
-        if (_navigation.CurrentLesson == null) return;
+        if (_navigation.CurrentLesson == null)
+            return;
 
         LessonName = _navigation.CurrentLesson.Title;
 
-        var taskViewModels = await _taskService.GetTasksAsync(_navigation.CurrentLesson.LessonId);
+        Tasks.Clear();
 
-        foreach (var vm in taskViewModels)
-            Tasks.Add(vm);
+        var lessonId = _navigation.CurrentLesson.LessonId;
 
-        _currentIndex = 0;
+        var taskVMs = await _taskService.GetTasksAsync(lessonId);
+        var progress = await _taskService.GetTaskProgressAsync(lessonId);
 
-        _lessonCompleted = await _taskService.IsLessonCompletedAsync(_navigation.CurrentLesson.LessonId);
+        var progressMap = progress.ToDictionary(x => x.TaskId);
 
-        if (_lessonCompleted)
+        foreach (var vm in taskVMs)
         {
-            foreach (var t in Tasks)
-                t.IsCorrect = true;
+            Tasks.Add(vm); // ✅ сначала добавляем
+
+            if (progressMap.TryGetValue(vm.Id, out var p))
+            {
+                vm.IsCorrect = p.IsCorrect; // ✅ потом ставим
+            }
+            else
+            {
+                vm.IsCorrect = null;
+            }
         }
 
+        _currentIndex = 0;
         OnPropertyChanged(nameof(CurrentTask));
     }
+
+    // private async void LoadTasksAsync()
+    // {
+    //     if (_navigation.CurrentLesson == null) return;
+    //
+    //     LessonName = _navigation.CurrentLesson.Title;
+    //
+    //     var taskViewModels = await _taskService.GetTasksAsync(_navigation.CurrentLesson.LessonId);
+    //
+    //     foreach (var vm in taskViewModels)
+    //         Tasks.Add(vm);
+    //
+    //     _currentIndex = 0;
+    //
+    //     _lessonCompleted = await _taskService.IsLessonCompletedAsync(_navigation.CurrentLesson.LessonId);
+    //
+    //     if (_lessonCompleted)
+    //     {
+    //         foreach (var t in Tasks)
+    //             t.IsCorrect = true;
+    //     }
+    //     
+    //     var progress = await _taskService.GetTaskProgressAsync(_navigation.CurrentLesson.LessonId);
+    //
+    //     foreach (var task in Tasks)
+    //     {
+    //         var p = progress.FirstOrDefault(x => x.TaskId == task.Id);
+    //
+    //         if (p != null)
+    //             task.IsCorrect = p.IsCorrect;
+    //     }
+    //
+    //     OnPropertyChanged(nameof(CurrentTask));
+    // }
 
     private void CheckLessonCompletion()
     {
         if (_lessonCompleted) return;
 
-        bool allAnswered = Tasks.All(t => t.IsCorrect != null);
-
-        if (!allAnswered)
-        {
-            if (_currentIndex == Tasks.Count - 1)
-            {
-                ResultText = "⚠️ Есть нерешённые задания";
-            }
+        if (Tasks.Any(t => t.IsCorrect != true))
             return;
-        }
 
-        bool allCorrect = Tasks.All(t => t.IsCorrect == true);
-
-        if (allCorrect)
+        if (Tasks.All(t => t.IsCorrect == true))
         {
-            _lessonCompleted = true; 
+            _lessonCompleted = true;
             _main.ShowModule();
         }
     }
@@ -116,6 +152,7 @@ public class LessonViewModel : ViewModelBase
     private async void SubmitCurrentTask()
     {
         if (CurrentTask == null) return;
+        if (CurrentTask.IsCorrect == true) return;
 
         if (_lessonCompleted)
         {
@@ -123,25 +160,18 @@ public class LessonViewModel : ViewModelBase
             return;
         }
 
-        List<int> answerIds = new();
+        var answerIds = CurrentTask.GetAnswerIds();
+        var textAnswer = CurrentTask.GetTextAnswer();
+        var matches = CurrentTask.GetMatches();
 
-        if (CurrentTask is SingleChoiceTaskViewModel single)
-        {
-            var selected = single.Answers.FirstOrDefault(a => a.IsSelected);
-            if (selected != null)
-                answerIds.Add(selected.Id);
-        }
-        else if (CurrentTask is MultipleChoiceTaskViewModel multi)
-        {
-            answerIds = multi.Answers.Where(a => a.IsSelected).Select(a => a.Id).ToList();
-        }
-
-        string? textAnswer = CurrentTask is TextTaskViewModel text ? text.UserAnswer : null;
-
-        bool isCorrect = await _taskService.SubmitAsync(CurrentTask.Id, answerIds, textAnswer);
+        bool isCorrect = await _taskService.SubmitAsync(
+            CurrentTask.Id,
+            answerIds,
+            textAnswer,
+            matches
+        );
 
         CurrentTask.IsCorrect = isCorrect;
-
         ResultText = isCorrect ? "✅ Правильно" : "❌ Неправильно";
 
         CheckLessonCompletion();

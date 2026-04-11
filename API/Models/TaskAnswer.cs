@@ -9,6 +9,5 @@ public class TaskAnswer
 
     public string AnswerText { get; set; }
     public bool IsCorrect { get; set; }
-    public int? MatchKey { get; set; }
     public int OrderIndex { get; set; }
 }

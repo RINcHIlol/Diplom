@@ -35,6 +35,16 @@ public class TasksController : ControllerBase
         
         return Ok(isCompleted);
     }
+    
+    [HttpGet("lesson/{lessonId}/progress")]
+    public async Task<IActionResult> GetProgress(int lessonId)
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        var result = await _service.GetTaskProgressAsync(userId, lessonId);
+
+        return Ok(result);
+    }
 
     [HttpPost("submit")]
     public async Task<IActionResult> Submit([FromBody] SubmitDto dto)
@@ -43,6 +53,9 @@ public class TasksController : ControllerBase
         
         var result = await _service.Submit(dto, userId);
 
-        return Ok(new { isCorrect = result });
+        return Ok(new SubmitResponseDto
+        {
+            IsCorrect = result
+        });
     }
 }

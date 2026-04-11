@@ -1,0 +1,15 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:diplom.ViewModels.Tasks"
+             x:Class="diplom.Views.Tasks.TextQuestionTaskView"
+             x:DataType="vm:TextQuestionTaskViewModel">
+
+    <StackPanel Margin="10" Spacing="10">
+
+        <TextBlock Text="{Binding Question}" FontSize="16" Foreground="Black"/>
+
+        <TextBox Text="{Binding Answer}"
+                 Watermark="Введите ответ" />
+
+    </StackPanel>
+</UserControl>

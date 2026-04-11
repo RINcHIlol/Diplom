@@ -4,9 +4,13 @@ using API.Repositories;
 using API.Repositories.Interfaces;
 using API.Services;
 using API.Services.Interfaces;
+using diplom.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using LessonsService = API.Services.LessonsService;
+using ModulesService = API.Services.ModulesService;
+using ProfileService = API.Services.ProfileService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +47,7 @@ builder.Services.AddScoped<ILessonsService, LessonsService>();
 builder.Services.AddScoped<ILessonsRepository, LessonsRepository>();
 builder.Services.AddScoped<ITasksService, TasksService>();
 builder.Services.AddScoped<ITasksRepository, TasksRepository>();
+builder.Services.AddScoped<CodeRunnerService>();
 
 
 builder.Services.AddControllers();

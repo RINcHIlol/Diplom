@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -25,18 +26,34 @@ public class TaskService
 
         return tasks;
     }
+    
+    public async Task<List<TaskProgressDto>> GetTaskProgressAsync(int lessonId)
+    {
+        return await _http.GetFromJsonAsync<List<TaskProgressDto>>($"api/tasks/lesson/{lessonId}/progress");
+    }
 
-    public async Task<bool> SubmitAsync(int taskId, List<int> answerIds, string? textAnswer = null)
+    public async Task<bool> SubmitAsync(int taskId, List<int> answerIds, string? textAnswer = null, List<MatchDto>? matches = null)
     {
         var dto = new SubmitDto
         {
             TaskId = taskId,
             AnswerIds = answerIds,
-            TextAnswer = textAnswer
+            TextAnswer = textAnswer,
+            Matches = matches
         };
 
         var response = await _http.PostAsJsonAsync("api/tasks/submit", dto);
-        var result = await response.Content.ReadFromJsonAsync<SubmitResponseDto>();
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+            throw new Exception($"Server error: {content}");
+
+        var result = System.Text.Json.JsonSerializer.Deserialize<SubmitResponseDto>(content,
+            new System.Text.Json.JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
 
         return result?.IsCorrect ?? false;
     }
