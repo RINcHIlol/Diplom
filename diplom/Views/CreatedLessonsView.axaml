@@ -1,0 +1,90 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:diplom.ViewModels"
+             xmlns:dto="clr-namespace:diplom.DTOs.Profile"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="diplom.Views.CreatedLessonsView"
+             x:Name="CreatedLessons"
+             x:DataType="vm:CreatedLessonsViewModel">
+    <Border Background="#FFE4C4">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>  
+                <RowDefinition Height="50"/>  
+                <RowDefinition Height="*"/> 
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Background="#B0B0B0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Назад" 
+                        Margin="0,0,10,0" 
+                        Background="#D3D3D3"
+                        BorderBrush="Black"
+                        Foreground="Black"
+                        BorderThickness="1"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Command="{Binding GoBackCommand}"/>
+                
+                <Button Content="Создать урок" 
+                        Grid.Column="3" 
+                        Margin="0,0,10,0" 
+                        Background="#D3D3D3"
+                        BorderBrush="Black"
+                        Foreground="Black"
+                        BorderThickness="1"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Command="{Binding GoCreateLessonCommand}"/>
+            </Grid>
+            <ScrollViewer Grid.Row="2" Margin="20,10">
+                <ItemsControl ItemsSource="{Binding Lessons}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" ItemWidth="380" ItemHeight="200" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="dto:LessonShortDTO">
+                            <Border Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="40" />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0">
+                                        <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16" Foreground="Black"/>
+                                    </StackPanel>
+                                    <DockPanel Grid.Row="1" LastChildFill="False">
+                                        <Button Content="Заполнить"
+                                                DockPanel.Dock="Right"
+                                                Background="#D3D3D3"
+                                                BorderBrush="Black"
+                                                BorderThickness="1"
+                                                x:CompileBindings="False"
+                                                Command="{Binding DataContext.GoLessonCommand, ElementName=CreatedLessons}"
+                                                CommandParameter="{Binding}" />
+                                        <Button Content="Редактировать"
+                                                DockPanel.Dock="Right"
+                                                Background="#D3D3D3"
+                                                BorderBrush="Black"
+                                                BorderThickness="1"
+                                                x:CompileBindings="False"
+                                                Command="{Binding DataContext.GoEditLessonCommand, ElementName=CreatedLessons}"
+                                                CommandParameter="{Binding}" />
+                                    </DockPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</UserControl>

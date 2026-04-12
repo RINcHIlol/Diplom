@@ -16,6 +16,7 @@ public class CourseViewModel : ViewModelBase
     private readonly MainWindowViewModel _main;
     private readonly SessionService _session;
     private readonly ModulesService _module;
+    private readonly CourseApiService _course;
     private readonly NavigationService _navigationService;
     
     private List<ModuleProgressDto>? _modules;
@@ -35,18 +36,21 @@ public class CourseViewModel : ViewModelBase
     public ICommand GoBackCommand { get; }
     public ICommand GoModuleCommand { get; }
 
-    public CourseViewModel(MainWindowViewModel main, SessionService session, ModulesService modulesService, NavigationService navigationService)
+    public CourseViewModel(MainWindowViewModel main, SessionService session, ModulesService modulesService, CourseApiService courseService, NavigationService navigationService)
     {
         _main = main;
         _session = session;
         _module = modulesService;
+        _course = courseService;
         _navigationService = navigationService;
 
-        var course = _navigationService.CurrentCourse;
+        var courseId = _navigationService.CurrentCourseId;
 
-        _ = LoadModulesAsync(course.CourseId);
+        if(courseId != null)
+        {
+            _ = LoadDataAsync(courseId.Value);
+        }
 
-        CourseName = course.Title;
         
         GoBackCommand = new RelayCommand(() =>
         {
@@ -57,7 +61,7 @@ public class CourseViewModel : ViewModelBase
         {
             if (module != null && _session.IsAuthorized)
             {
-                _navigationService.CurrentModule = module;
+                _navigationService.CurrentModuleId = module.ModuleId;
                 _main.ShowModule();
             }
             else
@@ -67,9 +71,19 @@ public class CourseViewModel : ViewModelBase
         });
     }
     
-    private async Task LoadModulesAsync(int courseId)
+    private async Task LoadDataAsync(int courseId)
     {
-        Modules = await _module.GetModulesAsync(courseId);
-        Modules.OrderBy(x => x.OrderIndex).ToList();
+        var course = await _course.GetCourseByIdAsync(courseId);
+
+        if (course != null)
+        {
+            CourseName = course.Title;
+        }
+
+        var modules = await _module.GetModulesAsync(courseId);
+
+        Modules = modules
+            .OrderBy(x => x.OrderIndex)
+            .ToList();
     }
 }

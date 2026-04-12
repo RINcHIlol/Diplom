@@ -2,6 +2,7 @@
 using diplom.Services;
 using System.Threading.Tasks;
 using diplom.DTOs.Profile;
+using diplom.ViewModels.Tasks;
 using Task = System.Threading.Tasks.Task;
 using User = diplom.ModelsApi.User;
 
@@ -56,7 +57,10 @@ public class MainWindowViewModel : ViewModelBase
         var user = await _authService.GetMeAsync();
 
         if (user != null)
+        {
             _session.Login(user, _session.Token);
+            ShowMain();   
+        }
         else
             _session.Logout();
     }
@@ -88,16 +92,51 @@ public class MainWindowViewModel : ViewModelBase
 
     public void ShowCourse()
     {
-        CurrentView = new CourseViewModel(this, _session, _modulesService, _navigationService);
+        CurrentView = new CourseViewModel(this, _session, _modulesService, _courseApiService, _navigationService);
     }
 
     public void ShowModule()
     {
-        CurrentView = new ModulesViewModel(this, _session, _navigationService, _lessonsService);
+        CurrentView = new ModulesViewModel(this, _session, _navigationService, _lessonsService, _modulesService);
     }
 
     public void ShowLesson()
     {
         CurrentView = new LessonViewModel(this, _session, _navigationService, _taskService);
+    }
+
+    public void ShowConstructor()
+    {
+        CurrentView = new CreateTaskViewModel(this, _session, _navigationService, _taskService);
+    }
+
+    public void ShowCreatedCourses()
+    {
+        CurrentView = new CreatedCoursesViewModel(this, _session, _courseApiService, _navigationService);
+    }
+    
+    public void ShowCreateCourse()
+    {
+        CurrentView = new CreateCourseViewModel(this, _session, _courseApiService, _navigationService);
+    }
+    
+    public void ShowCreatedModules()
+    {
+        CurrentView = new CreatedModulesViewModel(this, _session, _modulesService, _navigationService);
+    }
+    
+    public void ShowCreateModule()
+    {
+        CurrentView = new CreateModuleViewModel(this, _session, _modulesService, _navigationService);
+    }
+
+    public void ShowCreatedLessons()
+    {
+        CurrentView = new CreatedLessonsViewModel(this, _session, _lessonsService, _navigationService);
+    }
+    
+    public void ShowCreateLesson()
+    {
+        CurrentView = new CreateLessonViewModel(this, _session, _lessonsService, _navigationService);
     }
 }

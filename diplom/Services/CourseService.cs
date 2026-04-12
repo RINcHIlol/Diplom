@@ -30,4 +30,63 @@ public class CourseApiService
             return new List<CourseProgressDto>();
         }
     }
+    
+    public async Task<List<CourseShortDto>> GetCoursesForCreatorAsync()
+    {
+        try
+        {
+            var courses = await _http.GetFromJsonAsync<List<CourseShortDto>>("api/courses/my");
+            return courses ?? new List<CourseShortDto>();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка загрузки курсов: {ex.Message}");
+            return new List<CourseShortDto>();
+        }
+    }
+    
+    public async Task<CourseShortDto?> GetCourseByIdAsync(int id)
+    {
+        try
+        {
+            return await _http.GetFromJsonAsync<CourseShortDto>($"api/courses/{id}");
+        }
+        catch
+        {
+            return null;
+        }
+    }
+    
+    public async Task<CourseShortDto?> CreateCourseAsync(CreateUpdateCourseDto dto)
+    {
+        try
+        {
+            var response = await _http.PostAsJsonAsync("api/courses", dto);
+
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            return await response.Content.ReadFromJsonAsync<CourseShortDto>();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка создания курса: {ex.Message}");
+            return null;
+        }
+    }
+    
+    public async Task<bool> UpdateCourseAsync(int courseId, CreateUpdateCourseDto dto)
+    {
+        try
+        {
+            var response = await _http.PutAsJsonAsync($"api/courses/{courseId}", dto);
+
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка обновления курса: {ex.Message}");
+            return false;
+        }
+    }
 }

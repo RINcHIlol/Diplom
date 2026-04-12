@@ -54,4 +54,51 @@ public class ModulesRepository : IModulesRepository
             };
         }).ToList();
     }
+    
+    public async Task<List<ModuleShortDTO>> GetMyModulesAsync(int courseId)
+    {
+        return await _context.Modules
+            .Where(x => x.CourseId == courseId)
+            .Select(c => new ModuleShortDTO
+            {
+                Id = c.Id,
+                Title = c.Title,
+                OrderIndex = c.OrderIndex,
+            })
+            .ToListAsync();
+    }
+    
+    public async Task<Module> CreateAsync(Module module)
+    {
+        _context.Modules.Add(module);
+        await _context.SaveChangesAsync();
+        return module;
+    }
+
+    public async Task<int> GetMaxOrderIndex(int courseId)
+    {
+        return await _context.Modules
+            .Where(x => x.CourseId == courseId)
+            .MaxAsync(x => (int?)x.OrderIndex) ?? 0;
+    }
+
+    public async Task<Module?> GetByIdAsync(int id)
+    {
+        return await _context.Modules.FirstOrDefaultAsync(c => c.Id == id);
+    }
+
+    public async Task UpdateAsync(Module module)
+    {
+        _context.Modules.Update(module);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> IsOwnerAsync(int moduleId, int userId)
+    {
+        return await _context.Modules
+            .AnyAsync(m =>
+                m.Id == moduleId &&
+                m.Course.CreatorUserId == userId
+            );
+    }
 }

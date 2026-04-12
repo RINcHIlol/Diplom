@@ -6,6 +6,9 @@
              xmlns:views="clr-namespace:diplom.Views"
              xmlns:tasks="clr-namespace:diplom.Views.Tasks"
              xmlns:vm1="clr-namespace:diplom.ViewModels.Tasks"
+             xmlns:createTasks="clr-namespace:diplom.ViewModels.CreateTasks"
+             xmlns:createTasks1="clr-namespace:diplom.Views.CreateTasks"
+             xmlns:services="clr-namespace:diplom.Services"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
@@ -19,6 +22,10 @@
                      <Setter Property="VerticalContentAlignment" Value="Center"/>
                  </Style>
              </Application.Styles>
+             
+             <Application.Resources>
+                 <services:BoolToTextConverter x:Key="BoolToTextConverter"/>
+             </Application.Resources>
              
              <Application.DataTemplates>
                  
@@ -60,6 +67,58 @@
 
                  <DataTemplate DataType="{x:Type vm1:CodingTaskViewModel}">
                      <tasks:CodingTaskView />
+                 </DataTemplate>
+                 
+                 <DataTemplate DataType="createTasks:TextQuestionCreateViewModel">
+                     <createTasks1:TextQuestionCreateView />
+                 </DataTemplate>
+
+                 <DataTemplate DataType="createTasks:SingleChoiceCreateViewModel">
+                     <createTasks1:SingleChoiceCreateView />
+                 </DataTemplate>
+                 
+                 <DataTemplate DataType="createTasks:MultipleChoiceCreateViewModel">
+                     <createTasks1:MultipleChoiceCreateView />
+                 </DataTemplate>
+                 
+                 <DataTemplate DataType="createTasks:OrderingCreateViewModel">
+                     <createTasks1:OrderingCreateView />
+                 </DataTemplate>
+                 
+                 <DataTemplate DataType="createTasks:MatchingCreateViewModel">
+                     <createTasks1:MatchingCreateView />
+                 </DataTemplate>
+                 
+                 <DataTemplate DataType="createTasks:TextCreateViewModel">
+                     <createTasks1:TextCreateView />
+                 </DataTemplate>
+                 
+                 <DataTemplate DataType="vm:CreateTaskViewModel">
+                     <views:CreateTaskView />
+                 </DataTemplate>
+                 
+                 <DataTemplate DataType="{x:Type vm:CreatedCoursesViewModel}">
+                     <views:CreatedCoursesView />
+                 </DataTemplate>
+                 
+                 <DataTemplate DataType="{x:Type vm:CreateCourseViewModel}">
+                     <views:CreateCourseView />
+                 </DataTemplate>
+                 
+                 <DataTemplate DataType="{x:Type vm:CreatedModulesViewModel}">
+                     <views:CreatedModulesView />
+                 </DataTemplate>
+                 
+                 <DataTemplate DataType="{x:Type vm:CreateModuleViewModel}">
+                     <views:CreateModuleView />
+                 </DataTemplate>
+                 
+                 <DataTemplate DataType="{x:Type vm:CreatedLessonsViewModel}">
+                     <views:CreatedLessonsView />
+                 </DataTemplate>
+                 
+                 <DataTemplate DataType="{x:Type vm:CreateLessonViewModel}">
+                     <views:CreateLessonView />
                  </DataTemplate>
 
              </Application.DataTemplates>

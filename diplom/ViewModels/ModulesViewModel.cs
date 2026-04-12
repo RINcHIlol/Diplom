@@ -15,6 +15,7 @@ public class ModulesViewModel : ViewModelBase
     private readonly MainWindowViewModel _main;
     private readonly SessionService _session;
     private readonly LessonsService _lesson;
+    private readonly ModulesService _modules;
     private readonly NavigationService _navigationService;
     
     private List<LessonProgressDto>? _lessons;
@@ -34,18 +35,18 @@ public class ModulesViewModel : ViewModelBase
     public ICommand GoBackCommand { get; }
     public ICommand GoLessonCommand { get; }
 
-    public ModulesViewModel(MainWindowViewModel main, SessionService session, NavigationService navigationService, LessonsService lessonsService)
+    public ModulesViewModel(MainWindowViewModel main, SessionService session, NavigationService navigationService, LessonsService lessonsService, ModulesService modulesService)
     {
         _main = main;
         _session = session;
         _lesson = lessonsService;
+        _modules = modulesService;
         _navigationService = navigationService;
 
-        var module = _navigationService.CurrentModule;
-        if (module != null)
+        var moduleId = _navigationService.CurrentModuleId;
+        if (moduleId != null)
         {
-            ModuleName = module.Title;
-            _ = LoadLessonsAsync(module.ModuleId);
+            _ = LoadLessonsAsync(moduleId.Value);
         }
         
         GoBackCommand = new RelayCommand(() =>
@@ -57,7 +58,7 @@ public class ModulesViewModel : ViewModelBase
         {
             if (lesson != null)
             {
-                _navigationService.CurrentLesson = lesson;
+                _navigationService.CurrentLessonId = lesson.LessonId;
                 _main.ShowLesson();
             }
         });
@@ -65,6 +66,13 @@ public class ModulesViewModel : ViewModelBase
     
     private async Task LoadLessonsAsync(int moduleId)
     {
+        var module = await _modules.GetModuleAsync(moduleId);
+        
+        if (module != null)
+        {
+            ModuleName = module.Title;
+        }
+        
         Lessons = await _lesson.GetLessonsAsync(moduleId); 
         Lessons = Lessons.OrderBy(x => x.OrderIndex).ToList(); 
     }

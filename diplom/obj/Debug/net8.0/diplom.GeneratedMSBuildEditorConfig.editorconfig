@@ -30,6 +30,45 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [/Users/rinchi/RiderProjects/diplom/diplom/Views/CourseView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateCourseView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreatedCoursesView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreatedLessonsView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreatedModulesView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateLessonView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateModuleView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateTasks/MatchingCreateView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateTasks/MultipleChoiceCreateView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateTasks/OrderingCreateView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateTasks/SingleChoiceCreateView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateTasks/TextCreateView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateTasks/TextQuestionCreateView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateTaskView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [/Users/rinchi/RiderProjects/diplom/diplom/Views/LessonView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 

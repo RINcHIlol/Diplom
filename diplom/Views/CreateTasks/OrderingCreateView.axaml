@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:diplom.ViewModels.CreateTasks"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="diplom.Views.CreateTasks.OrderingCreateView"
+             x:DataType="vm:OrderingCreateViewModel">
+    <StackPanel Spacing="10">
+
+        <TextBox Text="{Binding Question}" />
+
+        <ItemsControl ItemsSource="{Binding Items}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+
+                        <TextBox Text="{Binding Text}" Width="200"/>
+
+                        <Button Content="X"
+                                Click="RemoveClick"/>
+
+                    </StackPanel>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Button Content="Добавить"
+                Click="AddClick"/>
+
+    </StackPanel>
+</UserControl>

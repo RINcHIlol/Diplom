@@ -1,7 +1,9 @@
 using System.Security.Claims;
+using API.DTOs.Profile;
 using API.Models;
 using API.Services;
 using API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -12,13 +14,6 @@ public class CoursesController : ControllerBase
 {
     private readonly ICourseService _service;
     public CoursesController(ICourseService service) => _service = service;
-
-    // [HttpGet]
-    // public async Task<IActionResult> GetAll(User? user)
-    // {
-    //     var courses = await _service.GetCoursesAsync(user);
-    //     return Ok(courses);
-    // }
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -36,5 +31,52 @@ public class CoursesController : ControllerBase
         var courses = await _service.GetCoursesAsync(userId);
 
         return Ok(courses);
+    }
+    
+    [HttpGet("my")]
+    [Authorize]
+    public async Task<IActionResult> GetAllForCreator()
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        var courses = await _service.GetCoursesForCreatorAsync(userId);
+
+        return Ok(courses);
+    }
+    
+    [HttpGet("{courseId}")]
+    [Authorize]
+    public async Task<IActionResult> GetCourseById(int courseId)
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+    
+        var course = await _service.GetCourseAsync(courseId);
+    
+        return Ok(course);
+    }
+    
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> Create([FromBody] CreateUpdateCourseDto dto)
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        var course = await _service.CreateCourseAsync(userId, dto);
+
+        return Ok(course);
+    }
+
+    [HttpPut("{id}")]
+    [Authorize]
+    public async Task<IActionResult> Update(int id, [FromBody] CreateUpdateCourseDto dto)
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        var success = await _service.UpdateCourseAsync(userId, id, dto);
+
+        if (!success)
+            return NotFound();
+
+        return NoContent();
     }
 }

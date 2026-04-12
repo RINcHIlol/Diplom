@@ -34,4 +34,11 @@
         <PackageReference Include="ReactiveUI" Version="22.3.1" />
         <PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\CreateTasks\TextQuestionCreateView.axaml.cs">
+        <DependentUpon>TextQuestionCreateView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
 </Project>

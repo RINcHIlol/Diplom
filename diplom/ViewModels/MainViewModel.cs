@@ -22,6 +22,7 @@ public class MainViewModel : ViewModelBase
     public ICommand GoAuthCommand { get; }
     public ICommand GoCourseCommand { get; }
     public ICommand GoProfileCommand { get; }
+    public ICommand GoCreateButton { get; }
     
     public ObservableCollection<CourseProgressDto> Courses { get; } = new();
     private string _searchBox = "";
@@ -76,7 +77,7 @@ public class MainViewModel : ViewModelBase
         {
             if (course != null)
             {
-                _navigationService.CurrentCourse = course;
+                _navigationService.CurrentCourseId = course.CourseId;
                 _main.ShowCourse();
             }
         });
@@ -84,6 +85,15 @@ public class MainViewModel : ViewModelBase
         GoProfileCommand = new RelayCommand(() =>
         {
             _main.ShowProfile();
+        });
+        
+        GoCreateButton = new RelayCommand(() =>
+        {
+            if (IsAuthorized)
+            {
+                // _main.ShowConstructor();   
+                _main.ShowCreatedCourses();
+            }
         });
         
         _ = LoadCoursesAsync();

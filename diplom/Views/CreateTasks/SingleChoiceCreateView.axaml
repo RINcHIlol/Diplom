@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:diplom.ViewModels.CreateTasks"
+             xmlns:global="clr-namespace:"
+             x:Class="diplom.Views.CreateTasks.SingleChoiceCreateView"
+             x:DataType="vm:SingleChoiceCreateViewModel"
+             x:Name="Root"
+             Foreground="Black">
+
+    <StackPanel Spacing="10">
+
+        <TextBox Watermark="Вопрос"
+                 Text="{Binding Question}" />
+
+        <ItemsControl ItemsSource="{Binding Answers}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+
+                        <RadioButton
+                            IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+
+                        <TextBox Text="{Binding Text}" Width="200"/>
+
+                    </StackPanel>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Button Content="Добавить вариант"
+                Command="{Binding AddAnswerCommand}" />
+
+    </StackPanel>
+</UserControl>

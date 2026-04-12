@@ -3,6 +3,7 @@ using API.DTOs.Profile;
 using API.Models;
 using API.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Task = System.Threading.Tasks.Task;
 
 namespace API.Repositories;
 
@@ -61,5 +62,47 @@ public class CourseRepository : ICourseRepository
                 ProgressPercent = totalLessons == 0 ? 0 : (double)completedLessons / totalLessons * 100
             };
         }).ToList();
+    }
+    
+    public async Task<List<CourseShortDto>> GetMyCoursesAsync(int userId)
+    {
+        return await _context.Courses
+            .Where(c => c.CreatorUserId == userId)
+            .Select(c => new CourseShortDto
+            {
+                Id = c.Id,
+                Title = c.Title,
+                Description = c.Description,
+                Image = c.Image,
+                CreatedAt = c.CreatedAt
+            })
+            .ToListAsync();
+    }
+    
+    public async Task<Course> CreateAsync(Course course)
+    {
+        _context.Courses.Add(course);
+        await _context.SaveChangesAsync();
+        return course;
+    }
+
+    public async Task<Course?> GetByIdAsync(int id)
+    {
+        return await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+    }
+
+    public async Task UpdateAsync(Course course)
+    {
+        var existing = await _context.Courses
+            .FirstOrDefaultAsync(x => x.Id == course.Id);
+
+        if (existing == null)
+            return;
+
+        existing.Title = course.Title;
+        existing.Description = course.Description;
+        existing.Image = course.Image;
+
+        await _context.SaveChangesAsync();
     }
 }

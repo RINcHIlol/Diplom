@@ -69,27 +69,27 @@ public class LessonViewModel : ViewModelBase
     
     private async void LoadTasksAsync()
     {
-        if (_navigation.CurrentLesson == null)
+        if (_navigation.CurrentLessonId == null)
             return;
 
-        LessonName = _navigation.CurrentLesson.Title;
+        // LessonName = _navigation.CurrentLesson.Title;
 
         Tasks.Clear();
 
-        var lessonId = _navigation.CurrentLesson.LessonId;
+        var lesson = _navigation.CurrentLessonId;
 
-        var taskVMs = await _taskService.GetTasksAsync(lessonId);
-        var progress = await _taskService.GetTaskProgressAsync(lessonId);
+        var taskVMs = await _taskService.GetTasksAsync(lesson.Value);
+        var progress = await _taskService.GetTaskProgressAsync(lesson.Value);
 
         var progressMap = progress.ToDictionary(x => x.TaskId);
 
         foreach (var vm in taskVMs)
         {
-            Tasks.Add(vm); // ✅ сначала добавляем
+            Tasks.Add(vm);
 
             if (progressMap.TryGetValue(vm.Id, out var p))
             {
-                vm.IsCorrect = p.IsCorrect; // ✅ потом ставим
+                vm.IsCorrect = p.IsCorrect;
             }
             else
             {
@@ -100,40 +100,6 @@ public class LessonViewModel : ViewModelBase
         _currentIndex = 0;
         OnPropertyChanged(nameof(CurrentTask));
     }
-
-    // private async void LoadTasksAsync()
-    // {
-    //     if (_navigation.CurrentLesson == null) return;
-    //
-    //     LessonName = _navigation.CurrentLesson.Title;
-    //
-    //     var taskViewModels = await _taskService.GetTasksAsync(_navigation.CurrentLesson.LessonId);
-    //
-    //     foreach (var vm in taskViewModels)
-    //         Tasks.Add(vm);
-    //
-    //     _currentIndex = 0;
-    //
-    //     _lessonCompleted = await _taskService.IsLessonCompletedAsync(_navigation.CurrentLesson.LessonId);
-    //
-    //     if (_lessonCompleted)
-    //     {
-    //         foreach (var t in Tasks)
-    //             t.IsCorrect = true;
-    //     }
-    //     
-    //     var progress = await _taskService.GetTaskProgressAsync(_navigation.CurrentLesson.LessonId);
-    //
-    //     foreach (var task in Tasks)
-    //     {
-    //         var p = progress.FirstOrDefault(x => x.TaskId == task.Id);
-    //
-    //         if (p != null)
-    //             task.IsCorrect = p.IsCorrect;
-    //     }
-    //
-    //     OnPropertyChanged(nameof(CurrentTask));
-    // }
 
     private void CheckLessonCompletion()
     {

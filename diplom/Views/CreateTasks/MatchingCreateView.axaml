@@ -1,0 +1,51 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:diplom.ViewModels.CreateTasks"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="diplom.Views.CreateTasks.MatchingCreateView"
+             x:DataType="vm:MatchingCreateViewModel">
+
+    <StackPanel Spacing="20">
+
+        <TextBox Text="{Binding Question}" />
+
+        <StackPanel Orientation="Horizontal" Spacing="20">
+
+            <!-- LEFT -->
+            <StackPanel>
+                <ItemsControl ItemsSource="{Binding Left}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Text="{Binding Text}" Width="150"/>
+                                <Button Content="X" Click="RemoveLeftClicked"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <Button Content="Add Left" Click="AddLeftClicked"/>
+            </StackPanel>
+
+            <!-- RIGHT -->
+            <StackPanel>
+                <ItemsControl ItemsSource="{Binding Right}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Text="{Binding Text}" Width="150"/>
+                                <Button Content="X" Click="RemoveRightClicked"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <Button Content="Add Right" Click="AddRightClicked"/>
+            </StackPanel>
+
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>
