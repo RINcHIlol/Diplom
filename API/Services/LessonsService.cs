@@ -67,4 +67,15 @@ public class LessonsService : ILessonsService
     {
         return await _repository.IsOwnerAsync(lessonId, userId);
     }
+
+    public async Task<bool> DeleteAsync(int lessonId)
+    {
+        var lesson = await _repository.GetByIdAsync(lessonId);
+        
+        if (lesson == null)
+            return false;
+        
+        await _repository.DeleteAsync(lessonId);
+        return true;
+    }
 }

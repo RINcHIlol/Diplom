@@ -48,4 +48,19 @@ public class OrderingCreateViewModel : TaskCreateViewModel
             }).ToList()
         };
     }
+    
+    public override void LoadFromDto(TaskDto dto)
+    {
+        Question = dto.Question;
+
+        Items.Clear();
+
+        foreach (var item in dto.Answers.OrderBy(a => a.OrderIndex))
+        {
+            Items.Add(new AnswerOption
+            {
+                Text = item.AnswerText
+            });
+        }
+    }
 }

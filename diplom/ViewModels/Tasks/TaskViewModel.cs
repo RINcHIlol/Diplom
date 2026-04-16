@@ -9,6 +9,7 @@ public abstract class TaskViewModel : ViewModelBase
 {
     public int Id { get; set; }
     public string Question { get; set; }
+    public TaskDto Dto { get; set; }
 
     private bool? _isCorrect;
     public bool? IsCorrect

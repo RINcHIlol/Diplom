@@ -58,4 +58,33 @@ public class TasksController : ControllerBase
             IsCorrect = result
         });
     }
+    
+    [HttpPost("add")]
+    [Authorize]
+    public async Task<IActionResult> Create([FromBody] CreateTaskDto dto)
+    {
+        var lesson = await _service.CreateAsync(dto);
+
+        return Ok(lesson);
+    }
+    
+    [HttpPut("{id}")]
+    [Authorize]
+    public async Task<IActionResult> Update(int id, [FromBody] CreateTaskDto dto)
+    {
+        await _service.UpdateAsync(id, dto);
+        return Ok();
+    }
+    
+    [HttpGet("{id}")]
+    [Authorize]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var task = await _service.GetByIdAsync(id);
+
+        if (task == null)
+            return NotFound();
+
+        return Ok(task);
+    }
 }

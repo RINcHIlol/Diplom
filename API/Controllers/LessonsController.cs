@@ -76,4 +76,21 @@ public class LessonsController : ControllerBase
 
         return NoContent();
     }
+    
+    [HttpDelete("{lessonId}")]
+    [Authorize]
+    public async Task<IActionResult> Delete([FromRoute] int lessonId)
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        if (!await _service.IsOwnerAsync(lessonId, userId))
+            return Forbid();
+        
+        var success = await _service.DeleteAsync(lessonId);
+
+        if (!success)
+            return NotFound();
+
+        return NoContent();
+    }
 }

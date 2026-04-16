@@ -13,4 +13,5 @@ public interface ILessonsRepository
     Task<Lesson?> GetByIdAsync(int id);
     Task UpdateAsync(Lesson lesson);
     Task<bool> IsOwnerAsync(int moduleId, int userId);
+    Task DeleteAsync(int lessonId);
 }

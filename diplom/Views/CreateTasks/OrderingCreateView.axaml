@@ -19,6 +19,7 @@
                         <TextBox Text="{Binding Text}" Width="200"/>
 
                         <Button Content="X"
+                                Foreground="Black"
                                 Click="RemoveClick"/>
 
                     </StackPanel>
@@ -28,7 +29,8 @@
         </ItemsControl>
 
         <Button Content="Добавить"
-                Click="AddClick"/>
+                Click="AddClick"
+                Foreground="Black"/>
 
     </StackPanel>
 </UserControl>

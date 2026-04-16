@@ -49,4 +49,25 @@ public class SingleChoiceCreateViewModel : TaskCreateViewModel
 
         selected.IsCorrect = true;
     }
+    
+    public override void LoadFromDto(TaskDto dto)
+    {
+        Question = dto.Question;
+
+        Answers.Clear();
+
+        foreach (var answer in dto.Answers.OrderBy(a => a.OrderIndex))
+        {
+            var option = new AnswerOption
+            {
+                Text = answer.AnswerText,
+                IsCorrect = answer.IsCorrect,
+                IsSelected = answer.IsCorrect
+            };
+
+            option.SetOnSelected(Select);
+
+            Answers.Add(option);
+        }
+    }
 }

@@ -13,4 +13,5 @@ public class TaskDto
     public int OrderIndex { get; set; }
     public string? ExpectedOutput {get; set;}
     public List<TaskAnswerDto>? Answers { get; set; }
+    public List<MatchDto>? MatchingPairs { get; set; }
 }

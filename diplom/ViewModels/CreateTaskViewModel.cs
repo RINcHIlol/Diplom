@@ -1,5 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Avalonia.Data.Converters;
 using diplom.DTOs.Profile;
 using diplom.Services;
 using diplom.ViewModels.CreateTasks;
@@ -12,6 +17,28 @@ public class CreateTaskViewModel : ViewModelBase
     private readonly MainWindowViewModel _mainWindowViewModel;
     private readonly NavigationService _navigationService;
     private readonly SessionService _session;
+    
+    private bool _isEdit;
+    public bool IsEdit
+    {
+        get => _isEdit;
+        set => SetProperty(ref _isEdit, value);
+    }
+    
+    private string? _message;
+    public string? Message
+    {
+        get => _message;
+        set => SetProperty(ref _message, value);
+    }
+    
+    private string? _error;
+    public string? Error
+    {
+        get => _error;
+        set => SetProperty(ref _error, value);
+    }
+    public int EditingTaskId { get; set; }
 
     public List<TaskTypeItem> TaskTypes { get; } = new()
     {
@@ -23,7 +50,7 @@ public class CreateTaskViewModel : ViewModelBase
         new TaskTypeItem { Name = "Text", Id = 1 },
         // new TaskTypeItem { Name = "Coding", Id = 6 }
     };
-
+    
     public TaskTypeItem? SelectedTask { get; set; }
     
     private TaskCreateViewModel? _current;
@@ -34,7 +61,8 @@ public class CreateTaskViewModel : ViewModelBase
     }
 
     public ICommand ChangeTypeCommand => new RelayCommand(ChangeType);
-    public ICommand SaveCommand => new RelayCommand(Save);
+    public ICommand BackCommand { get; }
+    public ICommand SaveCommand { get; }
 
     public CreateTaskViewModel(MainWindowViewModel mainWindowViewModel, SessionService session, NavigationService navigationService, TaskService taskService)
     {
@@ -42,12 +70,24 @@ public class CreateTaskViewModel : ViewModelBase
         _mainWindowViewModel = mainWindowViewModel;
         _navigationService = navigationService;
         _session = session;
+
+        SaveCommand = new RelayCommand(() =>
+        {
+            Save();
+        });
+        BackCommand = new RelayCommand(() =>
+        {
+            Reset();
+            _mainWindowViewModel.ShowCreatedTasks();
+        });
     }
 
     private void ChangeType()
     {
         if (SelectedTask == null)
             return;
+        
+        Current = null;
 
         Current = SelectedTask.Id switch
         {
@@ -61,11 +101,187 @@ public class CreateTaskViewModel : ViewModelBase
         };
     }
 
+    // private async void Save()
+    // {
+    //     var dto = Current?.BuildDto();
+    //     if (dto == null) return;
+    //
+    //     dto.LessonId = _navigationService.CurrentLessonId!.Value;
+    //
+    //     await _taskService.CreateTaskAsync(dto);
+    // }
+    
+    //new
     private async void Save()
     {
-        var dto = Current?.BuildDto();
-        if (dto == null) return;
+        if (!Validate())
+            return;
 
-        // await _taskService.CreateTask(dto);
+        var dto = Current!.BuildDto();
+        dto.LessonId = _navigationService.CurrentLessonId!.Value;
+
+        try
+        {
+            if (IsEdit)
+            {
+                await _taskService.UpdateTaskAsync(EditingTaskId, dto);
+                Message = "Редактирование успешно";
+            }
+            else
+            {
+                await _taskService.CreateTaskAsync(dto);
+                Message = "Задача создана";
+            }
+
+            await Task.Delay(1200);
+
+            Reset();
+            Error = null;
+            Message = null;
+        }
+        catch (Exception ex)
+        {
+            Error = "Ошибка сохранения: " + ex.Message;
+        }
     }
+    
+    public async Task InitAsync()
+    {
+        if (_navigationService.CurrentTaskId == null)
+        {
+            Reset(); // 🔥 гарантированно чистый create mode
+            return;
+        }
+
+        var task = await _taskService.GetByIdTaskAsync(_navigationService.CurrentTaskId.Value);
+
+        if (task == null)
+        {
+            Reset();
+            return;
+        }
+
+        IsEdit = true;
+        EditingTaskId = task.Id;
+
+        SelectedTask = TaskTypes.FirstOrDefault(x => x.Id == task.TaskTypeId);
+        if (SelectedTask == null)
+        {
+            Reset();
+            return;
+        }
+
+        ChangeType();
+        Current?.LoadFromDto(task);
+    }
+    
+    public void Reset()
+    {
+        IsEdit = false;
+        EditingTaskId = 0;
+        SelectedTask = null;
+        Current = null;
+
+        _navigationService.CurrentTaskId = null; // 🔥 ВАЖНО
+
+        OnPropertyChanged(nameof(IsEdit));
+    }
+    
+    private bool Validate()
+    {
+        Error = null;
+
+        if (Current == null)
+        {
+            Error = "Не выбран тип задания";
+            return false;
+        }
+
+        // общий вопрос
+        if (string.IsNullOrWhiteSpace(Current.Question))
+        {
+            Error = "Введите вопрос";
+            return false;
+        }
+
+        var dto = Current.BuildDto();
+
+        if (dto == null)
+        {
+            Error = "Ошибка формирования задания";
+            return false;
+        }
+
+        // ❗ ответы
+        if (dto.Answers == null || dto.Answers.Count == 0)
+        {
+            Error = "Добавьте хотя бы один ответ";
+            return false;
+        }
+
+        // ❗ проверка пустых ответов
+        if (dto.Answers.Any(a => string.IsNullOrWhiteSpace(a.AnswerText)))
+        {
+            Error = "Есть пустые ответы";
+            return false;
+        }
+
+        // MATCHING
+        if (dto.TaskTypeId == 4)
+        {
+            if (dto.MatchingPairs == null || dto.MatchingPairs.Count == 0)
+            {
+                Error = "Добавьте пары для сопоставления";
+                return false;
+            }
+        }
+
+        // ORDERING
+        if (dto.TaskTypeId == 5)
+        {
+            if (dto.Answers.Count < 2)
+            {
+                Error = "Для сортировки нужно минимум 2 элемента";
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
+    public void InitForEdit(int taskId)
+    {
+        EditingTaskId = taskId;
+        IsEdit = true;
+    }
+    
+    public void LoadTask(TaskDto task)
+    {
+        if (task == null)
+            return;
+
+        EditingTaskId = task.Id;
+        IsEdit = true;
+
+        SelectedTask = TaskTypes.FirstOrDefault(x => x.Id == task.TaskTypeId);
+
+        if (SelectedTask == null)
+            return;
+
+        ChangeType();
+
+        if (Current == null)
+            return;
+
+        Current.LoadFromDto(task);
+    }
+}
+
+public class InverseBoolConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        => value is bool b && !b;
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        => value is bool b && !b;
 }

@@ -63,6 +63,35 @@ public class TaskService
         var response = await _http.GetFromJsonAsync<bool>($"api/tasks/lesson/{lessonId}/completed");
         return response;
     }
+    
+    public async Task CreateTaskAsync(CreateTaskDto dto)
+    {
+        var response = await _http.PostAsJsonAsync("api/tasks/add", dto);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            throw new Exception(error);
+        }
+    }
+    
+    
+    //new
+    public async Task UpdateTaskAsync(int taskId, CreateTaskDto dto)
+    {
+        var response = await _http.PutAsJsonAsync($"api/tasks/{taskId}", dto);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            throw new Exception(error);
+        }
+    }
+    
+    public async Task<TaskDto> GetByIdTaskAsync(int taskId)
+    {
+        return await _http.GetFromJsonAsync<TaskDto>($"api/tasks/{taskId}");
+    }
 }
 
 public class SubmitResponseDto

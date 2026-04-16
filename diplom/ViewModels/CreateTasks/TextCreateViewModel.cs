@@ -15,4 +15,15 @@ public class TextCreateViewModel : TaskCreateViewModel
             Question = Question,
         };
     }
+    
+    public string TextContent { get; set; }
+
+    public override void LoadFromDto(TaskDto dto)
+    {
+        Question = dto.Question;
+
+        TextContent = dto.Content ?? string.Empty;
+
+        OnPropertyChanged(nameof(TextContent));
+    }
 }

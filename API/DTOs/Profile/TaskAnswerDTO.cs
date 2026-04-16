@@ -6,6 +6,7 @@ public class TaskAnswerDto
     public string AnswerText { get; set; }
 
     public int OrderIndex { get; set; }
+    public bool IsCorrect { get; set; }
 
-    public int? MatchKey { get; set; } //пока null
+    public List<MatchingPairDTO>? MatchingPairs { get; set; }
 }

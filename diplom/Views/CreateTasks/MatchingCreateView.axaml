@@ -20,13 +20,14 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <TextBox Text="{Binding Text}" Width="150"/>
-                                <Button Content="X" Click="RemoveLeftClicked"/>
+                                <Button Content="X" Click="RemoveLeftClicked" Foreground="Black"/>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <Button Content="Add Left" Click="AddLeftClicked"/>
+                <Button Content="Добавить" Click="AddClicked" Foreground="Black"/>
+                <!-- <Button Content="Add Left" Click="AddLeftClicked" Foreground="Black"/> -->
             </StackPanel>
 
             <!-- RIGHT -->
@@ -36,13 +37,13 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <TextBox Text="{Binding Text}" Width="150"/>
-                                <Button Content="X" Click="RemoveRightClicked"/>
+                                <Button Content="X" Click="RemoveRightClicked" Foreground="Black"/>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <Button Content="Add Right" Click="AddRightClicked"/>
+                <!-- <Button Content="Add Right" Click="AddRightClicked" Foreground="Black"/> -->
             </StackPanel>
 
         </StackPanel>

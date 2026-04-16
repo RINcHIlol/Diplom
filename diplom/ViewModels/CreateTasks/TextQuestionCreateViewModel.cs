@@ -1,11 +1,24 @@
 using System.Collections.Generic;
+using System.Linq;
 using diplom.DTOs.Profile;
 
 namespace diplom.ViewModels.CreateTasks;
 
 public class TextQuestionCreateViewModel : TaskCreateViewModel
 {
-    public string CorrectAnswer { get; set; }
+    private string _correctAnswer;
+    public string CorrectAnswer
+    {
+        get => _correctAnswer;
+        set => SetProperty(ref _correctAnswer, value);
+    }
+
+    private string _userAnswer;
+    public string UserAnswer
+    {
+        get => _userAnswer;
+        set => SetProperty(ref _userAnswer, value);
+    }
 
     public override CreateTaskDto BuildDto()
     {
@@ -23,5 +36,16 @@ public class TextQuestionCreateViewModel : TaskCreateViewModel
                 }
             }
         };
+    }
+    
+    public override void LoadFromDto(TaskDto dto)
+    {
+        Question = dto.Question;
+        CorrectAnswer = dto.Answers.FirstOrDefault()?.AnswerText;
+
+
+        UserAnswer = string.Empty; // или dto.UserAnswer если есть
+
+        OnPropertyChanged(nameof(UserAnswer));
     }
 }

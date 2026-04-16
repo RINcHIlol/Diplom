@@ -45,7 +45,7 @@ public class AuthController : ControllerBase
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Login)
             }),
-            Expires = DateTime.UtcNow.AddMinutes(2), // потом поменять
+            Expires = DateTime.UtcNow.AddMinutes(180), // потом поменять
             SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)

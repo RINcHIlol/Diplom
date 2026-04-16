@@ -105,9 +105,12 @@ public class MainWindowViewModel : ViewModelBase
         CurrentView = new LessonViewModel(this, _session, _navigationService, _taskService);
     }
 
-    public void ShowConstructor()
+    public async void ShowCreateTask()
     {
-        CurrentView = new CreateTaskViewModel(this, _session, _navigationService, _taskService);
+        var vm = new CreateTaskViewModel(this, _session, _navigationService, _taskService);
+        CurrentView = vm;
+
+        await vm.InitAsync();
     }
 
     public void ShowCreatedCourses()
@@ -132,11 +135,16 @@ public class MainWindowViewModel : ViewModelBase
 
     public void ShowCreatedLessons()
     {
-        CurrentView = new CreatedLessonsViewModel(this, _session, _lessonsService, _navigationService);
+        CurrentView = new CreatedLessonsViewModel(this, _session, _lessonsService, _navigationService, _messageService);
     }
     
     public void ShowCreateLesson()
     {
         CurrentView = new CreateLessonViewModel(this, _session, _lessonsService, _navigationService);
+    }
+
+    public void ShowCreatedTasks()
+    {
+        CurrentView = new CreatedTasksViewModel(this, _session, _navigationService, _taskService, _lessonsService, _messageService);
     }
 }

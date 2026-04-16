@@ -27,4 +27,28 @@ public class MultipleChoiceCreateViewModel : TaskCreateViewModel
     
     public ICommand AddAnswerCommand => new RelayCommand(() =>
         Answers.Add(new AnswerOption()));
+    
+    public override void LoadFromDto(TaskDto dto)
+    {
+        Question = dto.Question;
+
+        Answers.Clear();
+
+        foreach (var answer in dto.Answers.OrderBy(a => a.OrderIndex))
+        {
+            var option = new AnswerOption
+            {
+                Text = answer.AnswerText,
+                IsCorrect = answer.IsCorrect,
+                IsSelected = answer.IsCorrect
+            };
+
+            option.SetOnSelected(_ =>
+            {
+                option.IsCorrect = !option.IsCorrect;
+            });
+
+            Answers.Add(option);
+        }
+    }
 }

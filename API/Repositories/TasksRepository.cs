@@ -20,31 +20,132 @@ public class TasksRepository : ITasksRepository
         _runner = runner;
     }
 
+    // public async Task<List<TaskDto>> GetByLessonIdAsync(int lessonId)
+    // {
+    //     var tasks = await _context.Tasks
+    //         .Where(t => t.LessonId == lessonId)
+    //         .Include(t => t.Answers)
+    //         .OrderBy(t => t.OrderIndex)
+    //         .ToListAsync();
+    //
+    //     return tasks.Select(t => new TaskDto
+    //     {
+    //         Id = t.Id,
+    //         TaskTypeId = t.TaskTypeId,
+    //         Question = t.Question,
+    //         Content = t.Content,
+    //         OrderIndex = t.OrderIndex,
+    //         Answers = t.Answers
+    //             .OrderBy(a => a.OrderIndex)
+    //             .Select(a => new TaskAnswerDto
+    //             {
+    //                 Id = a.Id,
+    //                 AnswerText = a.AnswerText,
+    //                 OrderIndex = a.OrderIndex
+    //             }).ToList()
+    //         
+    //     }).ToList();
+    // }
     public async Task<List<TaskDto>> GetByLessonIdAsync(int lessonId)
-    {
-        var tasks = await _context.Tasks
-            .Where(t => t.LessonId == lessonId)
-            .Include(t => t.Answers)
-            .OrderBy(t => t.OrderIndex)
-            .ToListAsync();
+{
+    var tasks = await _context.Tasks
+        .Where(t => t.LessonId == lessonId)
+        .ToListAsync();
 
-        return tasks.Select(t => new TaskDto
+    var taskIds = tasks.Select(t => t.Id).ToList();
+
+    var answers = await _context.TaskAnswers
+        .Where(a => taskIds.Contains(a.TaskId))
+        .ToListAsync();
+
+    var pairs = await _context.MatchingPairs
+        .Where(p => taskIds.Contains(p.TaskId))
+        .ToListAsync();
+
+    var result = new List<TaskDto>();
+
+    foreach (var task in tasks)
+    {
+        var taskAnswers = answers
+            .Where(a => a.TaskId == task.Id)
+            .ToList();
+
+        if (task.TaskTypeId == 4) // matching
         {
-            Id = t.Id,
-            TaskTypeId = t.TaskTypeId,
-            Question = t.Question,
-            Content = t.Content,
-            OrderIndex = t.OrderIndex,
-            Answers = t.Answers
-                .OrderBy(a => a.OrderIndex)
+            var taskPairs = pairs
+                .Where(p => p.TaskId == task.Id)
+                .ToList();
+
+            var leftIds = taskPairs.Select(p => p.LeftAnswerId).Distinct().ToList();
+            var rightIds = taskPairs.Select(p => p.RightAnswerId).Distinct().ToList();
+
+            var left = taskAnswers
+                .Where(a => leftIds.Contains(a.Id))
                 .Select(a => new TaskAnswerDto
                 {
                     Id = a.Id,
                     AnswerText = a.AnswerText,
-                    OrderIndex = a.OrderIndex
+                    IsCorrect = a.IsCorrect
+                })
+                .ToList();
+
+            var right = taskAnswers
+                .Where(a => rightIds.Contains(a.Id))
+                .Select(a => new TaskAnswerDto
+                {
+                    Id = a.Id,
+                    AnswerText = a.AnswerText,
+                    IsCorrect = a.IsCorrect
+                })
+                .ToList();
+
+            var dto = new TaskDto
+            {
+                Id = task.Id,
+                TaskTypeId = task.TaskTypeId,
+                Question = task.Question,
+                Content = task.Content,
+                OrderIndex = task.OrderIndex,
+
+                Answers = taskAnswers.Select(a => new TaskAnswerDto
+                {
+                    Id = a.Id,
+                    AnswerText = a.AnswerText,
+                    OrderIndex = a.OrderIndex,
+                    IsCorrect = a.IsCorrect
+                }).ToList(),
+
+                MatchingPairs = taskPairs.Select(p => new MatchDto
+                {
+                    LeftId = p.LeftAnswerId,
+                    RightId = p.RightAnswerId
                 }).ToList()
-        }).ToList();
+            };
+
+            result.Add(dto);
+        }
+        else
+        {
+            // обычные задания
+            var dto = new TaskDto
+            {
+                Id = task.Id,
+                Question = task.Question,
+                TaskTypeId = task.TaskTypeId,
+                Answers = taskAnswers.Select(a => new TaskAnswerDto
+                {
+                    Id = a.Id,
+                    AnswerText = a.AnswerText,
+                    IsCorrect = a.IsCorrect
+                }).ToList()
+            };
+
+            result.Add(dto);
+        }
     }
+
+    return result;
+}
 
     public async Task<bool> GetLessonCompletedAsync(int lessonId, int userId)
     {
@@ -238,5 +339,143 @@ public class TasksRepository : ITasksRepository
             .Replace("\r\n", "\n")
             .Replace("\r", "\n")
             .Trim();
+    }
+    
+    public async Task<int> GetNextOrderIndex(int lessonId)
+    {
+        var max = await _context.Tasks
+            .Where(t => t.LessonId == lessonId)
+            .MaxAsync(t => (int?)t.OrderIndex);
+
+        return (max ?? 0) + 1;
+    }
+    
+    public async Task<TaskEntity> CreateAsync(TaskEntity task)
+    {
+        _context.Tasks.Add(task);
+        await _context.SaveChangesAsync();
+        return task;
+    }
+
+    public async Task<List<TaskAnswer>> GetAnswersByTaskIdAsync(int taskId)
+    {
+        return await _context.TaskAnswers
+            .Where(a => a.TaskId == taskId)
+            .OrderBy(a => a.OrderIndex)
+            .ToListAsync();
+    }
+
+    public async Task AddAnswersAsync(List<TaskAnswer> answers)
+    {
+        await _context.TaskAnswers.AddRangeAsync(answers);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task AddPairsAsync(List<MatchingPair> pairs)
+    {
+        await _context.MatchingPairs.AddRangeAsync(pairs);
+        await _context.SaveChangesAsync();
+    }
+    
+    //new
+    public async Task UpdateAsync(int id, CreateTaskDto dto)
+    {
+        var task = await _context.Tasks
+            .Include(t => t.Answers)
+            .FirstOrDefaultAsync(t => t.Id == id);
+
+        if (task == null)
+            throw new Exception("Task not found");
+
+        task.Question = dto.Question;
+        task.Content = dto.Content;
+
+        // ❗ удаляем старые ответы
+        _context.TaskAnswers.RemoveRange(task.Answers);
+
+        await _context.SaveChangesAsync();
+
+        // ❗ создаём заново (как в Create)
+        var answers = dto.Answers.Select(a => new TaskAnswer
+        {
+            TaskId = id,
+            AnswerText = a.AnswerText,
+            IsCorrect = a.IsCorrect,
+            OrderIndex = a.OrderIndex
+        }).ToList();
+
+        await _context.TaskAnswers.AddRangeAsync(answers);
+        await _context.SaveChangesAsync();
+
+        // ❗ пары — тоже удалить и создать заново
+        var oldPairs = _context.MatchingPairs.Where(p => p.TaskId == id);
+        _context.MatchingPairs.RemoveRange(oldPairs);
+
+        if (dto.TaskTypeId == 4)
+        {
+            var ordered = answers
+                .OrderBy(a => a.OrderIndex)
+                .ToList();
+
+            int half = ordered.Count / 2;
+
+            var pairs = new List<MatchingPair>();
+
+            for (int i = 0; i < half; i++)
+            {
+                pairs.Add(new MatchingPair
+                {
+                    TaskId = id,
+                    LeftAnswerId = ordered[i].Id,
+                    RightAnswerId = ordered[i + half].Id
+                });
+            }
+
+            await _context.MatchingPairs.AddRangeAsync(pairs);
+        }
+
+        await _context.SaveChangesAsync();
+    }
+    
+    public async Task<TaskDto?> GetByIdAsync(int id)
+    {
+        var task = await _context.Tasks
+            .FirstOrDefaultAsync(t => t.Id == id);
+
+        if (task == null)
+            return null;
+
+        var answers = await _context.TaskAnswers
+            .Where(a => a.TaskId == id)
+            .ToListAsync();
+
+        var pairs = await _context.MatchingPairs
+            .Where(p => p.TaskId == id)
+            .ToListAsync();
+
+        return new TaskDto
+        {
+            Id = task.Id,
+            TaskTypeId = task.TaskTypeId,
+            Question = task.Question,
+            Content = task.Content,
+            OrderIndex = task.OrderIndex,
+
+            Answers = answers
+                .OrderBy(a => a.OrderIndex)
+                .Select(a => new TaskAnswerDto
+                {
+                    Id = a.Id,
+                    AnswerText = a.AnswerText,
+                    OrderIndex = a.OrderIndex,
+                    IsCorrect = a.IsCorrect
+                }).ToList(),
+
+            MatchingPairs = pairs.Select(p => new MatchDto
+            {
+                LeftId = p.LeftAnswerId,
+                RightId = p.RightAnswerId
+            }).ToList()
+        };
     }
 }

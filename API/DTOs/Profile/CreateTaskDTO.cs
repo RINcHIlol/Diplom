@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace diplom.DTOs.Profile;
+namespace API.DTOs.Profile;
 
 public class CreateTaskDto
 {

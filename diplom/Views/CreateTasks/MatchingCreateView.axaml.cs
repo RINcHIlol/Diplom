@@ -16,11 +16,26 @@ public partial class MatchingCreateView : UserControl
     private MatchingCreateViewModel VM =>
         (MatchingCreateViewModel)DataContext!;
 
+    private void AddClicked(object? sender, RoutedEventArgs e)
+    {
+        VM.AddLeft();
+        VM.AddRight();
+    }
+    
     private void AddLeftClicked(object? sender, RoutedEventArgs e)
         => VM.AddLeft();
 
     private void AddRightClicked(object? sender, RoutedEventArgs e)
         => VM.AddRight();
+    
+    private void RemoveClicked(object? sender, RoutedEventArgs e)
+    {
+        if (sender is Button b && b.DataContext is AnswerOption item)
+        {
+            VM.RemoveLeft(item);
+            VM.RemoveRight(item);
+        }
+    }
 
     private void RemoveLeftClicked(object? sender, RoutedEventArgs e)
     {

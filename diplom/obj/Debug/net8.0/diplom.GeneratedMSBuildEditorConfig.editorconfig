@@ -42,6 +42,9 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [/Users/rinchi/RiderProjects/diplom/diplom/Views/CreatedModulesView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreatedTasksView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateLessonView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 

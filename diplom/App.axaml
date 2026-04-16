@@ -57,6 +57,22 @@
                      <views:LessonView />
                  </DataTemplate>
                  
+                 <DataTemplate DataType="vm1:TextTaskViewModel">
+                     <tasks:TextTaskView Foreground="Black"/>
+                 </DataTemplate>
+
+                 <DataTemplate DataType="vm1:SingleChoiceTaskViewModel">
+                     <tasks:SingleChoiceTaskView Foreground="Black"/>
+                 </DataTemplate>
+
+                 <DataTemplate DataType="vm1:MultipleChoiceTaskViewModel">
+                     <tasks:MultipleChoiceTaskView Foreground="Black"/>
+                 </DataTemplate>
+        
+                 <DataTemplate DataType="vm1:TextQuestionTaskViewModel">
+                     <tasks:TextQuestionTaskView Foreground="Black"/>
+                 </DataTemplate>
+                 
                  <DataTemplate DataType="{x:Type vm1:MatchingTaskViewModel}">
                      <tasks:MathcingTaskView />
                  </DataTemplate>
@@ -119,6 +135,10 @@
                  
                  <DataTemplate DataType="{x:Type vm:CreateLessonViewModel}">
                      <views:CreateLessonView />
+                 </DataTemplate>
+                 
+                 <DataTemplate DataType="{x:Type vm:CreatedTasksViewModel}">
+                     <views:CreatedTasksView />
                  </DataTemplate>
 
              </Application.DataTemplates>

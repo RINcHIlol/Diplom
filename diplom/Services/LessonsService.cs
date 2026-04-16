@@ -105,4 +105,20 @@ public class LessonsService
             return false;
         }
     }
+    
+    public async Task<bool> DeleteLessonAsync(int lessonId)
+    {
+        try
+        {
+            var response = await _http.DeleteAsync(
+                $"api/modules/{1}/lessons/{lessonId}");
+
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"DeleteLessonAsync error: {ex.Message}");
+            return false;
+        }
+    }
 }

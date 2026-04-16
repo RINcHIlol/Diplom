@@ -88,4 +88,11 @@ public class LessonsRepository : ILessonsRepository
                 m.Module.Course.CreatorUserId == userId
             );
     }
+
+    public async Task DeleteAsync(int lessonId)
+    {
+        var lesson = await _context.Lessons.FirstOrDefaultAsync(c => c.Id == lessonId);
+        _context.Lessons.Remove(lesson);
+        await _context.SaveChangesAsync();
+    }
 }

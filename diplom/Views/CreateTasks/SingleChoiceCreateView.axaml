@@ -30,7 +30,7 @@
         </ItemsControl>
 
         <Button Content="Добавить вариант"
-                Command="{Binding AddAnswerCommand}" />
+                Command="{Binding AddAnswerCommand}" Foreground="Black"/>
 
     </StackPanel>
 </UserControl>

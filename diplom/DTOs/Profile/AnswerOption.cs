@@ -33,6 +33,8 @@ using diplom.ViewModels;
 
 public class AnswerOption : ViewModelBase
 {
+    public int TempId { get; set; } = Guid.NewGuid().GetHashCode();
+
     private string _text;
     public string Text
     {

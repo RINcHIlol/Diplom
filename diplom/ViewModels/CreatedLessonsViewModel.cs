@@ -13,6 +13,7 @@ public class CreatedLessonsViewModel : ViewModelBase
     private readonly SessionService _session;
     private readonly LessonsService _lessonsService;
     private readonly NavigationService _navigationService;
+    private readonly MessageService _messageService;
     
     public ObservableCollection<LessonShortDTO> Lessons { get; } = new();
     
@@ -21,12 +22,13 @@ public class CreatedLessonsViewModel : ViewModelBase
     public ICommand GoCreateLessonCommand { get; }
     public ICommand GoEditLessonCommand { get; }
     
-    public CreatedLessonsViewModel(MainWindowViewModel main, SessionService session, LessonsService lessonsService, NavigationService navigationService)
+    public CreatedLessonsViewModel(MainWindowViewModel main, SessionService session, LessonsService lessonsService, NavigationService navigationService,MessageService messageService)
     {
         _session = session;
         _main = main;
         _lessonsService = lessonsService;
         _navigationService = navigationService;
+        _messageService = messageService;
         
         GoBackCommand = new RelayCommand(() =>
         {
@@ -38,7 +40,7 @@ public class CreatedLessonsViewModel : ViewModelBase
             if (lesson != null)
             {
                 _navigationService.CurrentLessonId = lesson.Id;
-                // _main.ShowCreatedTasks();
+                _main.ShowCreatedTasks();
             }
         });
         
@@ -55,6 +57,7 @@ public class CreatedLessonsViewModel : ViewModelBase
         });
 
         _ = LoadLessonsAsync();
+        _ = OnAppearingAsync();
     }
     
     private async Task LoadLessonsAsync()
@@ -64,5 +67,15 @@ public class CreatedLessonsViewModel : ViewModelBase
         
         foreach (var lesson in lessons)
             Lessons.Add(lesson);
+    }
+    
+    public async Task OnAppearingAsync()
+    {
+        var msg = _messageService.GetMessage();
+
+        if (msg == "LessonsUpdated")
+        {
+            await LoadLessonsAsync();
+        }
     }
 }

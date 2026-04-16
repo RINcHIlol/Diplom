@@ -15,7 +15,7 @@ public class AppDbContext : DbContext
     public DbSet<Lesson> Lessons { get; set; }
     public DbSet<Task> Tasks { get; set; }
     public DbSet<TaskAnswer> TaskAnswers { get; set; }
-    public DbSet<MatchingPairs> MatchingPairs { get; set; }
+    public DbSet<MatchingPair> MatchingPairs { get; set; }
     public DbSet<UserProgress> UserProgresses { get; set; }
     public DbSet<UserTaskProgress> UserTaskProgress { get; set; }
     public DbSet<TaskType> TaskTypes { get; set; }

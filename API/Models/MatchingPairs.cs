@@ -1,6 +1,6 @@
 namespace API.Models;
 
-public class MatchingPairs
+public class MatchingPair
 {
     public int Id { get; set; }
     public int TaskId { get; set; }

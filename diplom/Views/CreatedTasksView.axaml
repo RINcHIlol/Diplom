@@ -1,39 +1,41 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:diplom.ViewModels"
              xmlns:tasks="clr-namespace:diplom.ViewModels.Tasks"
-             xmlns:views="clr-namespace:diplom.Views.Tasks"
-             xmlns:views1="clr-namespace:diplom.Views"
-             x:Class="diplom.Views.LessonView"
+             xmlns:tasks1="clr-namespace:diplom.Views.Tasks"
+             xmlns:views="clr-namespace:diplom.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="diplom.Views.CreatedTasksView"
              Foreground="Black"
-             x:DataType="vm:LessonViewModel">
-
+             x:DataType="vm:CreatedTasksViewModel">
     <UserControl.DataTemplates>
         <DataTemplate DataType="tasks:TextTaskViewModel">
-            <views:TextTaskView Foreground="Black"/>
+            <tasks1:TextTaskView Foreground="Black"/>
         </DataTemplate>
     
         <DataTemplate DataType="tasks:SingleChoiceTaskViewModel">
-            <views:SingleChoiceTaskView Foreground="Black"/>
+            <tasks1:SingleChoiceTaskView Foreground="Black"/>
         </DataTemplate>
     
         <DataTemplate DataType="tasks:MultipleChoiceTaskViewModel">
-            <views:MultipleChoiceTaskView Foreground="Black"/>
+            <tasks1:MultipleChoiceTaskView Foreground="Black"/>
         </DataTemplate>
     
         <DataTemplate DataType="tasks:TextQuestionTaskViewModel">
-            <views:TextQuestionTaskView Foreground="Black"/>
+            <tasks1:TextQuestionTaskView Foreground="Black"/>
         </DataTemplate>
     </UserControl.DataTemplates>
     
     <UserControl.Resources>
-        <views1:BoolToColorConverter x:Key="BoolToColorConverter"/>
+        <views:BoolToColorConverter x:Key="BoolToColorConverter"/>
     </UserControl.Resources>
-
+    
     <Grid ColumnDefinitions="200,*" RowDefinitions="50,*">
 
         <!-- HEADER -->
-        <Grid Grid.ColumnSpan="2" Background="#B0B0B0" ColumnDefinitions="*,*">
+        <Grid Grid.ColumnSpan="4" Background="#B0B0B0" ColumnDefinitions="*,*,*,*">
             <Button Grid.Column="0"
                     Content="← Назад"
                     Command="{Binding GoBackCommand}"
@@ -44,6 +46,16 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        Foreground="Black"/>
+            <Button Grid.Column="2"
+                    Content="Создать"
+                    Command="{Binding CreateCommand}"
+                    Margin="5"
+                    Foreground="Black"/>
+            <Button Grid.Column="3"
+                    Content="Удалить курс"
+                    Command="{Binding DeleteLessonCommand}"
+                    Margin="5"
+                    Foreground="Black"/>
         </Grid>
 
         <!-- SIDEBAR: список всех заданий -->
@@ -64,7 +76,9 @@
         <StackPanel Grid.Column="1" Grid.Row="1" Margin="10">
             <ContentControl Content="{Binding CurrentTask}" Margin="0,0,0,10"/>
             <TextBlock Text="{Binding ResultText}" FontSize="16" Margin="0,0,0,10" Foreground="Black"/>
-            <Button Content="Ответить" Command="{Binding SubmitCommand}" Width="120" Foreground="Black"/>
+            <Button Content="Изменить"
+                    Command="{Binding EditCommand}"
+                    CommandParameter="{Binding CurrentTask}" />
         </StackPanel>
 
     </Grid>
