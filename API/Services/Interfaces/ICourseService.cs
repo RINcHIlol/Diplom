@@ -11,4 +11,6 @@ public interface ICourseService
     Task<CourseShortDto> GetCourseAsync(int courseId);
     Task<Course> CreateCourseAsync(int userId, CreateUpdateCourseDto dto);
     Task<bool> UpdateCourseAsync(int userId, int courseId, CreateUpdateCourseDto dto);
+    Task<bool> IsOwnerAsync(int courseId, int userId);
+    Task<bool> DeleteAsync(int courseId);
 }

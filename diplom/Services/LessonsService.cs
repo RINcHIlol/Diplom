@@ -16,20 +16,6 @@ public class LessonsService
         _http = factory.CreateClient("Api");
     }
     
-    // public async Task<List<LessonProgressDto>> GetLessonsAsync(int moduleId)
-    // {
-    //     try
-    //     {
-    //         var lessons = await _http.GetFromJsonAsync<List<LessonProgressDto>>($"api/lessons/{moduleId}");
-    //         return lessons ?? new List<LessonProgressDto>();
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Console.WriteLine($"Ошибка загрузки модулей: {ex.Message}");
-    //         return new List<LessonProgressDto>();
-    //     }
-    // }
-    
     public async Task<List<LessonProgressDto>> GetLessonsAsync(int moduleId)
     {
         try

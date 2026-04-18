@@ -46,6 +46,7 @@ sealed class Program
         services.AddTransient<ModulesService>();
         services.AddTransient<LessonsService>();
         services.AddTransient<TaskService>();
+        services.AddTransient<ProgressService>();
 
         services.AddTransient<MainWindowViewModel>();
 

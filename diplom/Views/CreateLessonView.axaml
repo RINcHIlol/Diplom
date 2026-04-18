@@ -7,7 +7,7 @@
              x:Class="diplom.Views.CreateLessonView"
              x:DataType="vm:CreateLessonViewModel">
     <UserControl.Styles>
-
+        
         <Style Selector="TextBox">
             <Setter Property="Background" Value="#F2F2F2"/>
             <Setter Property="Foreground" Value="#000000"/>
@@ -27,45 +27,51 @@
     
     <Border>
         <StackPanel Margin="40" Spacing="10">
-    
             <TextBlock Text="{Binding IsEdit, Converter={StaticResource BoolToTextConverter},
                                      ConverterParameter='Редактирование модуля|Создание модуля'}"
                        FontSize="24"
                        FontWeight="Bold"
                        Foreground="#222"/>
-
             <TextBlock Text="Название"
                        Foreground="#444"
                        FontSize="14"/>
-
             <TextBox Text="{Binding Title}"
                      BorderThickness="1"
                      Padding="8"
                      CornerRadius="6"/>
-            
             <TextBlock Text="Контент"
                        Foreground="#444"
                        FontSize="14"/>
-
             <TextBox Text="{Binding Content}"
                      BorderThickness="1"
                      Padding="8"
                      CornerRadius="6"/>
-    
+            <TextBlock Text="{Binding ErrorMsg}"
+                       Foreground="Red"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       IsVisible="{Binding IsError}"
+                       Padding="8"/>
             <StackPanel Orientation="Horizontal" Spacing="10">
                 <Button Content="Сохранить"
+                        Margin="0,0,10,0" 
                         Background="#D3D3D3"
                         BorderBrush="Black"
                         Foreground="Black"
+                        BorderThickness="1"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
                         Command="{Binding SaveCommand}"/>
-    
                 <Button Content="Назад"
+                        Margin="0,0,10,0" 
                         Background="#D3D3D3"
                         BorderBrush="Black"
                         Foreground="Black"
+                        BorderThickness="1"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
                         Command="{Binding BackCommand}"/>
             </StackPanel>
-    
         </StackPanel>
     </Border>
 </UserControl>

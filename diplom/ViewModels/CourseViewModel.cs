@@ -1,13 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using diplom.DTOs.Profile;
-using diplom.ModelsApi;
 using diplom.Services;
-using diplom.ViewModels;
 
 namespace diplom.ViewModels;
 

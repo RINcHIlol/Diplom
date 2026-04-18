@@ -10,31 +10,32 @@
              x:DataType="vm:CreatedLessonsViewModel">
     <Border Background="#FFE4C4">
         <Grid>
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>  
                 <RowDefinition Height="50"/>  
                 <RowDefinition Height="*"/> 
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Background="#B0B0B0">
+            <Grid Grid.Row="0" Background="#B0B0B0"
+                  IsVisible="{Binding Lessons.Count, Converter={StaticResource NotZeroToBoolConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Button Content="Назад" 
-                        Margin="0,0,10,0" 
+                <Button Content="← Назад"
                         Background="#D3D3D3"
                         BorderBrush="Black"
                         Foreground="Black"
-                        BorderThickness="1"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
+                        Margin="10,0"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
                         Command="{Binding GoBackCommand}"/>
-                
-                <Button Content="Создать урок" 
-                        Grid.Column="3" 
-                        Margin="0,0,10,0" 
+                <Button Content="Создать урок"
+                        Grid.Column="3"
+                        Margin="0,0,10,0"
                         Background="#D3D3D3"
                         BorderBrush="Black"
                         Foreground="Black"
@@ -42,17 +43,24 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         Command="{Binding GoCreateLessonCommand}"/>
+                <Button Grid.Column="4"
+                        Content="Удалить модуль"
+                        Command="{Binding DeleteModuleCommand}"
+                        Margin="5"
+                        Foreground="Black"/>
             </Grid>
-            <ScrollViewer Grid.Row="2" Margin="20,10">
-                <ItemsControl ItemsSource="{Binding Lessons}">
+            <ScrollViewer Grid.Row="2" Margin="20,10" HorizontalAlignment="Center">
+                <ItemsControl ItemsSource="{Binding Lessons}"
+                              IsVisible="{Binding Lessons.Count, Converter={StaticResource NotZeroToBoolConverter}}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" ItemWidth="380" ItemHeight="200" />
+                            <WrapPanel />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="dto:LessonShortDTO">
-                            <Border Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10">
+                            <Border Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10"
+                                    Width="{Binding #CreatedLessons.Bounds.Width, Converter={StaticResource WidthToCardWidthConverter}}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
@@ -64,17 +72,25 @@
                                     <DockPanel Grid.Row="1" LastChildFill="False">
                                         <Button Content="Заполнить"
                                                 DockPanel.Dock="Right"
+                                                Margin="0,0,10,0"
                                                 Background="#D3D3D3"
                                                 BorderBrush="Black"
+                                                Foreground="Black"
                                                 BorderThickness="1"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
                                                 x:CompileBindings="False"
                                                 Command="{Binding DataContext.GoLessonCommand, ElementName=CreatedLessons}"
                                                 CommandParameter="{Binding}" />
                                         <Button Content="Редактировать"
                                                 DockPanel.Dock="Right"
+                                                Margin="0,0,10,0"
                                                 Background="#D3D3D3"
                                                 BorderBrush="Black"
+                                                Foreground="Black"
                                                 BorderThickness="1"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
                                                 x:CompileBindings="False"
                                                 Command="{Binding DataContext.GoEditLessonCommand, ElementName=CreatedLessons}"
                                                 CommandParameter="{Binding}" />
@@ -85,6 +101,48 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
+            </Grid>
+            <StackPanel IsVisible="{Binding Lessons.Count, Converter={StaticResource ZeroToBoolConverter}}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Spacing="15">
+                <TextBlock Text="📖" FontSize="64" HorizontalAlignment="Center"/>
+                <TextBlock Text="Уроков пока нет" FontSize="22" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center"/>
+                <TextBlock Text="Создайте первый урок"
+                           HorizontalAlignment="Center"
+                           Foreground="Black"
+                           Opacity="0.7"/>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button Content="← Назад"
+                            Margin="0,0,10,0"
+                            Background="#D3D3D3"
+                            BorderBrush="Black"
+                            Foreground="Black"
+                            BorderThickness="1"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Command="{Binding GoBackCommand}"/>
+                    <Button Content="Создать урок"
+                            Margin="0,0,10,0"
+                            Background="#D3D3D3"
+                            BorderBrush="Black"
+                            Foreground="Black"
+                            BorderThickness="1"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Command="{Binding GoCreateLessonCommand}"/>
+                    <Button Content="Удалить модуль"
+                            Margin="0,0,10,0"
+                            Background="#D3D3D3"
+                            BorderBrush="Black"
+                            Foreground="Black"
+                            BorderThickness="1"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Command="{Binding  DeleteModuleCommand}"
+                            Width="160"/>
+                </StackPanel>
+            </StackPanel>
         </Grid>
     </Border>
 </UserControl>

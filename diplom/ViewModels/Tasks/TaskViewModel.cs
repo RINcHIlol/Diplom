@@ -8,6 +8,8 @@ namespace diplom.ViewModels.Tasks;
 public abstract class TaskViewModel : ViewModelBase
 {
     public int Id { get; set; }
+    public int OrderIndex { get; set; }
+    public int DisplayIndex { get; set; }
     public string Question { get; set; }
     public TaskDto Dto { get; set; }
 

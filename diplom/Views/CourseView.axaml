@@ -9,6 +9,7 @@
              x:Class="diplom.Views.CourseView"
              x:DataType="vm:CourseViewModel">
     <Grid>
+        <Grid IsVisible="{Binding Modules.Count, Converter={StaticResource NotZeroToBoolConverter}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
@@ -23,18 +24,25 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left"
                     Command="{Binding GoBackCommand}"/>
-            <TextBlock Grid.Column="1" Text="{Binding CourseName}"/>
+            <TextBlock Grid.Column="1"
+                       Text="{Binding CourseName}"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       Foreground="Black"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
         </Grid>
-        <ScrollViewer Grid.Row="1" Margin="20,10">
+        <ScrollViewer Grid.Row="1" Margin="20,10" HorizontalAlignment="Center">
                 <ItemsControl ItemsSource="{Binding Modules}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" ItemWidth="380" ItemHeight="200" />
+                            <WrapPanel Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="dto:ModuleProgressDto">
-                            <Border Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10">
+                            <Border Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10"
+                                    Width="{Binding #CourseWin.Bounds.Width, Converter={StaticResource WidthToCardWidthConverter}}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
@@ -52,9 +60,13 @@
                                         </TextBlock>
                                         <Button Content="Перейтки к модулю"
                                                 DockPanel.Dock="Right"
+                                                Margin="0,0,10,0" 
                                                 Background="#D3D3D3"
                                                 BorderBrush="Black"
+                                                Foreground="Black"
                                                 BorderThickness="1"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
                                                 x:CompileBindings="False"
                                                 Command="{Binding DataContext.GoModuleCommand, ElementName=CourseWin}"
                                                 CommandParameter="{Binding}" />
@@ -65,5 +77,30 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
+        </Grid>
+        <StackPanel IsVisible="{Binding Modules.Count, Converter={StaticResource ZeroToBoolConverter}}"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Spacing="15">
+            <TextBlock Text="🚧" FontSize="64" HorizontalAlignment="Center"/>
+            <TextBlock Text="Урок в разработке"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       Foreground="Black"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Задания скоро появятся"
+                       Foreground="Black"
+                       Opacity="0.7"
+                       HorizontalAlignment="Center"/>
+            <Button Content="← Назад"
+                    Margin="0,0,10,0"
+                    Background="#D3D3D3"
+                    BorderBrush="Black"
+                    Foreground="Black"
+                    BorderThickness="1"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Command="{Binding GoBackCommand}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

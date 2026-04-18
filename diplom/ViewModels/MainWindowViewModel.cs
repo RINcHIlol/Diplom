@@ -28,8 +28,9 @@ public class MainWindowViewModel : ViewModelBase
     private readonly ModulesService _modulesService;
     private readonly LessonsService _lessonsService;
     private readonly TaskService _taskService;
+    private readonly ProgressService _progressService;
     
-    public MainWindowViewModel(SessionService session, AuthService authService, ProfileService profileService, RegService regService, MessageService messageService, CourseApiService courseApiService, ModulesService modulesService, NavigationService navigationService, LessonsService lessonsService, TaskService taskService)
+    public MainWindowViewModel(SessionService session, AuthService authService, ProfileService profileService, RegService regService, MessageService messageService, CourseApiService courseApiService, ModulesService modulesService, NavigationService navigationService, LessonsService lessonsService, TaskService taskService, ProgressService progressService)
     {
         _session = session;
         _authService = authService;
@@ -42,6 +43,7 @@ public class MainWindowViewModel : ViewModelBase
         _modulesService = modulesService;
         _lessonsService = lessonsService;
         _taskService = taskService;
+        _progressService = progressService;
 
         ShowMain();
         _ = TryRestoreSessionAsync();
@@ -82,7 +84,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public void ShowProfile()
     {
-        CurrentView = new ProfileViewModel(this, _session, _profileService);
+        CurrentView = new ProfileViewModel(this, _session, _profileService, _navigationService);
     }
 
     public void ShowReg()
@@ -102,12 +104,12 @@ public class MainWindowViewModel : ViewModelBase
 
     public void ShowLesson()
     {
-        CurrentView = new LessonViewModel(this, _session, _navigationService, _taskService);
+        CurrentView = new LessonViewModel(this, _session, _navigationService, _taskService, _progressService);
     }
 
     public async void ShowCreateTask()
     {
-        var vm = new CreateTaskViewModel(this, _session, _navigationService, _taskService);
+        var vm = new CreateTaskViewModel(this, _session, _navigationService, _taskService, _messageService);
         CurrentView = vm;
 
         await vm.InitAsync();
@@ -115,7 +117,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public void ShowCreatedCourses()
     {
-        CurrentView = new CreatedCoursesViewModel(this, _session, _courseApiService, _navigationService);
+        CurrentView = new CreatedCoursesViewModel(this, _session, _courseApiService, _navigationService, _messageService);
     }
     
     public void ShowCreateCourse()
@@ -125,7 +127,7 @@ public class MainWindowViewModel : ViewModelBase
     
     public void ShowCreatedModules()
     {
-        CurrentView = new CreatedModulesViewModel(this, _session, _modulesService, _navigationService);
+        CurrentView = new CreatedModulesViewModel(this, _session, _modulesService, _navigationService, _messageService, _courseApiService);
     }
     
     public void ShowCreateModule()
@@ -135,7 +137,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public void ShowCreatedLessons()
     {
-        CurrentView = new CreatedLessonsViewModel(this, _session, _lessonsService, _navigationService, _messageService);
+        CurrentView = new CreatedLessonsViewModel(this, _session, _lessonsService, _navigationService, _messageService, _modulesService);
     }
     
     public void ShowCreateLesson()
@@ -146,5 +148,10 @@ public class MainWindowViewModel : ViewModelBase
     public void ShowCreatedTasks()
     {
         CurrentView = new CreatedTasksViewModel(this, _session, _navigationService, _taskService, _lessonsService, _messageService);
+    }
+    
+    public void ShowEditProfile()
+    {
+        CurrentView = new EditProfileViewModel(this, _session, _authService);
     }
 }

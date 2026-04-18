@@ -9,7 +9,7 @@
              xmlns:createTasks="clr-namespace:diplom.ViewModels.CreateTasks"
              xmlns:createTasks1="clr-namespace:diplom.Views.CreateTasks"
              xmlns:services="clr-namespace:diplom.Services"
-             RequestedThemeVariant="Default">
+             RequestedThemeVariant="Dark">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
              <Application.Styles>
@@ -25,7 +25,11 @@
              
              <Application.Resources>
                  <services:BoolToTextConverter x:Key="BoolToTextConverter"/>
+                 <views:ZeroToBoolConverter x:Key="ZeroToBoolConverter"/>
+                 <views:NotZeroToBoolConverter x:Key="NotZeroToBoolConverter"/>
+                 <views:WidthToCardWidthConverter x:Key="WidthToCardWidthConverter"/>
              </Application.Resources>
+             
              
              <Application.DataTemplates>
                  
@@ -139,6 +143,10 @@
                  
                  <DataTemplate DataType="{x:Type vm:CreatedTasksViewModel}">
                      <views:CreatedTasksView />
+                 </DataTemplate>
+                 
+                 <DataTemplate DataType="{x:Type vm:EditProfileViewModel}">
+                     <views:EditProfileView />
                  </DataTemplate>
 
              </Application.DataTemplates>

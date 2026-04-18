@@ -10,4 +10,6 @@ public interface IUserService
     Task<User> GetUserByLoginAsync(string login);
     Task<User> GetUserByEmailAsync(string email);
     Task AddUserAsync(User user);
+    Task<bool> UpdateUserAsync(int userId, RegRequest user);
+    Task<bool> UpdateXpAsync(int xp, int userId);
 }

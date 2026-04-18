@@ -25,19 +25,31 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Название" 
-                           VerticalAlignment="Center" 
-                           Margin="10,0"
-                           FontSize="20" 
-                           Foreground="Black"/>
                 
-                <TextBlock Text="{Binding UserDisplayName}"
-                           Grid.Column="2" 
-                           FontWeight="Bold"
-                           VerticalAlignment="Center"/>
+                <StackPanel Orientation="Vertical" Grid.Column="0" Margin="20, 0, 0, 0">
+                    <TextBlock Text="Добро пожаловать,"
+                               FontSize="12"
+                               Foreground="Black"/>
+                    <TextBlock Text="{Binding UserDisplayName}"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="Black"/>
+                </StackPanel>
                 
-                <Button Content="Profile" 
+                <Button Content="Создать" 
                         Grid.Column="3" 
+                        Margin="0,0,10,0" 
+                        Background="#D3D3D3"
+                        BorderBrush="Black"
+                        Foreground="Black"
+                        BorderThickness="1"
+                        HorizontalContentAlignment="Center"
+                        IsVisible="{Binding IsAuthorized}"
+                        VerticalContentAlignment="Center"
+                        Command="{Binding GoCreateButton}"/>
+                
+                <Button Content="Профиль" 
+                        Grid.Column="4" 
                         Margin="0,0,10,0" 
                         Background="#D3D3D3"
                         BorderBrush="Black"
@@ -49,17 +61,6 @@
                         Command="{Binding GoProfileCommand}"/>
                 
                 <Button Content="{Binding AuthButtonText}" 
-                        Grid.Column="4" 
-                        Margin="0,0,10,0" 
-                        Background="#D3D3D3"
-                        BorderBrush="Black"
-                        Foreground="Black"
-                        BorderThickness="1"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        Command="{Binding GoAuthCommand}"/>
-                
-                <Button Content="Create" 
                         Grid.Column="5" 
                         Margin="0,0,10,0" 
                         Background="#D3D3D3"
@@ -68,29 +69,24 @@
                         BorderThickness="1"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Command="{Binding GoCreateButton}"/>
+                        Command="{Binding GoAuthCommand}"/>
             </Grid>
             <Grid Grid.Row="1" Background="#D3D3D3">
                 <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBox Width="150" Height="25" Watermark="Поиск курса" Text="{Binding SearchBox}"/>
-                    <ComboBox Width="150" Height="25">
-                        <ComboBoxItem Content="Фильтр"/>
-                        <ComboBoxItem Content="Программирование"/>
-                        <ComboBoxItem Content="Дизайн"/>
-                        <ComboBoxItem Content="Маркетинг"/>
-                    </ComboBox>
                 </StackPanel>
             </Grid>
-            <ScrollViewer Grid.Row="2" Margin="20,10">
+            <ScrollViewer Grid.Row="2" Margin="20,10" HorizontalAlignment="Center">
                 <ItemsControl ItemsSource="{Binding Courses}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" ItemWidth="380" ItemHeight="200" />
+                            <WrapPanel Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="dto:CourseProgressDto">
-                            <Border Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10">
+                            <Border Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10"
+                                    Width="{Binding #Root.Bounds.Width, Converter={StaticResource WidthToCardWidthConverter}}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
@@ -101,11 +97,6 @@
                                         <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Foreground="Black" Margin="0,5,0,5"/>
                                     </StackPanel>
                                     <DockPanel Grid.Row="1" LastChildFill="False">
-                                        <!-- <TextBlock VerticalAlignment="Center" Foreground="Black"> -->
-                                        <!--     <Run Text="Пройдено "/> -->
-                                        <!--     <Run Text="{Binding ProgressPercent}"/> -->
-                                        <!--     <Run Text=" %"/> -->
-                                        <!-- </TextBlock> -->
                                         <TextBlock VerticalAlignment="Center" Foreground="Black">
                                             <Run Text="Пройдено "/>
                                             <Run Text="{Binding CompletedLessons}"/>
@@ -116,6 +107,7 @@
                                                 DockPanel.Dock="Right"
                                                 Background="#D3D3D3"
                                                 BorderBrush="Black"
+                                                Foreground="Black"
                                                 BorderThickness="1"
                                                 x:CompileBindings="False"
                                                 Command="{Binding DataContext.GoCourseCommand, ElementName=Root}"

@@ -52,6 +52,5 @@ public class OrderingTaskViewModel : TaskViewModel
 
     public override void Submit()
     {
-        // порядок = SelectedItems
     }
 }

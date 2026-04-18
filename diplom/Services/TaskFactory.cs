@@ -16,13 +16,15 @@ public static class TaskFactory
             (int)TaskType.Text => new TextTaskViewModel
             {
                 Id = dto.Id,
-                Question = dto.Question
+                Question = dto.Question,
+                OrderIndex = dto.OrderIndex
             },
 
             (int)TaskType.SingleChoice => new SingleChoiceTaskViewModel
             {
                 Id = dto.Id,
                 Question = dto.Question,
+                OrderIndex = dto.OrderIndex,
                 Answers = dto.Answers.Select(a => new SelectableAnswer
                 {
                     Id = a.Id,
@@ -34,6 +36,7 @@ public static class TaskFactory
             {
                 Id = dto.Id,
                 Question = dto.Question,
+                OrderIndex = dto.OrderIndex,
                 Answers = dto.Answers.Select(a => new SelectableAnswer
                 {
                     Id = a.Id,
@@ -47,6 +50,7 @@ public static class TaskFactory
             {
                 Id = dto.Id,
                 Question = dto.Question,
+                OrderIndex = dto.OrderIndex,
                 Items = new ObservableCollection<SelectableAnswer>(
                     dto.Answers
                         .OrderBy(_ => Guid.NewGuid())
@@ -62,11 +66,13 @@ public static class TaskFactory
             {
                 Id = dto.Id,
                 Question = dto.Question,
+                OrderIndex = dto.OrderIndex,
             },
             
             (int)TaskType.TextQuestion => new TextQuestionTaskViewModel()
             {
                 Id = dto.Id,
+                OrderIndex = dto.OrderIndex,
                 Question = dto.Question
             },
             
@@ -95,18 +101,24 @@ public static class TaskFactory
                 Text = a.AnswerText
             })
             .ToList();
+        
+        var rnd = new Random();
+        var shuffledRight = rightItems
+            .OrderBy(x => rnd.Next())
+            .ToList();
 
         var pairs = leftItems.Select(l => new MatchingPair
         {
             Left = l,
-            RightItems = rightItems
+            RightItems = shuffledRight
         }).ToList();
 
         return new MatchingTaskViewModel
         {
             Id = dto.Id,
+            OrderIndex = dto.OrderIndex,
             Question = dto.Question,
-            RightItems = rightItems,
+            RightItems = shuffledRight,
             Pairs = pairs
         };
     }

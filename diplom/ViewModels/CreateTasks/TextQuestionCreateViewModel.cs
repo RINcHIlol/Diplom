@@ -44,7 +44,7 @@ public class TextQuestionCreateViewModel : TaskCreateViewModel
         CorrectAnswer = dto.Answers.FirstOrDefault()?.AnswerText;
 
 
-        UserAnswer = string.Empty; // или dto.UserAnswer если есть
+        UserAnswer = string.Empty;
 
         OnPropertyChanged(nameof(UserAnswer));
     }

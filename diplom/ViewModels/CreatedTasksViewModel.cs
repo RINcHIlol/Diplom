@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using diplom.DTOs.Profile;
@@ -20,7 +22,9 @@ public class CreatedTasksViewModel : ViewModelBase
     public ObservableCollection<TaskViewModel> Tasks { get; } = new();
 
     private int _currentIndex = 0;
-
+    private bool _isLoading;
+    private readonly SemaphoreSlim _loadLock = new(1, 1);
+    
     public TaskViewModel? CurrentTask
     {
         get => _currentIndex >= 0 && _currentIndex < Tasks.Count ? Tasks[_currentIndex] : null;
@@ -83,29 +87,55 @@ public class CreatedTasksViewModel : ViewModelBase
         });
 
         LoadTasksAsync();
+        _ = OnAppearingAsync();
     }
     
-    private async void LoadTasksAsync()
+    private async Task LoadTasksAsync()
     {
         if (_navigation.CurrentLessonId == null)
             return;
-        
-        Tasks.Clear();
 
-        var lesson = _navigation.CurrentLessonId;
+        await _loadLock.WaitAsync();
 
-        var taskVMs = await _taskService.GetTasksAsync(lesson.Value);
-        var progress = await _taskService.GetTaskProgressAsync(lesson.Value);
-
-        var progressMap = progress.ToDictionary(x => x.TaskId);
-
-        foreach (var vm in taskVMs)
+        try
         {
-            Tasks.Add(vm);
-            vm.IsCorrect = null;
-        }
+            var lessonId = _navigation.CurrentLessonId.Value;
 
-        _currentIndex = 0;
-        OnPropertyChanged(nameof(CurrentTask));
+            var taskVMs = await _taskService.GetTasksAsync(lessonId);
+
+            var orderedTasks = taskVMs
+                .OrderBy(x => x.OrderIndex)
+                .ToList();
+
+            Tasks.Clear();
+            
+            for (int i = 0; i < orderedTasks.Count; i++)
+            {
+                var vm = orderedTasks[i];
+
+                vm.IsCorrect = null;
+                vm.DisplayIndex = i + 1;
+
+                Tasks.Add(vm);
+            }
+
+            _currentIndex = 0;
+            OnPropertyChanged(nameof(CurrentTask));
+        }
+        finally
+        {
+            _loadLock.Release();
+        }
+    }
+    
+    public async Task OnAppearingAsync()
+    {
+        var msg = _messageService.GetMessage();
+
+        if (msg == "TasksUpdated")
+        {
+            _messageService.SetMessage(null); 
+            await LoadTasksAsync();
+        }
     }
 }

@@ -4,7 +4,6 @@ namespace diplom.ViewModels.CreateTasks;
 
 public abstract class TaskCreateViewModel : ViewModelBase
 {
-    // public string Question { get; set; }
     private string _question;
     public string Question
     {
@@ -16,6 +15,6 @@ public abstract class TaskCreateViewModel : ViewModelBase
     
     public virtual void LoadFromDto(TaskDto dto)
     {
-        // по умолчанию ничего
+        //
     }
 }

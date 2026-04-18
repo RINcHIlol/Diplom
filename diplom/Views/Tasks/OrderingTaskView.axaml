@@ -1,46 +1,16 @@
-<!-- <UserControl xmlns="https://github.com/avaloniaui" -->
-<!--              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" -->
-<!--              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" -->
-<!--              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" -->
-<!--              xmlns:vm="clr-namespace:diplom.ViewModels.Tasks" -->
-<!--              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" -->
-<!--              x:Class="diplom.Views.Tasks.OrderingTaskView" -->
-<!--              Foreground="Black" -->
-<!--              x:DataType="vm:OrderingTaskViewModel"> -->
-<!--     <StackPanel Margin="10" Spacing="10"> -->
-<!-- -->
-<!--         <TextBlock Text="{Binding Question}" FontSize="16" FontWeight="Bold"/> -->
-<!-- -->
-<!--         <ListBox ItemsSource="{Binding Items}"> -->
-<!--             <ListBox.ItemTemplate> -->
-<!--                 <DataTemplate> -->
-<!--                     <TextBlock Text="{Binding Text}"/> -->
-<!--                 </DataTemplate> -->
-<!--             </ListBox.ItemTemplate> -->
-<!--         </ListBox> -->
-<!-- -->
-<!--     </StackPanel> -->
-<!-- </UserControl> -->
-
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="clr-namespace:diplom.ViewModels.Tasks"
              x:Class="diplom.Views.Tasks.OrderingTaskView"
              x:DataType="vm:OrderingTaskViewModel">
-
     <StackPanel Margin="10" Spacing="10">
-
         <TextBlock Text="{Binding Question}"
                    FontSize="16"
                    FontWeight="Bold"/>
-
         <Grid ColumnDefinitions="*,*">
-
-            <!-- ДОСТУПНЫЕ -->
             <StackPanel Grid.Column="0" Spacing="5">
                 <TextBlock Text="Выбор" FontWeight="Bold"/>
-
-                <ListBox ItemsSource="{Binding Items}">
+                <ListBox ItemsSource="{Binding Items}" Foreground="Black">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border Padding="8"
@@ -53,11 +23,8 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </StackPanel>
-
-            <!-- ПОРЯДОК -->
             <StackPanel Grid.Column="1" Spacing="5">
                 <TextBlock Text="Порядок" FontWeight="Bold"/>
-
                 <ListBox ItemsSource="{Binding SelectedItems}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -71,8 +38,6 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </StackPanel>
-
         </Grid>
-
     </StackPanel>
 </UserControl>

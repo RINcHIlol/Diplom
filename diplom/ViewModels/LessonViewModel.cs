@@ -17,6 +17,7 @@ public class LessonViewModel : ViewModelBase
     private readonly SessionService _session;
     private readonly NavigationService _navigation;
     private readonly TaskService _taskService;
+    private readonly ProgressService _progressService;
 
     public ObservableCollection<TaskViewModel> Tasks { get; } = new();
 
@@ -54,53 +55,55 @@ public class LessonViewModel : ViewModelBase
 
     private bool _lessonCompleted;
 
-    public LessonViewModel(MainWindowViewModel main, SessionService session, NavigationService navigation, TaskService taskService)
+    public LessonViewModel(MainWindowViewModel main, SessionService session, NavigationService navigation, TaskService taskService, ProgressService progressService)
     {
         _main = main;
         _session = session;
         _navigation = navigation;
         _taskService = taskService;
+        _progressService = progressService;
 
         GoBackCommand = new RelayCommand(() => _main.ShowModule());
         SubmitCommand = new RelayCommand(SubmitCurrentTask);
 
         LoadTasksAsync();
     }
-    
+
     private async void LoadTasksAsync()
     {
         if (_navigation.CurrentLessonId == null)
             return;
 
-        // LessonName = _navigation.CurrentLesson.Title;
-
         Tasks.Clear();
 
-        var lesson = _navigation.CurrentLessonId;
+        var lesson = _navigation.CurrentLessonId.Value;
 
-        var taskVMs = await _taskService.GetTasksAsync(lesson.Value);
-        var progress = await _taskService.GetTaskProgressAsync(lesson.Value);
+        var taskVMs = await _taskService.GetTasksAsync(lesson);
+        var progress = await _taskService.GetTaskProgressAsync(lesson);
 
         var progressMap = progress.ToDictionary(x => x.TaskId);
 
-        foreach (var vm in taskVMs)
+        var orderedTasks = taskVMs
+            .OrderBy(x => x.OrderIndex)
+            .ToList();
+            
+        for (int i = 0; i < orderedTasks.Count; i++)
         {
-            Tasks.Add(vm);
-
+            var vm = orderedTasks[i];
+            
             if (progressMap.TryGetValue(vm.Id, out var p))
-            {
-                vm.IsCorrect = p.IsCorrect;
-            }
+                vm.IsCorrect = p.IsCorrect;   
             else
-            {
-                vm.IsCorrect = null;
-            }
+                vm.IsCorrect = null;        
+            vm.DisplayIndex = i + 1;
+            
+            Tasks.Add(vm);
         }
 
         _currentIndex = 0;
         OnPropertyChanged(nameof(CurrentTask));
     }
-
+    
     private void CheckLessonCompletion()
     {
         if (_lessonCompleted) return;
@@ -136,6 +139,11 @@ public class LessonViewModel : ViewModelBase
             textAnswer,
             matches
         );
+
+        if (isCorrect)
+        {
+            await _progressService.UpdateXpAsync(10);
+        }
 
         CurrentTask.IsCorrect = isCorrect;
         ResultText = isCorrect ? "✅ Правильно" : "❌ Неправильно";

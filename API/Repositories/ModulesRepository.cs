@@ -101,4 +101,11 @@ public class ModulesRepository : IModulesRepository
                 m.Course.CreatorUserId == userId
             );
     }
+    
+    public async Task DeleteAsync(int moduleId)
+    {
+        var module = await _context.Modules.FirstOrDefaultAsync(c => c.Id == moduleId);
+        _context.Modules.Remove(module);
+        await _context.SaveChangesAsync();
+    }
 }

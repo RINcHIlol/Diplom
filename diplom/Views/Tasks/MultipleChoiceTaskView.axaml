@@ -8,9 +8,7 @@
              Foreground="Black"
              x:DataType="vm:MultipleChoiceTaskViewModel">
     <StackPanel Margin="10" Spacing="10">
-
         <TextBlock Text="{Binding Question}" FontSize="16" FontWeight="Bold" Foreground="Black"/>
-
         <ItemsControl ItemsSource="{Binding Answers}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="vm:SelectableAnswer">
@@ -20,9 +18,5 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-
-        <!-- <Button Content="Ответить" -->
-        <!--         Command="{Binding SubmitCommand}"/> -->
-
     </StackPanel>
 </UserControl>

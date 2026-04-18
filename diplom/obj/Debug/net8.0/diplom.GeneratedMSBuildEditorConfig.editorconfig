@@ -72,6 +72,9 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateTaskView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/EditProfileView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [/Users/rinchi/RiderProjects/diplom/diplom/Views/LessonView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 

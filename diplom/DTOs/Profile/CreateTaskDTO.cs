@@ -22,18 +22,6 @@ public class CreateAnswerDto
     public int OrderIndex { get; set; }
 }
 
-// public class CreateMatchingPairDTO
-// {
-//     public int LeftIndex { get; set; }
-//     public int RightIndex { get; set; }
-// }
-
-// public class CreateMatchingPairDTO
-// {
-//     public int LeftId { get; set; }
-//     public int RightId { get; set; }
-// }
-
 public class CreateMatchingPairDTO
 {
     public int LeftIndex { get; set; }

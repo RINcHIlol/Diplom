@@ -2,7 +2,6 @@ using API.Data;
 using API.DTOs.Profile;
 using API.Models;
 using API.Repositories.Interfaces;
-using diplom.Services;
 using Microsoft.EntityFrameworkCore;
 using Task = System.Threading.Tasks.Task;
 using TaskEntity = API.Models.Task;
@@ -12,12 +11,10 @@ namespace API.Repositories;
 public class TasksRepository : ITasksRepository
 {
     private readonly AppDbContext _context;
-    private readonly CodeRunnerService _runner;
 
-    public TasksRepository(AppDbContext context, CodeRunnerService runner)
+    public TasksRepository(AppDbContext context)
     {
         _context = context;
-        _runner = runner;
     }
 
     // public async Task<List<TaskDto>> GetByLessonIdAsync(int lessonId)
@@ -131,6 +128,7 @@ public class TasksRepository : ITasksRepository
             {
                 Id = task.Id,
                 Question = task.Question,
+                OrderIndex = task.OrderIndex,
                 TaskTypeId = task.TaskTypeId,
                 Answers = taskAnswers.Select(a => new TaskAnswerDto
                 {
@@ -189,7 +187,6 @@ public class TasksRepository : ITasksRepository
             3 => HandleMultipleChoice(task, dto),
             4 => HandleMatching(task, dto),
             5 => HandleOrdering(task, dto),
-            6 => await HandleCoding(task, dto),
             7 => HandleTextInput(task, dto),
             _ => false
         };
@@ -321,13 +318,6 @@ public class TasksRepository : ITasksRepository
             return false;
 
         return Normalize(correctAnswer.AnswerText) == Normalize(user);
-    }
-
-    private async Task<bool> HandleCoding(TaskEntity task, SubmitDto dto)
-    {
-        var output = await _runner.RunAsync(dto.TextAnswer);
-
-        return Normalize(output) == Normalize(task.ExpectedOutput);
     }
 
     private string Normalize(string? input)
@@ -477,5 +467,21 @@ public class TasksRepository : ITasksRepository
                 RightId = p.RightAnswerId
             }).ToList()
         };
+    }
+    
+    public async Task<bool> IsOwnerAsync(int taskId, int userId)
+    {
+        return await _context.Tasks.Include(x => x.Lesson).ThenInclude(x => x.Module)
+            .AnyAsync(m =>
+                m.Id == taskId &&
+                m.Lesson.Module.Course.CreatorUserId == userId
+            );
+    }
+    
+    public async Task DeleteAsync(int taskId)
+    {
+        var task = await _context.Tasks.FirstOrDefaultAsync(c => c.Id == taskId);
+        _context.Tasks.Remove(task);
+        await _context.SaveChangesAsync();
     }
 }

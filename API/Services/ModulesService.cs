@@ -64,4 +64,15 @@ public class ModulesService : IModulesService
     {
         return await _repository.IsOwnerAsync(moduleId, userId);
     }
+    
+    public async Task<bool> DeleteAsync(int moduleId)
+    {
+        var module = await _repository.GetByIdAsync(moduleId);
+        
+        if (module == null)
+            return false;
+        
+        await _repository.DeleteAsync(moduleId);
+        return true;
+    }
 }

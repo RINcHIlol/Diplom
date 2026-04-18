@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using diplom.DTOs.Profile;
 using diplom.ModelsApi;
 
 namespace diplom.Services;
@@ -40,10 +41,21 @@ public class AuthService
 
         return await response.Content.ReadFromJsonAsync<User>();
     }
-}
+    
+        
+    public async Task<bool> UpdateUserAsync(RegRequest dto)
+    {
+        try
+        {
+            var response = await _http.PutAsJsonAsync(
+                "api/users", dto);
 
-public class LoginResponse
-{
-    public User User { get; set; } = null!;
-    public string Token { get; set; } = null!;
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"UpdateUserAsync error: {ex.Message}");
+            return false;
+        }
+    }
 }

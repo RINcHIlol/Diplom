@@ -21,7 +21,6 @@ public class MultipleChoiceTaskViewModel : TaskViewModel
             .Select(a => a.Id)
             .ToList();
 
-        // 👉 отправка списка selected
     }
 }
 

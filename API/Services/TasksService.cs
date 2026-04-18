@@ -24,7 +24,7 @@ public class TasksService : ITasksService
 
     public async Task<List<TaskProgressDto>> GetTaskProgressAsync(int userId, int lessonId)
     {
-        return await _repository.GetTaskProgress(lessonId, userId);
+        return await _repository.GetTaskProgress(userId, lessonId);
     }
 
     public async Task<bool> Submit(SubmitDto dto, int userId)
@@ -101,5 +101,21 @@ public class TasksService : ITasksService
     public async Task<TaskDto?> GetByIdAsync(int id)
     {
         return await _repository.GetByIdAsync(id);
+    }
+    
+    public async Task<bool> IsOwnerAsync(int taskId, int userId)
+    {
+        return await _repository.IsOwnerAsync(taskId, userId);
+    }
+    
+    public async Task<bool> DeleteAsync(int taskId)
+    {
+        var task = await _repository.GetByIdAsync(taskId);
+        
+        if (task == null)
+            return false;
+        
+        await _repository.DeleteAsync(taskId);
+        return true;
     }
 }

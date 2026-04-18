@@ -17,6 +17,7 @@ public class CreateTaskViewModel : ViewModelBase
     private readonly MainWindowViewModel _mainWindowViewModel;
     private readonly NavigationService _navigationService;
     private readonly SessionService _session;
+    private readonly MessageService _messageService;
     
     private bool _isEdit;
     public bool IsEdit
@@ -63,13 +64,15 @@ public class CreateTaskViewModel : ViewModelBase
     public ICommand ChangeTypeCommand => new RelayCommand(ChangeType);
     public ICommand BackCommand { get; }
     public ICommand SaveCommand { get; }
+    public ICommand DeleteLessonCommand { get; }
 
-    public CreateTaskViewModel(MainWindowViewModel mainWindowViewModel, SessionService session, NavigationService navigationService, TaskService taskService)
+    public CreateTaskViewModel(MainWindowViewModel mainWindowViewModel, SessionService session, NavigationService navigationService, TaskService taskService, MessageService messageService)
     {
         _taskService = taskService;
         _mainWindowViewModel = mainWindowViewModel;
         _navigationService = navigationService;
         _session = session;
+        _messageService = messageService;
 
         SaveCommand = new RelayCommand(() =>
         {
@@ -79,6 +82,21 @@ public class CreateTaskViewModel : ViewModelBase
         {
             Reset();
             _mainWindowViewModel.ShowCreatedTasks();
+        });
+        
+        DeleteLessonCommand = new RelayCommand(async () =>
+        {
+            var success = await _taskService.DeleteTaskAsync(_navigationService.CurrentTaskId!.Value);
+
+            if (success)
+            {
+                Reset();
+                Error = null;
+                Message = null;
+                
+                _messageService.SetMessage("TasksUpdated");
+                _mainWindowViewModel.ShowCreatedTasks();
+            }
         });
     }
 
@@ -101,17 +119,6 @@ public class CreateTaskViewModel : ViewModelBase
         };
     }
 
-    // private async void Save()
-    // {
-    //     var dto = Current?.BuildDto();
-    //     if (dto == null) return;
-    //
-    //     dto.LessonId = _navigationService.CurrentLessonId!.Value;
-    //
-    //     await _taskService.CreateTaskAsync(dto);
-    // }
-    
-    //new
     private async void Save()
     {
         if (!Validate())
@@ -133,11 +140,12 @@ public class CreateTaskViewModel : ViewModelBase
                 Message = "Задача создана";
             }
 
-            await Task.Delay(1200);
+            await Task.Delay(600);
 
             Reset();
             Error = null;
             Message = null;
+            _mainWindowViewModel.ShowCreatedTasks();
         }
         catch (Exception ex)
         {
@@ -149,7 +157,7 @@ public class CreateTaskViewModel : ViewModelBase
     {
         if (_navigationService.CurrentTaskId == null)
         {
-            Reset(); // 🔥 гарантированно чистый create mode
+            Reset();
             return;
         }
 
@@ -182,7 +190,7 @@ public class CreateTaskViewModel : ViewModelBase
         SelectedTask = null;
         Current = null;
 
-        _navigationService.CurrentTaskId = null; // 🔥 ВАЖНО
+        _navigationService.CurrentTaskId = null;
 
         OnPropertyChanged(nameof(IsEdit));
     }
@@ -197,7 +205,6 @@ public class CreateTaskViewModel : ViewModelBase
             return false;
         }
 
-        // общий вопрос
         if (string.IsNullOrWhiteSpace(Current.Question))
         {
             Error = "Введите вопрос";
@@ -212,21 +219,18 @@ public class CreateTaskViewModel : ViewModelBase
             return false;
         }
 
-        // ❗ ответы
-        if (dto.Answers == null || dto.Answers.Count == 0)
+        if (dto.Answers == null || dto.Answers.Count == 0 && dto.TaskTypeId != 1)
         {
             Error = "Добавьте хотя бы один ответ";
             return false;
         }
 
-        // ❗ проверка пустых ответов
         if (dto.Answers.Any(a => string.IsNullOrWhiteSpace(a.AnswerText)))
         {
             Error = "Есть пустые ответы";
             return false;
         }
 
-        // MATCHING
         if (dto.TaskTypeId == 4)
         {
             if (dto.MatchingPairs == null || dto.MatchingPairs.Count == 0)
@@ -236,7 +240,6 @@ public class CreateTaskViewModel : ViewModelBase
             }
         }
 
-        // ORDERING
         if (dto.TaskTypeId == 5)
         {
             if (dto.Answers.Count < 2)
@@ -275,13 +278,4 @@ public class CreateTaskViewModel : ViewModelBase
 
         Current.LoadFromDto(task);
     }
-}
-//
-public class InverseBoolConverter : IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        => value is bool b && !b;
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        => value is bool b && !b;
 }

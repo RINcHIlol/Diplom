@@ -21,4 +21,27 @@ public class UserRepository : IUserRepository
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
     }
+
+    public async Task UpdateAsync(int userId, RegRequest user)
+    {
+        var existing = await _context.Users.FindAsync(userId);
+
+        if (existing == null) return;
+
+        existing.Login = user.Login;
+        existing.Email = user.Email;
+        existing.PasswordHash = user.Password;
+
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateExp(int xp, int userId)
+    {
+        var existing = await _context.Users.FindAsync(userId);
+        
+        if (existing == null) return;
+
+        existing.Xp += xp;
+        await _context.SaveChangesAsync();
+    }
 }

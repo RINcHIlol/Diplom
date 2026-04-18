@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using API.DTOs.Profile;
 using API.Services.Interfaces;
-using diplom.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -86,5 +85,22 @@ public class TasksController : ControllerBase
             return NotFound();
 
         return Ok(task);
+    }
+    
+    [HttpDelete("{taskId}")]
+    [Authorize]
+    public async Task<IActionResult> Delete([FromRoute] int taskId)
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        if (!await _service.IsOwnerAsync(taskId, userId))
+            return Forbid();
+        
+        var success = await _service.DeleteAsync(taskId);
+
+        if (!success)
+            return NotFound();
+
+        return NoContent();
     }
 }

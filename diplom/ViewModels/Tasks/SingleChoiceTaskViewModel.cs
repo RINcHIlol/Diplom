@@ -23,7 +23,6 @@ public class SingleChoiceTaskViewModel : TaskViewModel
         {
             var selectedId = selected.Id;
 
-            // 👉 отправка selectedId на сервер
         }
     }
 }

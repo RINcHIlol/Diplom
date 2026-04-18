@@ -16,4 +16,26 @@ public class UserService : IUserService
     public Task<User> GetUserByLoginAsync(string login) => _repository.GetByLoginAsync(login);
     public Task<User> GetUserByEmailAsync(string email) => _repository.GetByEmailAsync(email);
     public Task AddUserAsync(User user) => _repository.AddAsync(user);
+
+    public async Task<bool> UpdateUserAsync(int userId, RegRequest user)
+    {
+        // var oldUser = await _repository.GetByIdAsync(userId);
+        //
+        // if (oldUser == null)
+        //     return false;
+        //
+        // oldUser.Email = user.Email;
+        // oldUser.PasswordHash = user.Password;
+        // oldUser.Login = user.Login;
+
+        await _repository.UpdateAsync(userId, user);
+
+        return true;
+    }
+
+    public async Task<bool> UpdateXpAsync(int xp, int userId)
+    {
+        await _repository.UpdateExp(xp, userId);
+        return true;
+    }
 }

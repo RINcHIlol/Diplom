@@ -11,7 +11,8 @@ public class BoolToColorConverter : IValueConverter
     {
         if (value is bool b)
             return b ? Brushes.LightGreen : Brushes.IndianRed;
-        return Brushes.LightGray;
+
+        return Brushes.LightGray; 
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

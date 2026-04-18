@@ -92,6 +92,22 @@ public class TaskService
     {
         return await _http.GetFromJsonAsync<TaskDto>($"api/tasks/{taskId}");
     }
+    
+    public async Task<bool> DeleteTaskAsync(int taskId)
+    {
+        try
+        {
+            var response = await _http.DeleteAsync(
+                $"api/tasks/{taskId}");
+
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"DeleteTaskAsync error: {ex.Message}");
+            return false;
+        }
+    }
 }
 
 public class SubmitResponseDto

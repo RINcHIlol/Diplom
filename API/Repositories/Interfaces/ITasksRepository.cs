@@ -20,4 +20,6 @@ public interface ITasksRepository
     Task<List<TaskAnswer>> GetAnswersByTaskIdAsync(int taskId);
     Task UpdateAsync(int id, CreateTaskDto dto);
     Task<TaskDto?> GetByIdAsync(int id);
+    Task<bool> IsOwnerAsync(int taskId, int userId);
+    Task DeleteAsync(int taskId);
 }

@@ -21,6 +21,20 @@ public class CreateModuleViewModel : ViewModelBase
         get => _title;
         set => SetProperty(ref _title, value);
     }
+    
+    private string? _errorMsg;
+    public string? ErrorMsg
+    {
+        get => _errorMsg;
+        set => SetProperty(ref _errorMsg, value);
+    }
+    
+    private bool? _isError;
+    public bool? IsError
+    {
+        get => _isError;
+        set => SetProperty(ref _isError, value);
+    }
 
     public bool IsEdit => _moduleId != null;
 
@@ -59,6 +73,13 @@ public class CreateModuleViewModel : ViewModelBase
 
     private async Task SaveAsync()
     {
+        if (string.IsNullOrEmpty(Title))
+        {
+            IsError = true;
+            ErrorMsg = "Заполните все поля";
+            return;
+        }
+        
         var dto = new CreateUpdateModuleDto()
         {
             Title = Title!,

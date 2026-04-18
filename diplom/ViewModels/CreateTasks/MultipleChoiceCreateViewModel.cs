@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using diplom.DTOs.Profile;
-using diplom.ViewModels.Tasks;
 
 namespace diplom.ViewModels.CreateTasks;
 

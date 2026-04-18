@@ -68,4 +68,20 @@ public class CourseService : ICourseService
 
         return true;
     }
+    
+    public async Task<bool> IsOwnerAsync(int courseId, int userId)
+    {
+        return await _repository.IsOwnerAsync(courseId, userId);
+    }
+    
+    public async Task<bool> DeleteAsync(int courseId)
+    {
+        var course = await _repository.GetByIdAsync(courseId);
+        
+        if (course == null)
+            return false;
+        
+        await _repository.DeleteAsync(courseId);
+        return true;
+    }
 }

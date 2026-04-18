@@ -4,7 +4,6 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using diplom.DTOs.Profile;
 using diplom.Services;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace diplom.ViewModels;
 
@@ -14,6 +13,7 @@ public class CreatedCoursesViewModel : ViewModelBase
     private readonly SessionService _session;
     private readonly CourseApiService _courseService;
     private readonly NavigationService _navigationService;
+    private readonly MessageService _messageService;
     
     public ObservableCollection<CourseShortDto> Courses { get; } = new();
     
@@ -22,12 +22,13 @@ public class CreatedCoursesViewModel : ViewModelBase
     public ICommand GoCreateCourseCommand { get; }
     public ICommand GoEditCourseCommand { get; }
 
-    public CreatedCoursesViewModel(MainWindowViewModel main, SessionService session, CourseApiService courseService, NavigationService navigationService)
+    public CreatedCoursesViewModel(MainWindowViewModel main, SessionService session, CourseApiService courseService, NavigationService navigationService, MessageService messageService)
     {
         _session = session;
         _main = main;
         _courseService = courseService;
         _navigationService = navigationService;
+        _messageService = messageService;
         
         GoBackCommand = new RelayCommand(() =>
         {
@@ -56,6 +57,7 @@ public class CreatedCoursesViewModel : ViewModelBase
         });
         
         _ = LoadCoursesAsync();
+        _ = OnAppearingAsync();
     }
     
     private async Task LoadCoursesAsync()
@@ -65,5 +67,15 @@ public class CreatedCoursesViewModel : ViewModelBase
         
         foreach (var course in courses)
             Courses.Add(course);
+    }
+    
+    public async Task OnAppearingAsync()
+    {
+        var msg = _messageService.GetMessage();
+
+        if (msg == "CoursesUpdated")
+        {
+            await LoadCoursesAsync();
+        }
     }
 }

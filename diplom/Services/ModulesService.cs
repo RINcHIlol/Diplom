@@ -93,4 +93,20 @@ public class ModulesService
             return false;
         }
     }
+    
+    public async Task<bool> DeleteModuleAsync(int moduleId)
+    {
+        try
+        {
+            var response = await _http.DeleteAsync(
+                $"api/courses/{1}/modules/{moduleId}");
+
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"DeleteModuleAsync error: {ex.Message}");
+            return false;
+        }
+    }
 }

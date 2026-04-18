@@ -5,20 +5,9 @@ using diplom.Services;
 
 namespace diplom.ViewModels;
 
-// public class RegViewModel : ViewModelBase
-// {
-//     
-//     public RegViewModel(MainWindowViewModel main, SessionService session)
-//     {
-//         
-//     }
-// }
-
 public class RegViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel _main;
-    // private readonly SessionService _session;
-    // private readonly AuthService _authService;
     private readonly RegService _regService;
     private readonly MessageService _messageService;
     
@@ -56,13 +45,11 @@ public class RegViewModel : ViewModelBase
     public ICommand GoBackCommand { get; }
     public ICommand RegisterCommand { get; }
 
-    // public RegViewModel(MainWindowViewModel main, SessionService session)
     public RegViewModel(MainWindowViewModel main, RegService regService, MessageService messageService)
     {
         _main = main;
         _regService = regService;
         _messageService = messageService;
-        // _session = session;
 
         GoBackCommand = new RelayCommand(() =>
         {
@@ -77,6 +64,12 @@ public class RegViewModel : ViewModelBase
         if (string.IsNullOrWhiteSpace(Login) || string.IsNullOrWhiteSpace(Password) || string.IsNullOrWhiteSpace(Email))
         {
             ErrorStr = "Заполните все данные!";
+            IsError = true;
+            return;
+        }
+        if (Login.Length < 5 || !Email.Contains("@") || Password.Length < 5)
+        {
+            ErrorStr = "Некорректные данные";
             IsError = true;
             return;
         }

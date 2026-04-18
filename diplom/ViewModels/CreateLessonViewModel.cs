@@ -29,6 +29,20 @@ public class CreateLessonViewModel : ViewModelBase
         set => SetProperty(ref _content, value);
     }
 
+    private string? _errorMsg;
+    public string? ErrorMsg
+    {
+        get => _errorMsg;
+        set => SetProperty(ref _errorMsg, value);
+    }
+    
+    private bool? _isError;
+    public bool? IsError
+    {
+        get => _isError;
+        set => SetProperty(ref _isError, value);
+    }
+    
     public bool IsEdit => _lessonId != null;
 
     public ICommand SaveCommand { get; }
@@ -67,6 +81,12 @@ public class CreateLessonViewModel : ViewModelBase
 
     private async Task SaveAsync()
     {
+        if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Content))
+        {
+            IsError = true;
+            ErrorMsg = "Заполните все поля";
+            return;
+        }
         var dto = new CreateUpdateLessonDTO()
         {
             Title = Title!,

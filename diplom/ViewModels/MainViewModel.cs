@@ -91,7 +91,6 @@ public class MainViewModel : ViewModelBase
         {
             if (IsAuthorized)
             {
-                // _main.ShowConstructor();   
                 _main.ShowCreatedCourses();
             }
         });

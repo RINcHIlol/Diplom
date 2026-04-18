@@ -10,31 +10,33 @@
              x:DataType="vm:CreatedModulesViewModel">
     <Border Background="#FFE4C4">
         <Grid>
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>  
                 <RowDefinition Height="50"/>  
                 <RowDefinition Height="*"/> 
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Background="#B0B0B0">
+            <Grid Grid.Row="0" Background="#B0B0B0"
+                  IsVisible="{Binding Modules.Count, Converter={StaticResource NotZeroToBoolConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Button Content="Назад" 
-                        Margin="0,0,10,0" 
+                <Button
+                        Content="← Назад"
                         Background="#D3D3D3"
                         BorderBrush="Black"
                         Foreground="Black"
-                        BorderThickness="1"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
+                        Margin="10,0"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
                         Command="{Binding GoBackCommand}"/>
-                
-                <Button Content="Создать модуль" 
-                        Grid.Column="3" 
-                        Margin="0,0,10,0" 
+                <Button Content="Создать модуль"
+                        Grid.Column="3"
+                        Margin="0,0,10,0"
                         Background="#D3D3D3"
                         BorderBrush="Black"
                         Foreground="Black"
@@ -42,17 +44,24 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         Command="{Binding GoCreateModuleCommand}"/>
+                <Button Grid.Column="4"
+                        Content="Удалить курс"
+                        Command="{Binding DeleteCourseCommand}"
+                        Margin="5"
+                        Foreground="Black"/>
             </Grid>
-            <ScrollViewer Grid.Row="2" Margin="20,10">
-                <ItemsControl ItemsSource="{Binding Modules}">
+            <ScrollViewer Grid.Row="2" Margin="20,10" HorizontalAlignment="Center">
+                <ItemsControl ItemsSource="{Binding Modules}"
+                              IsVisible="{Binding Modules.Count, Converter={StaticResource NotZeroToBoolConverter}}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" ItemWidth="380" ItemHeight="200" />
+                            <WrapPanel Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="dto:ModuleShortDTO">
-                            <Border Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10">
+                            <Border Background="#EECBA8" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10"
+                                    Width="{Binding #CreatedModules.Bounds.Width, Converter={StaticResource WidthToCardWidthConverter}}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
@@ -64,17 +73,25 @@
                                     <DockPanel Grid.Row="1" LastChildFill="False">
                                         <Button Content="Заполнить"
                                                 DockPanel.Dock="Right"
+                                                Margin="0,0,10,0"
                                                 Background="#D3D3D3"
                                                 BorderBrush="Black"
+                                                Foreground="Black"
                                                 BorderThickness="1"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
                                                 x:CompileBindings="False"
                                                 Command="{Binding DataContext.GoModuleCommand, ElementName=CreatedModules}"
                                                 CommandParameter="{Binding}" />
                                         <Button Content="Редактировать"
                                                 DockPanel.Dock="Right"
+                                                Margin="0,0,10,0"
                                                 Background="#D3D3D3"
                                                 BorderBrush="Black"
+                                                Foreground="Black"
                                                 BorderThickness="1"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
                                                 x:CompileBindings="False"
                                                 Command="{Binding DataContext.GoEditModuleCommand, ElementName=CreatedModules}"
                                                 CommandParameter="{Binding}" />
@@ -86,5 +103,47 @@
                 </ItemsControl>
             </ScrollViewer>
         </Grid>
+            <StackPanel IsVisible="{Binding Modules.Count, Converter={StaticResource ZeroToBoolConverter}}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Spacing="15">
+                <TextBlock Text="📦" FontSize="64" HorizontalAlignment="Center"/>
+                <TextBlock Text="Модулей пока нет" FontSize="22" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center"/>
+                <TextBlock Text="Создайте первый модуль"
+                           HorizontalAlignment="Center"
+                           Foreground="Black"
+                           Opacity="0.7"/>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button Content="← Назад"
+                            Margin="0,0,10,0"
+                            Background="#D3D3D3"
+                            BorderBrush="Black"
+                            Foreground="Black"
+                            BorderThickness="1"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Command="{Binding GoBackCommand}"/>
+                    <Button Content="Создать модуль"
+                            Margin="0,0,10,0"
+                            Background="#D3D3D3"
+                            BorderBrush="Black"
+                            Foreground="Black"
+                            BorderThickness="1"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Command="{Binding GoCreateModuleCommand}"/>
+                    <Button Content="Удалить курс"
+                            Margin="0,0,10,0"
+                            Background="#D3D3D3"
+                            BorderBrush="Black"
+                            Foreground="Black"
+                            BorderThickness="1"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Command="{Binding  DeleteCourseCommand}"
+                            Width="160"/>
+                </StackPanel>
+            </StackPanel>
+            </Grid>
     </Border>
 </UserControl>

@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using API.Models;
 using API.Services;
 using API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -35,5 +37,33 @@ public class UsersController : ControllerBase
         var user = await _service.GetUserByLoginAsync(login);
         if (user == null) return NotFound();
         return Ok(user);
+    }
+    
+    [HttpPut]
+    [Authorize]
+    public async Task<IActionResult> Update([FromBody] RegRequest dto)
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        
+        var success = await _service.UpdateUserAsync(userId, dto);
+
+        if (!success)
+            return NotFound();
+
+        return NoContent();
+    }
+    
+    [HttpPut("{xp}")]
+    [Authorize]
+    public async Task<IActionResult> Update(int xp)
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        
+        var success = await _service.UpdateXpAsync(xp, userId);
+
+        if (!success)
+            return NotFound();
+
+        return NoContent();
     }
 }

@@ -4,10 +4,6 @@ using diplom.DTOs.Profile;
 
 namespace diplom.ViewModels.CreateTasks;
 
-using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.Input;
-
-
 public class OrderingCreateViewModel : TaskCreateViewModel
 {
     public ObservableCollection<AnswerOption> Items { get; set; } = new();

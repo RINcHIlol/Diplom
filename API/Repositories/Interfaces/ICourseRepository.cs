@@ -12,4 +12,6 @@ public interface ICourseRepository
     Task<Course> CreateAsync(Course course);
     Task<Course?> GetByIdAsync(int id);
     Task UpdateAsync(Course course);
+    Task<bool> IsOwnerAsync(int courseId, int userId);
+    Task DeleteAsync(int courseId);
 }

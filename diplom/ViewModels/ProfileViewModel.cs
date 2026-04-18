@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Avalonia.Media.Imaging;
+using CommunityToolkit.Mvvm.Input;
 using diplom.DTOs.Profile;
 using diplom.Services;
 
@@ -13,8 +14,10 @@ public class ProfileViewModel: ViewModelBase
     private readonly MainWindowViewModel _main;
     private readonly SessionService _session;
     private readonly ProfileService _profile;
+    private readonly NavigationService _navigation;
     
     public ICommand GoBackCommand { get; }
+    public ICommand EditProfileCommand { get; }
     
     private string _login;
     public string Login
@@ -59,14 +62,20 @@ public class ProfileViewModel: ViewModelBase
     }
     public ObservableCollection<CourseProgressDto> Courses { get; set; } = new();
 
-    public ProfileViewModel(MainWindowViewModel main, SessionService session, ProfileService profile)
+    public ProfileViewModel(MainWindowViewModel main, SessionService session, ProfileService profile, NavigationService navigationService)
     {
         _main = main;
         _session = session;
         _profile = profile;
+        _navigation = navigationService;
         GoBackCommand = new RelayCommand(() =>
         {
             _main.ShowMain();
+        });
+        
+        EditProfileCommand = new RelayCommand(() =>
+        {
+            _main.ShowEditProfile();
         });
         
         LoadProfile();

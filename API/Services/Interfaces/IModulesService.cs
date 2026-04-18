@@ -11,4 +11,5 @@ public interface IModulesService
     Task<Module> CreateModuleAsync(CreateUpdateModuleDto dto, int courseId);
     Task<bool> UpdateModuleAsync(int moduleId, CreateUpdateModuleDto dto);
     Task<bool> IsOwnerAsync(int moduleId, int userId);
+    Task<bool> DeleteAsync(int moduleId);
 }

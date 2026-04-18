@@ -14,6 +14,7 @@ public class CreatedLessonsViewModel : ViewModelBase
     private readonly LessonsService _lessonsService;
     private readonly NavigationService _navigationService;
     private readonly MessageService _messageService;
+    private readonly ModulesService _moduleService;
     
     public ObservableCollection<LessonShortDTO> Lessons { get; } = new();
     
@@ -21,14 +22,16 @@ public class CreatedLessonsViewModel : ViewModelBase
     public ICommand GoBackCommand { get; }
     public ICommand GoCreateLessonCommand { get; }
     public ICommand GoEditLessonCommand { get; }
+    public ICommand DeleteModuleCommand { get; }
     
-    public CreatedLessonsViewModel(MainWindowViewModel main, SessionService session, LessonsService lessonsService, NavigationService navigationService,MessageService messageService)
+    public CreatedLessonsViewModel(MainWindowViewModel main, SessionService session, LessonsService lessonsService, NavigationService navigationService,MessageService messageService, ModulesService modulesService)
     {
         _session = session;
         _main = main;
         _lessonsService = lessonsService;
         _navigationService = navigationService;
         _messageService = messageService;
+        _moduleService = modulesService;
         
         GoBackCommand = new RelayCommand(() =>
         {
@@ -54,6 +57,17 @@ public class CreatedLessonsViewModel : ViewModelBase
         {
             _navigationService.CurrentLessonId = lesson.Id;
             _main.ShowCreateLesson();
+        });
+        
+        DeleteModuleCommand = new RelayCommand(async () =>
+        {
+            var success = await _moduleService.DeleteModuleAsync(_navigationService.CurrentModuleId!.Value);
+
+            if (success)
+            {
+                _messageService.SetMessage("ModulesUpdated");
+                _main.ShowCreatedModules();
+            }
         });
 
         _ = LoadLessonsAsync();

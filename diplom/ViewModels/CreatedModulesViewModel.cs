@@ -13,6 +13,8 @@ public class CreatedModulesViewModel : ViewModelBase
     private readonly SessionService _session;
     private readonly ModulesService _modulesService;
     private readonly NavigationService _navigationService;
+    private readonly MessageService _messageService;
+    private readonly CourseApiService _courseApiService;
     
     public ObservableCollection<ModuleShortDTO> Modules { get; } = new();
     
@@ -20,13 +22,16 @@ public class CreatedModulesViewModel : ViewModelBase
     public ICommand GoBackCommand { get; }
     public ICommand GoCreateModuleCommand { get; }
     public ICommand GoEditModuleCommand { get; }
+    public ICommand DeleteCourseCommand { get; }
     
-    public CreatedModulesViewModel(MainWindowViewModel main, SessionService session, ModulesService modulesService, NavigationService navigationService)
+    public CreatedModulesViewModel(MainWindowViewModel main, SessionService session, ModulesService modulesService, NavigationService navigationService, MessageService messageService, CourseApiService courseApiService)
     {
         _session = session;
         _main = main;
         _modulesService = modulesService;
         _navigationService = navigationService;
+        _messageService = messageService;
+        _courseApiService = courseApiService;
         
         GoBackCommand = new RelayCommand(() =>
         {
@@ -53,8 +58,20 @@ public class CreatedModulesViewModel : ViewModelBase
             _navigationService.CurrentModuleId = module.Id;
             _main.ShowCreateModule();
         });
+        
+        DeleteCourseCommand = new RelayCommand(async () =>
+        {
+            var success = await _courseApiService.DeleteCourseAsync(_navigationService.CurrentCourseId!.Value);
+
+            if (success)
+            {
+                _messageService.SetMessage("CoursesUpdated");
+                _main.ShowCreatedCourses();
+            }
+        });
 
         _ = LoadModulesAsync();
+        _ = OnAppearingAsync();
     }
     
     private async Task LoadModulesAsync()
@@ -64,5 +81,15 @@ public class CreatedModulesViewModel : ViewModelBase
         
         foreach (var course in modules)
             Modules.Add(course);
+    }
+    
+    public async Task OnAppearingAsync()
+    {
+        var msg = _messageService.GetMessage();
+
+        if (msg == "ModulesUpdated")
+        {
+            await LoadModulesAsync();
+        }
     }
 }

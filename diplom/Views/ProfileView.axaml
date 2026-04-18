@@ -2,76 +2,124 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:diplom.ViewModels"
              xmlns:viewModels="clr-namespace:diplom.ViewModels"
              x:DataType="viewModels:ProfileViewModel"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             Foreground="Black"
-             x:Class="diplom.Views.ProfileView">
-    <Grid>
+             mc:Ignorable="d"
+             x:Class="diplom.Views.ProfileView"
+             Foreground="Black">
+    <Grid Background="#F2E7D5">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="#B0B0B0">
             <Button Content="← Назад"
+                    Margin="0,0,10,0" 
                     Background="#D3D3D3"
                     BorderBrush="Black"
                     Foreground="Black"
-                    Margin="10,0"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Left"
+                    BorderThickness="1"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
                     Command="{Binding GoBackCommand}"/>
         </Grid>
-        <Grid ColumnDefinitions="*, *" Grid.Row="1">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Spacing="10" Grid.Column="0">
-                <TextBlock Height="30" Text="{Binding Login, Mode=TwoWay}" />
-                <TextBlock Height="30" Text="{Binding Email, Mode=TwoWay}" />
-                <Image Source="{Binding LevelImage}" Width="100" Height="100"/>
-                <Grid ColumnDefinitions="*, *, *">
-                    <TextBlock Height="30" Text="{Binding Xp, Mode=TwoWay}"  Grid.Column="0"/>
-                    <ProgressBar Minimum="0"
-                                 Grid.Column="1"
-                                 Maximum="1"
-                                 Value="{Binding Progress}"
-                                 Height="20"/>
-                    <TextBlock Height="30" Text="{Binding NextLvlXp, Mode=TwoWay}"  Grid.Column="2"/>
-                </Grid>
-            </StackPanel>
-            <Border Grid.Column="1">
-                <ListBox ItemsSource="{Binding Courses}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border>
-                                <TextBlock Text="{Binding Title, Mode=TwoWay}"/>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+        <Grid Grid.Row="1"
+              ColumnDefinitions="1*, 1.5*"
+              Margin="20">
+            <Border Grid.Column="0"
+                    Background="#F3EEE6"
+                    CornerRadius="12"
+                    Padding="20"
+                    Margin="10"
+                    BorderBrush="#C8C8C8"
+                    BorderThickness="1">
+                <StackPanel Spacing="12"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding Login}"
+                               FontSize="22"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding Email}"
+                               Opacity="0.7"
+                               HorizontalAlignment="Center"/>
+                    <Image Source="{Binding LevelImage}"
+                           Width="110"
+                           Height="110"
+                           Margin="0,10"/>
+                    <TextBlock Text="Опыт"
+                               FontWeight="SemiBold"/>
+                    <Grid ColumnDefinitions="Auto, *, Auto"
+                          Width="220">
+                        <TextBlock Text="{Binding Xp}" />
+                        <Border BorderBrush="#7A6A58"
+                                BorderThickness="1"
+                                CornerRadius="6"
+                                Padding="2"
+                                Background="#E8DDCF">
+                            <ProgressBar Minimum="0"
+                                         Maximum="1"
+                                         Value="{Binding Progress}"
+                                         Height="10"/>
+                        </Border>
+                        <TextBlock Grid.Column="2"
+                                   Text="{Binding NextLvlXp}"/>
+                    </Grid>
+                    <Button Content="Редактировать профиль"
+                            Margin="0,0,10,0" 
+                            Background="#D3D3D3"
+                            BorderBrush="Black"
+                            Foreground="Black"
+                            BorderThickness="1"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Command="{Binding EditProfileCommand}"/>
+                </StackPanel>
+            </Border>
+            <Border Grid.Column="1"
+                    Background="#F3EEE6"
+                    CornerRadius="12"
+                    Padding="20"
+                    Margin="10"
+                    BorderBrush="#C8C8C8"
+                    BorderThickness="1">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Пройденные курсы"
+                               FontSize="18"
+                               FontWeight="Bold"/>
+                    <ItemsControl ItemsSource="{Binding Courses}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#EFE6DA"
+                                        CornerRadius="10"
+                                        Padding="12"
+                                        Margin="0,5"
+                                        BorderBrush="Black"
+                                        BorderThickness="1">
+                                    <StackPanel Spacing="5">
+                                        <TextBlock Text="{Binding Title}"
+                                                   FontSize="16"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="Black"/>
+                                        <TextBlock Text="{Binding Description}"
+                                                   Opacity="0.7"
+                                                   TextWrapping="Wrap"
+                                                   Foreground="Black"/>
+                                        <TextBlock Foreground="Black">
+                                            <Run Text="Прогресс: "/>
+                                            <Run Text="{Binding ProgressPercent}"/>
+                                            <Run Text="%"/>
+                                        </TextBlock>
+                                        <ProgressBar Minimum="0"
+                                                     Maximum="100"
+                                                     Value="{Binding ProgressPercent}"
+                                                     Height="8"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
             </Border>
         </Grid>
-        <!-- <Grid Grid.Row="1"> -->
-        <!--     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Spacing="10"> -->
-        <!--         <TextBlock Height="30" Text="{Binding Login, Mode=TwoWay}" /> -->
-        <!--         <TextBlock Height="30" Text="{Binding Email, Mode=TwoWay}" /> -->
-        <!--         <TextBlock Height="30" Text="{Binding Xp, Mode=TwoWay}" /> -->
-        <!--         <Image Source="{Binding LevelImage}" Width="100" Height="100"/> -->
-        <!--         <ProgressBar Minimum="0" -->
-        <!--                      Maximum="1" -->
-        <!--                      Value="{Binding Progress}" -->
-        <!--                      Height="20"/> -->
-        <!--         <Border> -->
-        <!--             <ListBox ItemsSource="{Binding Courses}"> -->
-        <!--                 <ListBox.ItemTemplate> -->
-        <!--                     <DataTemplate> -->
-        <!--                         <Border> -->
-        <!--                             <TextBlock Text="{Binding Title, Mode=TwoWay}"/> -->
-        <!--                         </Border> -->
-        <!--                     </DataTemplate> -->
-        <!--                 </ListBox.ItemTemplate> -->
-        <!--             </ListBox> -->
-        <!--         </Border> -->
-        <!--     </StackPanel> -->
-        <!-- </Grid> -->
     </Grid>
 </UserControl>

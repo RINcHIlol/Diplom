@@ -1,9 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
-using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
 using diplom.DTOs.Profile;
-using diplom.ViewModels.CreateTasks;
 
 namespace diplom.ViewModels.CreateTasks;
 public class SingleChoiceCreateViewModel : TaskCreateViewModel

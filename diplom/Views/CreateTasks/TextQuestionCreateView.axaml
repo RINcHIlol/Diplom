@@ -10,7 +10,6 @@
     <StackPanel Spacing="10">
         <TextBox Watermark="Вопрос"
                  Text="{Binding Question}" />
-
         <TextBox Watermark="Правильный ответ"
                  Text="{Binding CorrectAnswer}" />
     </StackPanel>

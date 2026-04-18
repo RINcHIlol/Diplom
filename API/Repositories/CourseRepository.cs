@@ -105,4 +105,16 @@ public class CourseRepository : ICourseRepository
 
         await _context.SaveChangesAsync();
     }
+    
+    public async Task<bool> IsOwnerAsync(int courseId, int userId)
+    {
+        return await _context.Courses.AnyAsync(m => m.Id == courseId && m.CreatorUserId == userId);
+    }
+    
+    public async Task DeleteAsync(int courseId)
+    {
+        var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == courseId);
+        _context.Courses.Remove(course);
+        await _context.SaveChangesAsync();
+    }
 }

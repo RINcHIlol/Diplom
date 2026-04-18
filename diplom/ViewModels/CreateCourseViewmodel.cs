@@ -28,6 +28,20 @@ public class CreateCourseViewModel : ViewModelBase
         get => _description;
         set => SetProperty(ref _description, value);
     }
+    
+    private string? _errorMsg;
+    public string? ErrorMsg
+    {
+        get => _errorMsg;
+        set => SetProperty(ref _errorMsg, value);
+    }
+    
+    private bool? _isError;
+    public bool? IsError
+    {
+        get => _isError;
+        set => SetProperty(ref _isError, value);
+    }
 
     public bool IsEdit => _courseId != null;
 
@@ -72,6 +86,13 @@ public class CreateCourseViewModel : ViewModelBase
 
     private async Task SaveAsync()
     {
+        if (string.IsNullOrEmpty(Title) || string.IsNullOrEmpty(Description))
+        {
+            IsError = true;
+            ErrorMsg = "Заполните все поля";
+            return;
+        }
+        
         var dto = new CreateUpdateCourseDto
         {
             Title = Title!,

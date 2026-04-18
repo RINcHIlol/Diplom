@@ -22,18 +22,17 @@ public partial class MatchingCreateView : UserControl
         VM.AddRight();
     }
     
-    private void AddLeftClicked(object? sender, RoutedEventArgs e)
-        => VM.AddLeft();
-
-    private void AddRightClicked(object? sender, RoutedEventArgs e)
-        => VM.AddRight();
+    // private void AddLeftClicked(object? sender, RoutedEventArgs e)
+    //     => VM.AddLeft();
+    //
+    // private void AddRightClicked(object? sender, RoutedEventArgs e)
+    //     => VM.AddRight();
     
     private void RemoveClicked(object? sender, RoutedEventArgs e)
     {
-        if (sender is Button b && b.DataContext is AnswerOption item)
+        if (sender is Button b && b.Tag is int index)
         {
-            VM.RemoveLeft(item);
-            VM.RemoveRight(item);
+            VM.RemovePairByIndex(index);
         }
     }
 

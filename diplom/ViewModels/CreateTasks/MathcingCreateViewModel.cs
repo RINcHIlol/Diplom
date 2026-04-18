@@ -20,14 +20,41 @@ public class MatchingCreateViewModel : TaskCreateViewModel
         Right.Add(new AnswerOption());
     }
     
-    public void AddPair(int leftIndex, int rightIndex)
+    public void AddLeft()
     {
-        if (!Pairs.Any(p => p.LeftIndex == leftIndex))
-            Pairs.Add((leftIndex, rightIndex));
+        Left.Add(new AnswerOption());
+        SyncPairs();
     }
 
-    public void AddLeft() => Left.Add(new AnswerOption());
-    public void AddRight() => Right.Add(new AnswerOption());
+    public void AddRight()
+    {
+        Right.Add(new AnswerOption());
+        SyncPairs();
+    }
+
+    private void SyncPairs()
+    {
+        Pairs.Clear();
+
+        int count = Math.Min(Left.Count, Right.Count);
+
+        for (int i = 0; i < count; i++)
+        {
+            Pairs.Add((i, i));
+        }
+    }
+    
+    public void RemovePairByIndex(int index)
+    {
+        if (Left.Count <= 1 || Right.Count <= 1)
+            return;
+
+        if (index < 0 || index >= Left.Count || index >= Right.Count)
+            return;
+
+        Left.RemoveAt(index);
+        Right.RemoveAt(index);
+    }
 
     public void RemoveLeft(AnswerOption item)
     {
@@ -70,72 +97,14 @@ public class MatchingCreateViewModel : TaskCreateViewModel
             TaskTypeId = 4,
             Question = Question,
             Answers = answers,
-            MatchingPairs = null // важно
+            // MatchingPairs = null // важно
+            MatchingPairs = Pairs.Select(p => new CreateMatchingPairDTO
+            {
+                LeftIndex = p.LeftIndex,
+                RightIndex = p.RightIndex
+            }).ToList()
         };
     }
-    
-    // public override CreateTaskDto BuildDto()
-    // {
-    //     var answers = new List<CreateAnswerDto>();
-    //     var map = new Dictionary<int, int>(); // TempId → OrderIndex
-    //
-    //     int index = 0;
-    //
-    //     foreach (var a in Left)
-    //     {
-    //         map[a.TempId] = index;
-    //
-    //         answers.Add(new CreateAnswerDto
-    //         {
-    //             AnswerText = a.Text,
-    //             OrderIndex = index++
-    //         });
-    //     }
-    //
-    //     foreach (var a in Right)
-    //     {
-    //         map[a.TempId] = index;
-    //
-    //         answers.Add(new CreateAnswerDto
-    //         {
-    //             AnswerText = a.Text,
-    //             OrderIndex = index++
-    //         });
-    //     }
-    //
-    //     // пары через TempId
-    //     var pairs = new List<CreateMatchingPairDTO>();
-    //
-    //     int count = Math.Min(Left.Count, Right.Count);
-    //
-    //     // for (int i = 0; i < count; i++)
-    //     // {
-    //     //     // pairs.Add(new CreateMatchingPairDTO
-    //     //     // {
-    //     //     //     LeftId = map[Left[i].TempId],
-    //     //     //     RightId = map[Right[i].TempId]
-    //     //     // });
-    //     //     pairs = Pairs.Select(p => new CreateMatchingPairDTO
-    //     //     {
-    //     //         LeftId = map[Left[p.LeftIndex].TempId],
-    //     //         RightId = map[Right[p.RightIndex].TempId]
-    //     //     }).ToList();
-    //     // }
-    //     
-    //     pairs = Pairs.Select(p => new CreateMatchingPairDTO
-    //     {
-    //         LeftId = map[Left[p.LeftIndex].TempId],
-    //         RightId = map[Right[p.RightIndex].TempId]
-    //     }).ToList();
-    //
-    //     return new CreateTaskDto
-    //     {
-    //         TaskTypeId = 4,
-    //         Question = Question,
-    //         Answers = answers,
-    //         MatchingPairs = pairs
-    //     };
-    // }
     
     public override void LoadFromDto(TaskDto task)
     {
@@ -146,10 +115,8 @@ public class MatchingCreateViewModel : TaskCreateViewModel
         var answers = task.Answers.OrderBy(a => a.OrderIndex).ToList();
         int half = answers.Count / 2;
 
-        // 🔹 создаём mapping AnswerId → index
         var idToIndex = new Dictionary<int, int>();
 
-        // LEFT
         for (int i = 0; i < half; i++)
         {
             Left.Add(new AnswerOption
@@ -160,7 +127,6 @@ public class MatchingCreateViewModel : TaskCreateViewModel
             idToIndex[answers[i].Id] = i;
         }
 
-        // RIGHT
         for (int i = half; i < answers.Count; i++)
         {
             Right.Add(new AnswerOption
@@ -171,7 +137,6 @@ public class MatchingCreateViewModel : TaskCreateViewModel
             idToIndex[answers[i].Id] = i;
         }
 
-        // 🔥 ВОССТАНАВЛИВАЕМ ПАРЫ
         if (task.MatchingPairs != null)
         {
             foreach (var p in task.MatchingPairs)
@@ -188,45 +153,4 @@ public class MatchingCreateViewModel : TaskCreateViewModel
 
         Question = task.Question;
     }
-
-    // public override CreateTaskDto BuildDto()
-    // {
-    //     var answers = new List<CreateAnswerDto>();
-    //
-    //     int index = 0;
-    //
-    //     answers.AddRange(Left.Select(a => new CreateAnswerDto
-    //     {
-    //         AnswerText = a.Text,
-    //         OrderIndex = index++
-    //     }));
-    //
-    //     answers.AddRange(Right.Select(a => new CreateAnswerDto
-    //     {
-    //         AnswerText = a.Text,
-    //         OrderIndex = index++
-    //     }));
-    //
-    //     Pairs.Clear();
-    //
-    //     int count = Math.Min(Left.Count, Right.Count);
-    //
-    //     for (int i = 0; i < count; i++)
-    //     {
-    //         Pairs.Add((i, Left.Count + i));
-    //     }
-    //
-    //     return new CreateTaskDto
-    //     {
-    //         TaskTypeId = 4,
-    //         Question = Question,
-    //         Answers = answers,
-    //
-    //         MatchingPairs = Pairs.Select(p => new CreateMatchingPairDTO
-    //         {
-    //             LeftIndex = p.LeftIndex,
-    //             RightIndex = p.RightIndex
-    //         }).ToList()
-    //     };
-    // }
 }

@@ -75,4 +75,21 @@ public class ModulesController : ControllerBase
 
         return NoContent();
     }
+    
+    [HttpDelete("{moduleId}")]
+    [Authorize]
+    public async Task<IActionResult> Delete([FromRoute] int moduleId)
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        if (!await _service.IsOwnerAsync(moduleId, userId))
+            return Forbid();
+        
+        var success = await _service.DeleteAsync(moduleId);
+
+        if (!success)
+            return NotFound();
+
+        return NoContent();
+    }
 }

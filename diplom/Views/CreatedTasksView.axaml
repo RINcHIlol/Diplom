@@ -6,80 +6,156 @@
              xmlns:tasks="clr-namespace:diplom.ViewModels.Tasks"
              xmlns:tasks1="clr-namespace:diplom.Views.Tasks"
              xmlns:views="clr-namespace:diplom.Views"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d"
              x:Class="diplom.Views.CreatedTasksView"
-             Foreground="Black"
-             x:DataType="vm:CreatedTasksViewModel">
+             x:DataType="vm:CreatedTasksViewModel"
+             Foreground="Black">
+
     <UserControl.DataTemplates>
         <DataTemplate DataType="tasks:TextTaskViewModel">
-            <tasks1:TextTaskView Foreground="Black"/>
+            <tasks1:TextTaskView/>
         </DataTemplate>
-    
+
         <DataTemplate DataType="tasks:SingleChoiceTaskViewModel">
-            <tasks1:SingleChoiceTaskView Foreground="Black"/>
+            <tasks1:SingleChoiceTaskView/>
         </DataTemplate>
-    
+
         <DataTemplate DataType="tasks:MultipleChoiceTaskViewModel">
-            <tasks1:MultipleChoiceTaskView Foreground="Black"/>
+            <tasks1:MultipleChoiceTaskView/>
         </DataTemplate>
-    
+
         <DataTemplate DataType="tasks:TextQuestionTaskViewModel">
-            <tasks1:TextQuestionTaskView Foreground="Black"/>
+            <tasks1:TextQuestionTaskView/>
         </DataTemplate>
     </UserControl.DataTemplates>
-    
+
     <UserControl.Resources>
         <views:BoolToColorConverter x:Key="BoolToColorConverter"/>
     </UserControl.Resources>
-    
-    <Grid ColumnDefinitions="200,*" RowDefinitions="50,*">
 
-        <!-- HEADER -->
-        <Grid Grid.ColumnSpan="4" Background="#B0B0B0" ColumnDefinitions="*,*,*,*">
-            <Button Grid.Column="0"
-                    Content="← Назад"
-                    Command="{Binding GoBackCommand}"
-                    Margin="5"
-                    Foreground="Black"/>
-            <TextBlock Grid.Column="1"
-                       Text="{Binding LessonName}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Foreground="Black"/>
-            <Button Grid.Column="2"
-                    Content="Создать"
-                    Command="{Binding CreateCommand}"
-                    Margin="5"
-                    Foreground="Black"/>
-            <Button Grid.Column="3"
-                    Content="Удалить курс"
-                    Command="{Binding DeleteLessonCommand}"
-                    Margin="5"
-                    Foreground="Black"/>
+    <Grid>
+        <Grid ColumnDefinitions="200,*"
+              RowDefinitions="50,*"
+              IsVisible="{Binding Tasks.Count, Converter={StaticResource NotZeroToBoolConverter}}">
+            <Grid Grid.ColumnSpan="2" Background="#B0B0B0" ColumnDefinitions="*,*,*,*">
+                <Button Grid.Column="0"
+                        Content="← Назад"
+                        Background="#D3D3D3"
+                        BorderBrush="Black"
+                        Foreground="Black"
+                        Margin="10,0"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Command="{Binding GoBackCommand}"/>
+                <TextBlock Grid.Column="1"
+                           Text="{Binding LessonName}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontWeight="Bold"/>
+                <Button Grid.Column="2"
+                        Content="Создать"
+                        Command="{Binding CreateCommand}"
+                        Margin="0,0,10,0"
+                        Background="#D3D3D3"
+                        BorderBrush="Black"
+                        Foreground="Black"
+                        BorderThickness="1"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"/>
+                <Button Grid.Column="3"
+                        Content="Удалить урок"
+                        Command="{Binding DeleteLessonCommand}"
+                        Margin="0,0,10,0"
+                        Background="#D3D3D3"
+                        BorderBrush="Black"
+                        Foreground="Black"
+                        BorderThickness="1"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"/>
+            </Grid>
+            <ListBox Grid.Row="1"
+                     ItemsSource="{Binding Tasks}"
+                     SelectedItem="{Binding CurrentTask, Mode=TwoWay}"
+                     Margin="5">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="tasks:TaskViewModel">
+                        <Border Background="{Binding IsCorrect, Converter={StaticResource BoolToColorConverter}}"
+                                Padding="8"
+                                Margin="3"
+                                CornerRadius="6">
+                            <TextBlock Text="{Binding DisplayIndex}"
+                                       Foreground="Black"
+                                       HorizontalAlignment="Center"/>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel Grid.Column="1" Grid.Row="1" Margin="10" Spacing="10">
+                <ContentControl Content="{Binding CurrentTask}"/>
+                <TextBlock Text="{Binding ResultText}"
+                           FontSize="16"
+                           HorizontalAlignment="Center"/>
+                <Button Content="Изменить"
+                        Command="{Binding EditCommand}"
+                        CommandParameter="{Binding CurrentTask}"
+                        Margin="0,0,10,0"
+                        Background="#D3D3D3"
+                        BorderBrush="Black"
+                        Foreground="Black"
+                        BorderThickness="1"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"/>
+            </StackPanel>
         </Grid>
-
-        <!-- SIDEBAR: список всех заданий -->
-        <ListBox Grid.Row="1"
-                 ItemsSource="{Binding Tasks}"
-                 SelectedItem="{Binding CurrentTask, Mode=TwoWay}"
-                 Margin="5">
-            <ListBox.ItemTemplate>
-                <DataTemplate x:DataType="tasks:TaskViewModel">
-                    <Border Background="{Binding IsCorrect, Converter={StaticResource BoolToColorConverter}}" Padding="5" Margin="2">
-                        <TextBlock Text="{Binding Id}" Foreground="Black"/>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-
-        <!-- CONTENT -->
-        <StackPanel Grid.Column="1" Grid.Row="1" Margin="10">
-            <ContentControl Content="{Binding CurrentTask}" Margin="0,0,0,10"/>
-            <TextBlock Text="{Binding ResultText}" FontSize="16" Margin="0,0,0,10" Foreground="Black"/>
-            <Button Content="Изменить"
-                    Command="{Binding EditCommand}"
-                    CommandParameter="{Binding CurrentTask}" />
+        <StackPanel IsVisible="{Binding Tasks.Count, Converter={StaticResource ZeroToBoolConverter}}"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Spacing="15">
+            <TextBlock Text="📭"
+                       FontSize="64"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Заданий пока нет"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Создайте первое задание для этого урока"
+                       FontSize="14"
+                       Opacity="0.7"
+                       HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal"
+                        Spacing="10"
+                        HorizontalAlignment="Center">
+                <Button Content="← Назад"
+                        Margin="0,0,10,0"
+                        Background="#D3D3D3"
+                        BorderBrush="Black"
+                        Foreground="Black"
+                        BorderThickness="1"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Command="{Binding GoBackCommand}"
+                        Width="140"/>
+                <Button Content="Создать задание"
+                        Margin="0,0,10,0"
+                        Background="#D3D3D3"
+                        BorderBrush="Black"
+                        Foreground="Black"
+                        BorderThickness="1"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Command="{Binding CreateCommand}"
+                        Width="160"/>
+                <Button Content="Удалить урок"
+                        Margin="0,0,10,0"
+                        Background="#D3D3D3"
+                        BorderBrush="Black"
+                        Foreground="Black"
+                        BorderThickness="1"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Command="{Binding  DeleteLessonCommand}"
+                        Width="160"/>
+            </StackPanel>
         </StackPanel>
-
     </Grid>
 </UserControl>

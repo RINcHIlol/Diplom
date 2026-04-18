@@ -13,4 +13,5 @@ public interface IModulesRepository
     Task UpdateAsync(Module module);
     Task<Module> CreateAsync(Module module);
     Task<bool> IsOwnerAsync(int moduleId, int userId);
+    Task DeleteAsync(int moduleId);
 }

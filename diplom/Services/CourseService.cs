@@ -89,4 +89,20 @@ public class CourseApiService
             return false;
         }
     }
+    
+    public async Task<bool> DeleteCourseAsync(int courseId)
+    {
+        try
+        {
+            var response = await _http.DeleteAsync(
+                $"api/courses/{courseId}");
+
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"DeleteCourseAsync error: {ex.Message}");
+            return false;
+        }
+    }
 }

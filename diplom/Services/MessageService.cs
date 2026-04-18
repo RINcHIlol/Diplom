@@ -2,9 +2,6 @@ namespace diplom.Services;
 
 public class MessageService
 {
-    // public MessageService()
-    // {
-    // }
     private string? _message;
 
     public string? GetMessage()

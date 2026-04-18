@@ -13,4 +13,6 @@ public interface ITasksService
     Task<TaskDto> CreateAsync(CreateTaskDto dto);
     Task UpdateAsync(int id, CreateTaskDto dto);
     Task<TaskDto?> GetByIdAsync(int id);
+    Task<bool> IsOwnerAsync(int taskId, int userId);
+    Task<bool> DeleteAsync(int taskId);
 }
