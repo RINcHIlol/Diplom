@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    container_name: diplom-api
+    ports:
+      - "5132:5132"
+    networks:
+      - diplom-net
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=diplom-db;Port=5432;Database=diplomdb;Username=postgres;Password=postgres"
+
+networks:
+  diplom-net:
+    external: true
