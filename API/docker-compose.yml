@@ -5,7 +5,7 @@ services:
     build: .
     container_name: diplom-api
     ports:
-      - "5132:5132"
+      - "5132:8080"
     networks:
       - diplom-net
     environment:
