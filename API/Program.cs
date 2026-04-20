@@ -14,7 +14,10 @@ using ProfileService = API.Services.ProfileService;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        npgsqlOptions => npgsqlOptions.EnableRetryOnFailure()
+    ));
 
 var key = "HuinviNIOufjnjIOHGIVBSkvjpnSNVKPSjibhvjksIBVo"; //потом вынести в секрет
 builder.Services.AddAuthentication(options =>
