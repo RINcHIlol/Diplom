@@ -1,0 +1,2 @@
+/Users/rinchi/RiderProjects/diplom/diplom/publish/diplom.pdb
+/Users/rinchi/RiderProjects/diplom/diplom/publish/diplom.exe

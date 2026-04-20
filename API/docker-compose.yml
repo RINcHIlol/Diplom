@@ -1,16 +1,52 @@
+#version: "3.9"
+#
+#services:
+#  api:
+#    build: .
+#    container_name: diplom-api
+#    ports:
+#      - "5132:8080"
+#    networks:
+#      - diplom-net
+#    environment:
+#      ConnectionStrings__DefaultConnection: "Host=diplom-db;Port=5432;Database=diplomdb;Username=postgres;Password=postgres"
+#
+#networks:
+#  diplom-net:
+#    external: true
+
 version: "3.9"
 
 services:
+  db:
+    image: postgres:18
+    container_name: diplom-db
+    restart: always  
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: diplomdb
+    volumes:
+      - pgdata:/var/lib/postgresql
+    networks:
+      - diplom-net
+
   api:
     build: .
     container_name: diplom-api
+    restart: always  
     ports:
       - "5132:8080"
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=diplomdb;Username=postgres;Password=postgres" 
+    depends_on:
+      - db   
     networks:
       - diplom-net
-    environment:
-      ConnectionStrings__DefaultConnection: "Host=diplom-db;Port=5432;Database=diplomdb;Username=postgres;Password=postgres"
 
 networks:
-  diplom-net:
-    external: true
+  diplom-net:   
+    driver: bridge
+
+volumes:
+  pgdata: 

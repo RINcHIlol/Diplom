@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.Input;
@@ -78,10 +80,10 @@ public class ProfileViewModel: ViewModelBase
             _main.ShowEditProfile();
         });
         
-        LoadProfile();
+        _ = LoadProfile();
     }
     
-    private async void LoadProfile()
+    private async Task LoadProfile()
     {
         var profile = await _profile.GetProfileAsync();
         if (profile == null) return;
@@ -91,7 +93,9 @@ public class ProfileViewModel: ViewModelBase
         Xp = profile.Xp;
         NextLvlXp = profile.NextLvlXp;
         Progress = profile.Progress;
-        LevelImage = new Bitmap(AppDomain.CurrentDomain.BaseDirectory + "/zvaniya/" + profile.CurrentLvl + ".png");
+
+        LevelImage = ImageLoader.LoadLevelImage(profile.CurrentLvl)
+                     ?? new Bitmap("Assets/zvaniya/default.png");
 
         Courses.Clear();
         foreach (var course in profile.Courses)

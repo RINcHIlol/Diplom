@@ -1,0 +1,119 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = true
+build_property.EnableTrimAnalyzer = 
+build_property.IncludeAllContentForSelfExtract = 
+build_property.AvaloniaNameGeneratorIsEnabled = true
+build_property.AvaloniaNameGeneratorBehavior = InitializeComponent
+build_property.AvaloniaNameGeneratorDefaultFieldModifier = internal
+build_property.AvaloniaNameGeneratorFilterByPath = *
+build_property.AvaloniaNameGeneratorFilterByNamespace = *
+build_property.AvaloniaNameGeneratorViewFileNamingStrategy = NamespaceAndClassName
+build_property.AvaloniaNameGeneratorAttachDevTools = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = diplom
+build_property.ProjectDir = /Users/rinchi/RiderProjects/diplom/diplom/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[/Users/rinchi/RiderProjects/diplom/diplom/App.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/AuthView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CourseView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateCourseView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreatedCoursesView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreatedLessonsView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreatedModulesView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreatedTasksView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateLessonView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateModuleView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateTasks/MatchingCreateView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateTasks/MultipleChoiceCreateView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateTasks/OrderingCreateView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateTasks/SingleChoiceCreateView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateTasks/TextCreateView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateTasks/TextQuestionCreateView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/CreateTaskView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/EditProfileView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/LessonView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/MainView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/MainWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/ModulesView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/ProfileView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/RegView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/Tasks/CodingTaskView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/Tasks/MathcingTaskView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/Tasks/MultipleChoiceTaskView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/Tasks/OrderingTaskView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/Tasks/SingleChoiceTaskView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/Tasks/TextQuestionTaskView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/Tasks/TextTaskView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

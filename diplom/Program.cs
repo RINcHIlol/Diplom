@@ -35,7 +35,8 @@ sealed class Program
 
         services.AddHttpClient("Api", client =>
             {
-                client.BaseAddress = new Uri("http://localhost:5132/");
+                // client.BaseAddress = new Uri("http://localhost:5132/");
+                client.BaseAddress = new Uri("http://72.56.39.63:5132/");
             })
             .AddHttpMessageHandler<AuthHandler>();
 
