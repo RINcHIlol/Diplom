@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
@@ -16,7 +17,13 @@ public class CreatedModulesViewModel : ViewModelBase
     private readonly MessageService _messageService;
     private readonly CourseApiService _courseApiService;
     
-    public ObservableCollection<ModuleShortDTO> Modules { get; } = new();
+    // public ObservableCollection<ModuleShortDTO> Modules { get; } = new();
+    private ObservableCollection<ModuleShortDTO> _modules = new();
+    public ObservableCollection<ModuleShortDTO> Modules
+    {
+        get => _modules;
+        set => SetProperty(ref _modules, value);
+    }
     
     public ICommand GoModuleCommand { get; }
     public ICommand GoBackCommand { get; }
@@ -35,7 +42,14 @@ public class CreatedModulesViewModel : ViewModelBase
         
         GoBackCommand = new RelayCommand(() =>
         {
-            _main.ShowCreatedCourses();
+            if (_navigationService.IsAdminMode)
+            {
+                _main.ShowAdmin();
+            }
+            else
+            {
+                _main.ShowCreatedCourses();   
+            }
         });
         
         GoModuleCommand = new RelayCommand<ModuleShortDTO>(module =>
@@ -77,10 +91,19 @@ public class CreatedModulesViewModel : ViewModelBase
     private async Task LoadModulesAsync()
     {
         var modules = await _modulesService.GetMyModulesAsync(_navigationService.CurrentCourseId.Value);
-        Modules.Clear();
+        // Modules.Clear();
         
-        foreach (var course in modules)
-            Modules.Add(course);
+        // foreach (var course in modules)
+        //     Modules.Add(course);
+        Modules = new ObservableCollection<ModuleShortDTO>(
+
+            modules
+
+                .OrderBy(x => x.OrderIndex)
+
+                .ThenBy(x => x.Id)
+
+        );
     }
     
     public async Task OnAppearingAsync()

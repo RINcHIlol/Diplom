@@ -230,6 +230,17 @@ public class CreateTaskViewModel : ViewModelBase
             Error = "Есть пустые ответы";
             return false;
         }
+        
+        if (dto.TaskTypeId == 2 || dto.TaskTypeId == 3)
+
+        {
+            if (!dto.Answers.Any(a => a.IsCorrect))
+
+            {
+                Error = "Выберите хотя бы один правильный ответ";
+                return false;
+            }
+        }
 
         if (dto.TaskTypeId == 4)
         {

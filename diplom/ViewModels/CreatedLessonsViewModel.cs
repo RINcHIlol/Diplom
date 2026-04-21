@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
@@ -16,7 +17,13 @@ public class CreatedLessonsViewModel : ViewModelBase
     private readonly MessageService _messageService;
     private readonly ModulesService _moduleService;
     
-    public ObservableCollection<LessonShortDTO> Lessons { get; } = new();
+    // public ObservableCollection<LessonShortDTO> Lessons { get; } = new();
+    private ObservableCollection<LessonShortDTO> _lessons = new();
+    public ObservableCollection<LessonShortDTO> Lessons
+    {
+        get => _lessons;
+        set => SetProperty(ref _lessons, value);
+    }
     
     public ICommand GoLessonCommand { get; }
     public ICommand GoBackCommand { get; }
@@ -77,10 +84,19 @@ public class CreatedLessonsViewModel : ViewModelBase
     private async Task LoadLessonsAsync()
     {
         var lessons = await _lessonsService.GetMyLessonsAsync(_navigationService.CurrentModuleId.Value);
-        Lessons.Clear();
-        
-        foreach (var lesson in lessons)
-            Lessons.Add(lesson);
+        // Lessons.Clear();
+        //
+        // foreach (var lesson in lessons)
+        //     Lessons.Add(lesson);
+        Lessons = new ObservableCollection<LessonShortDTO>(
+
+            lessons
+
+                .OrderBy(x => x.OrderIndex)
+
+                .ThenBy(x => x.Id)
+
+        );
     }
     
     public async Task OnAppearingAsync()

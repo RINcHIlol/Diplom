@@ -471,6 +471,11 @@ public class TasksRepository : ITasksRepository
     
     public async Task<bool> IsOwnerAsync(int taskId, int userId)
     {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        if (user.RoleId == 2)
+        {
+            return true;
+        }
         return await _context.Tasks.Include(x => x.Lesson).ThenInclude(x => x.Module)
             .AnyAsync(m =>
                 m.Id == taskId &&

@@ -95,6 +95,11 @@ public class ModulesRepository : IModulesRepository
 
     public async Task<bool> IsOwnerAsync(int moduleId, int userId)
     {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        if (user.RoleId == 2)
+        {
+            return true;
+        }
         return await _context.Modules
             .AnyAsync(m =>
                 m.Id == moduleId &&

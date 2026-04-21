@@ -45,6 +45,20 @@ public class CourseApiService
         }
     }
     
+    public async Task<List<CourseShortDto>> GetCoursesForAdminAsync()
+    {
+        try
+        {
+            var courses = await _http.GetFromJsonAsync<List<CourseShortDto>>("api/courses/admin");
+            return courses ?? new List<CourseShortDto>();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка загрузки курсов: {ex.Message}");
+            return new List<CourseShortDto>();
+        }
+    }
+    
     public async Task<CourseShortDto?> GetCourseByIdAsync(int id)
     {
         try

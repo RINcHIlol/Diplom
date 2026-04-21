@@ -28,6 +28,7 @@ public class SessionService : INotifyPropertyChanged
             _currentUser = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentUser)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAuthorized)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAdmin)));
         }
     }
 
@@ -43,6 +44,7 @@ public class SessionService : INotifyPropertyChanged
     }
 
     public bool IsAuthorized => CurrentUser != null;
+    public bool IsAdmin => CurrentUser?.RoleId == 2;
 
     public void Login(User user, string token)
     {

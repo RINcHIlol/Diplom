@@ -14,4 +14,5 @@ public interface ICourseRepository
     Task UpdateAsync(Course course);
     Task<bool> IsOwnerAsync(int courseId, int userId);
     Task DeleteAsync(int courseId);
+    Task<List<CourseShortDto>> GetCoursesAsync();
 }

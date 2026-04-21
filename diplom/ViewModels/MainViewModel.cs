@@ -23,6 +23,7 @@ public class MainViewModel : ViewModelBase
     public ICommand GoCourseCommand { get; }
     public ICommand GoProfileCommand { get; }
     public ICommand GoCreateButton { get; }
+    public ICommand GoAdminButton { get; }
     
     public ObservableCollection<CourseProgressDto> Courses { get; } = new();
     private string _searchBox = "";
@@ -42,6 +43,8 @@ public class MainViewModel : ViewModelBase
     private readonly NavigationService _navigationService;
         
     public bool IsAuthorized => _session.IsAuthorized;
+
+    public bool IsAdmin => _session.IsAdmin;
     public User? CurrentUser => _session.CurrentUser;
     
     public string UserDisplayName =>
@@ -57,6 +60,19 @@ public class MainViewModel : ViewModelBase
         _courseService = courseService;
         _navigationService = navigationService;
         
+        _session.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName == nameof(SessionService.IsAdmin) ||
+                e.PropertyName == nameof(SessionService.CurrentUser) ||
+                e.PropertyName == nameof(SessionService.IsAuthorized))
+            {
+                OnPropertyChanged(nameof(IsAdmin));
+                OnPropertyChanged(nameof(IsAuthorized));
+                OnPropertyChanged(nameof(UserDisplayName));
+                OnPropertyChanged(nameof(AuthButtonText));
+            }
+        };
+        
         GoAuthCommand = new RelayCommand(async () =>
         {
             if (_session.IsAuthorized)
@@ -66,6 +82,7 @@ public class MainViewModel : ViewModelBase
                 OnPropertyChanged(nameof(CurrentUser));
                 OnPropertyChanged(nameof(UserDisplayName));
                 OnPropertyChanged(nameof(AuthButtonText));
+                OnPropertyChanged(nameof(IsAdmin));
                 
                 await LoadCoursesAsync();
             }
@@ -93,6 +110,12 @@ public class MainViewModel : ViewModelBase
             {
                 _main.ShowCreatedCourses();
             }
+        });
+        
+        GoAdminButton = new RelayCommand(() =>
+        { 
+            _navigationService.IsAdminMode = true;
+            _main.ShowAdmin();
         });
         
         _ = LoadCoursesAsync();

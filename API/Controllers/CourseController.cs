@@ -44,6 +44,15 @@ public class CoursesController : ControllerBase
         return Ok(courses);
     }
     
+    [HttpGet("admin")]
+    [Authorize]
+    public async Task<IActionResult> GetAllForAdmin()
+    {
+        var courses = await _service.GetCoursesAsync();
+
+        return Ok(courses);
+    }
+    
     [HttpGet("{courseId}")]
     [Authorize]
     public async Task<IActionResult> GetCourseById(int courseId)

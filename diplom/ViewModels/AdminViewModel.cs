@@ -8,7 +8,7 @@ using diplom.Services;
 
 namespace diplom.ViewModels;
 
-public class CreatedCoursesViewModel : ViewModelBase
+public class AdminViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel _main;
     private readonly SessionService _session;
@@ -16,7 +16,6 @@ public class CreatedCoursesViewModel : ViewModelBase
     private readonly NavigationService _navigationService;
     private readonly MessageService _messageService;
     
-    // public ObservableCollection<CourseShortDto> Courses { get; } = new();
     private ObservableCollection<CourseShortDto> _courses = new();
     public ObservableCollection<CourseShortDto> Courses
     {
@@ -29,7 +28,7 @@ public class CreatedCoursesViewModel : ViewModelBase
     public ICommand GoCreateCourseCommand { get; }
     public ICommand GoEditCourseCommand { get; }
 
-    public CreatedCoursesViewModel(MainWindowViewModel main, SessionService session, CourseApiService courseService, NavigationService navigationService, MessageService messageService)
+    public AdminViewModel(MainWindowViewModel main, SessionService session, CourseApiService courseService, NavigationService navigationService, MessageService messageService)
     {
         _session = session;
         _main = main;
@@ -39,6 +38,7 @@ public class CreatedCoursesViewModel : ViewModelBase
         
         GoBackCommand = new RelayCommand(() =>
         {
+            _navigationService.IsAdminMode = false;
             _main.ShowMain();
         });
         
@@ -69,11 +69,7 @@ public class CreatedCoursesViewModel : ViewModelBase
     
     private async Task LoadCoursesAsync()
     {
-        var courses = await _courseService.GetCoursesForCreatorAsync();
-        // Courses.Clear();
-        //
-        // foreach (var course in courses)
-        //     Courses.Add(course);
+        var courses = await _courseService.GetCoursesForAdminAsync();
         Courses = new ObservableCollection<CourseShortDto>(
 
             courses

@@ -8,4 +8,5 @@ public class NavigationService
     public int? CurrentModuleId { get; set; }
     public int? CurrentLessonId { get; set; }
     public int? CurrentTaskId { get; set; }
+    public bool IsAdminMode { get; set; } = false;
 }

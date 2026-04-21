@@ -24,6 +24,9 @@ build_property.EnableCodeStyleSeverity =
 [/Users/rinchi/RiderProjects/diplom/diplom/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[/Users/rinchi/RiderProjects/diplom/diplom/Views/AdminView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [/Users/rinchi/RiderProjects/diplom/diplom/Views/AuthView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 

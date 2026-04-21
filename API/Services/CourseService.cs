@@ -20,6 +20,11 @@ public class CourseService : ICourseService
     {
         return await _repository.GetMyCoursesAsync(userId);
     }
+    
+    public async Task<List<CourseShortDto>> GetCoursesAsync()
+    {
+        return await _repository.GetCoursesAsync();
+    }
 
     public async Task<CourseShortDto> GetCourseAsync(int courseId)
     {

@@ -65,7 +65,14 @@ public class CreateCourseViewModel : ViewModelBase
 
         BackCommand = new RelayCommand(() =>
         {
-            _main.ShowCreatedCourses();
+            if (_navigationService.IsAdminMode)
+            {
+                _main.ShowAdmin();
+            }
+            else
+            {
+                _main.ShowCreatedCourses();   
+            }
         });
     }
     
@@ -108,6 +115,13 @@ public class CreateCourseViewModel : ViewModelBase
             await _courseService.CreateCourseAsync(dto);
         }
 
-        _main.ShowCreatedCourses();
+        if (_navigationService.IsAdminMode)
+        {
+            _main.ShowAdmin();
+        }
+        else
+        {
+            _main.ShowCreatedCourses();   
+        }
     }
 }

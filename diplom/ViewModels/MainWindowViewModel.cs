@@ -154,4 +154,9 @@ public class MainWindowViewModel : ViewModelBase
     {
         CurrentView = new EditProfileViewModel(this, _session, _authService);
     }
+    
+    public void ShowAdmin()
+    {
+        CurrentView = new AdminViewModel(this, _session, _courseApiService, _navigationService, _messageService);
+    }
 }

@@ -79,6 +79,20 @@ public class CourseRepository : ICourseRepository
             .ToListAsync();
     }
     
+    public async Task<List<CourseShortDto>> GetCoursesAsync()
+    {
+        return await _context.Courses
+            .Select(c => new CourseShortDto
+            {
+                Id = c.Id,
+                Title = c.Title,
+                Description = c.Description,
+                Image = c.Image,
+                CreatedAt = c.CreatedAt
+            })
+            .ToListAsync();
+    }
+    
     public async Task<Course> CreateAsync(Course course)
     {
         _context.Courses.Add(course);
@@ -108,6 +122,11 @@ public class CourseRepository : ICourseRepository
     
     public async Task<bool> IsOwnerAsync(int courseId, int userId)
     {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        if (user.RoleId == 2)
+        {
+            return true;
+        }
         return await _context.Courses.AnyAsync(m => m.Id == courseId && m.CreatorUserId == userId);
     }
     
